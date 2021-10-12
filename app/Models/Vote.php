@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Photography extends Model
+class Vote extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Photography extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_id', 'filename', 'description', 'theme', 'event_id',
+        'user_id', 'photo_id', 'event_id', 'type',
     ];
 
     public function user()
@@ -26,5 +26,10 @@ class Photography extends Model
     public function event()
     {
         return $this->belongsTo('App/Event');
+    }
+
+    public function photo()
+    {
+        return $this->belongsTo('App/Photography');
     }
 }

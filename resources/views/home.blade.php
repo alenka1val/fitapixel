@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'FIIT a PIXEL')
 @section('content')
 <div class="container">
     <div id="home">
@@ -22,7 +22,7 @@
                     <h4>Pôvab maličkosti</h4>
                     <p>
                         Krása architektonického detailu, čaro živého mikrosveta, pohladenie jemným úsmevom alebo drobným gestom. Živé tvory takisto ako veci môžu mať svoj pôvab. Informačné technológie majú technologickú základňu v mikroelektronike, zdrobneniny sú súčasťou nášho štúdia alebo práce. Vieme ich odhaliť? Odhalíme ich skrytú krásu?
-                    </p>  
+                    </p>
                 </div>
             </div>
         </div>
@@ -36,13 +36,13 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="movement" class="themeCard">
             <div class="content">
                 <div>
                     <h4>Krása pohybu, čaro okamihu</h4>
-                    <p>  
-                        Pohyb je prejavom života. Tanec, let, skok: mladí, starí, ľudia, živé tvory. Pohyb je aj let oblakov, tečenie potoka či ľadovca. Pokúsme sa vystihnúť krásu pohybu v tom najkrajšom okamihu. Okamih má svoj čaro, aj keď sa práve nič nehýbe. Okamih napätia, dramatickej situácie alebo pohody, pokoja. 
+                    <p>
+                        Pohyb je prejavom života. Tanec, let, skok: mladí, starí, ľudia, živé tvory. Pohyb je aj let oblakov, tečenie potoka či ľadovca. Pokúsme sa vystihnúť krásu pohybu v tom najkrajšom okamihu. Okamih má svoj čaro, aj keď sa práve nič nehýbe. Okamih napätia, dramatickej situácie alebo pohody, pokoja.
                     </p>
                 </div>
             </div>
