@@ -62,7 +62,7 @@ h2 {
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% 50%;
     min-height: 500px;
-    padding: 2%;
+    padding: 2% 0;
 }
 
 .themeCard {
@@ -126,11 +126,11 @@ main {
     min-height: calc(100vh - 320px);
     align-items: center;
     justify-content: center;
-    padding: 150px 0 50px 0;
+    padding: 100px 0 0 0;
 }
 
 html {
-    font-family: 'Montserrat', sans-serif;
+    /*font-family: 'Montserrat', sans-serif;*/
     background-color: white;
 }
 
@@ -192,7 +192,7 @@ body {
 
 .right_grid {
     display: grid;
-    grid-template-columns: auto 30% 30%;
+    grid-template-columns: auto 30% 30% 30%;
     align-items: center;
     justify-items: center;
 }
@@ -305,6 +305,20 @@ footer {
 }
 
 @media screen and (max-width: 768px) {
+
+    #home {
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 30% 30% 30% 5%;
+    }
+
+    #left {
+        text-align: center;
+    }
+
+    #themes {
+        grid-template-columns: 100%;
+        grid-template-rows: 25% 25% 25% 25%;
+    }
 
     .nav_icon {
         display: grid;
