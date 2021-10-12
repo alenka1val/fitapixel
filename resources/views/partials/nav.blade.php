@@ -1,13 +1,13 @@
 <div class="pos-f-t">
     <nav class="navbar navbar-dark bg-dark fiitapixel_nav">
         <div class="nav_grid left_grid large_grid">
-            <a class="nav-link" href="{{ route('home') }}">
-                Ročníky
+            <a class="nav-link @yield('galleryActive')" href="{{ route('photographies.index', ['event_path' => 'LJ2021']) }}">
+                Galéria
             </a>
-            <a class="nav-link" href="{{ route('home') }}">
+            <a class="nav-link @yield('resultsActive')" href="{{ route('results', ['event_path' => 'LJ2021']) }}">
                 Výsledky
             </a>
-            <a class="nav-link" href="{{ route('home') }}">
+            <a class="nav-link @yield('rulesActive')" href="{{ route('rules') }}">
                 Pravidlá
             </a>
         </div>
@@ -54,14 +54,14 @@
         </div>
     </nav>
     <section id="collapse">
-        <p><a class="collapse_item @yield('homeActive')" href="{{ route('home') }}">Ročníky</a></p>
-        <p><a class="collapse_item @yield('homeActive')" href="{{ route('home') }}">Výsledky</a></p>
-        <p><a class="collapse_item @yield('homeActive')" href="{{ route('home') }}">Pravidlá</a></p>
+        <p><a class="collapse_item" href="{{ route('photographies.index', ['event_path' => 'LJ2021']) }}">Ročníky</a></p>
+        <p><a class="collapse_item" href="{{ route('results', ['event_path' => 'LJ2021']) }}">Výsledky</a></p>
+        <p><a class="collapse_item" href="{{ route('rules') }}">Pravidlá</a></p>
         @guest
-            <p><a class="collapse_item @yield('homeActive')" href="{{ route('login') }}">
+            <p><a class="collapse_item" href="{{ route('login') }}">
                     Log in
                 </a></p>
-            <p><a class="collapse_item @yield('homeActive')" href="{{ route('register') }}">
+            <p><a class="collapse_item" href="{{ route('register') }}">
                     Register
                 </a></p>
         @endguest
@@ -69,7 +69,7 @@
             <p>
             <form id="profile" action="" method="get">
                 @csrf
-                <a class="collapse_item @yield('homeActive')" href="javascript:{}"
+                <a class="collapse_item" href="javascript:{}"
                    onclick="document.getElementById('profile').submit();">
                     Profile
                 </a>
@@ -78,7 +78,7 @@
             <p>
             <form id="logout_form" action="{{ route('logout') }}" method="POST">
                 @csrf
-                <a class="collapse_item @yield('homeActive')" href="javascript:{}"
+                <a class="collapse_item" href="javascript:{}"
                    onclick="document.getElementById('logout_form').submit();">
                     Log out
                 </a>

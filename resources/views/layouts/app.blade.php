@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
     <link rel="icon" href='{{ asset( '/images/fiitapixel_blue.ico' ) }}' type="image/x-icon">
 
     <!-- Scripts -->

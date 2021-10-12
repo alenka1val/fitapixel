@@ -30,3 +30,71 @@ function home() {
 function redirect(url) {
     window.open(url, '_blank');
 }
+
+function collapseResult(index) {
+    if (document.getElementById("arrow-up-" + index).style.display !== "block") {
+        document.getElementById("resultDiv" + index).style.maxHeight = "none";
+        document.getElementById("arrow-down-" + index).style.display = "none";
+        document.getElementById("arrow-up-" + index).style.display = "block";
+    } else {
+        document.getElementById("resultDiv" + index).style.maxHeight = "36px";
+        document.getElementById("arrow-down-" + index).style.display = "block";
+        document.getElementById("arrow-up-" + index).style.display = "none";
+    }
+}
+
+function zoomIn(imgName, index, photograph, description, theme) {
+    const modal = document.getElementById("myModal");
+    modal.style.zIndex = "99";
+
+    const img = document.getElementById(imgName);
+    const modalImg = document.getElementById("img01");
+    const captionText1 = document.getElementById("captionText1");
+    const captionText2 = document.getElementById("captionText2");
+    const captionText3 = document.getElementById("captionText3");
+
+    modal.style.display = "block";
+    modalImg.src = img.src;
+    modalImg.alt = index;
+    captionText1.innerHTML = "Fotograf: " + photograph;
+    captionText2.innerHTML = "Opis: " + description;
+    captionText3.innerHTML = "Téma: " + theme;
+
+    const span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+}
+
+function moveLeft(photoList) {
+    const modalImg = document.getElementById("img01");
+    const captionText1 = document.getElementById("captionText1");
+    const captionText2 = document.getElementById("captionText2");
+    const captionText3 = document.getElementById("captionText3");
+
+    let index = parseInt(modalImg.alt);
+    let nextIndex = index <= 0 ? photoList.length - 1 : index - 1;
+
+    modalImg.src = photoList[nextIndex]['filename'];
+    captionText1.innerHTML = "Fotograf: " + photoList[nextIndex]['photograph'];
+    captionText2.innerHTML = "Opis: " + photoList[nextIndex]['description'];
+    captionText3.innerHTML = "Téma: " + photoList[nextIndex]['theme'];
+    modalImg.alt = nextIndex;
+}
+
+function moveRight(photoList) {
+    const modalImg = document.getElementById("img01");
+    const captionText1 = document.getElementById("captionText1");
+    const captionText2 = document.getElementById("captionText2");
+    const captionText3 = document.getElementById("captionText3");
+
+    let index = parseInt(modalImg.alt);
+    let nextIndex = index >= photoList.length - 1 ? 0 : index + 1;
+
+    modalImg.src = photoList[nextIndex]['filename'];
+    captionText1.innerHTML = "Fotograf: " + photoList[nextIndex]['photograph'];
+    captionText2.innerHTML = "Opis: " + photoList[nextIndex]['description'];
+    captionText3.innerHTML = "Téma: " + photoList[nextIndex]['theme'];
+    modalImg.alt = nextIndex;
+}

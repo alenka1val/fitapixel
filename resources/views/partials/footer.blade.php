@@ -14,11 +14,11 @@
             <p>IČ DPH: SK2020845255</p>
         </div>
         <div class="footer_2">
-            <p><a class="footerNav" href="{{ route('home') }}"  title="domov">Ochrana osobných údajov</a></p>
-            <p><a class="footerNav" href="{{ route('home') }}" title="aktuality">Autorská ochrana</a></p>
-            <p><a class="footerNav" href="{{ route('home') }}" title="dokumenty">RSS kanál</a></p>
-            <p><a class="footerNav" href="{{ route('home') }}" title="fotoalbum">FAQ</a></p>
-            <p><a class="footerNav" href="{{ route('home') }}" title="kontakt">Odkazy</a></p>
+            <p><a class="footerNav" href="{{ route('gdpr') }}"  title="domov">Ochrana osobných údajov</a></p>
+            <p><a class="footerNav" href="{{ route('author') }}" title="aktuality">Autorská ochrana</a></p>
+            <p><a class="footerNav" href="{{ route('rss') }}" title="dokumenty">RSS kanál</a></p>
+            <p><a class="footerNav" href="{{ route('faq') }}" title="fotoalbum">FAQ</a></p>
+            <p><a class="footerNav" href="{{ route('links') }}" title="kontakt">Odkazy</a></p>
             <br>
             <br>
             <div class="sponsors">
