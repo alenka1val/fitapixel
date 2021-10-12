@@ -1,1 +1,119 @@
-// new css file
+:root{
+    --dark: rgb(31,30,30);
+    --dark-main: #001C3D;
+    --main: #5DD5D5;
+    --light-main: #5DD5D5; /*we will see*/
+}
+
+body{
+    background-color: var(--dark);
+}
+
+#home {
+    width: 100vw;
+    border-radius: 5px;
+    height: 60%;
+    display: grid;
+    grid-template-columns: 100%;
+    align-items: center;
+    justify-items: center;
+    background: url(/images/main.background.jpeg) no-repeat center;
+    background-size: cover;
+    box-shadow: var(--shadow01);
+    grid-template-columns: 5% 30% 30% 30% 5%;
+    min-height: 500px;
+}
+
+button#main{
+    background-color: var(--dark-main);
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    min-height: 100px;
+    width: 300px;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    justify-items: center;
+    border-radius: 10px;
+    outline: none;
+    border: 4px solid var(--dark);
+}
+
+.loadButton:hover {
+    background-color: var(--dark);
+    cursor:pointer;
+}
+
+h2{
+    color: white
+}
+
+#themes {
+    width: 100vw;
+    /* border-radius: 5px; */
+    height: 60%;
+    display: grid;
+    grid-template-columns: 100%;
+    align-items: center;
+    justify-items: center;
+    background-color: var(--main);
+    background-size: cover;
+    box-shadow: var(--shadow01);
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    min-height: 500px;
+    padding: 2%;
+}
+
+.themeCard {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.4s;
+    color: rgba(255,255,255,0);
+    background: url(/images/main.background.jpeg) no-repeat center;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  
+  .themeCard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    background-color: var(--dark);
+    opacity: 0.8;
+    color: white;
+  }
+
+  .themeCard:hover .content{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    background-color: var(--dark);
+    opacity: 1;
+    color: white;
+    transition: 0.4s;
+  }
+
+
+  .content{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    padding: 0 10%;
+    overflow: auto;
+  }
+
+  #littleThings{
+    background: url(/images/little.jpg) no-repeat center;
+  }
+  #nature{
+    background: url(/images/nature.jpg) no-repeat center;
+  }
+  #movement{
+    background: url(/images/movement.jpg) no-repeat center;
+  }
+  #place{
+    background: url(/images/place.jpeg) no-repeat center;
+  }
+
+  .themeCard .content div{
+      padding: 15% 0;
+  }
