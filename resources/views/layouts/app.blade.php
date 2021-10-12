@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" href='{{ asset( '/images/fiitapixel_blue.ico' ) }}' type="image/x-icon">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -25,15 +26,16 @@
 <header class="app-header">
     @include('partials.nav')
 </header>
+<div class="nav-background"></div>
 <div class="app-body">
-    <main class="main" id="main">
+    <main>
         <div>
             @yield('content')
         </div>
     </main>
 </div>
-<footer class="app-footer">
-    @include('partials.footer')
-</footer>
+@include('partials.footer')
+<script src="{{asset( '/js/scripts.js' )}}"></script>
+@yield('scripts')
 </body>
 </html>
