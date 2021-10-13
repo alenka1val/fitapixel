@@ -3,11 +3,12 @@
 @section('resultsActive') active @endsection
 @section('content')
     <div class="content margin_div">
-        @foreach($resultCategoryList as $result)
+        @foreach($resultCategoryList as $category)
+{{--            @if($result[0]{'Pôvab maličkosti'}{'users'})--}}
             <div id="resultDiv{{ $loop->index }}" class="resultDiv">
-                <div class="resultHeader" onclick="collapseResult({{ $loop->index }})" title="kategoria: {{ $result }}">
+                <div class="resultHeader" onclick="collapseResult({{ $loop->index }})" title="kategoria: {{ $category }}">
                     <p class="resultP">
-                        {{ $result }}
+                        {{ $category  }}
                     </p>
                     <a>
                         <i id="arrow-down-{{ $loop->index }}" class="arrow-down fa fa-angle-down"
@@ -27,7 +28,7 @@
                                 Hodnotenie odbornej poroty
                             </th>
                         </tr>
-                        @foreach($juryResultList as $result)
+                        @foreach($resultList{$category}{'users'} as $result)
                             <tr>
                                 <td style="width: 5%">
                                     {{ $loop->index + 1 }}.
@@ -57,7 +58,7 @@
                                 Hodnotenie návštevníkmi
                             </th>
                         </tr>
-                        @foreach($usersResultList as $result)
+                        @foreach($resultList{$category}{'jury'} as $result)
                             <tr>
                                 <td style="width: 5%">
                                     {{ $loop->index + 1 }}.
