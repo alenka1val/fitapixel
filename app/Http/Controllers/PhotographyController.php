@@ -49,7 +49,7 @@ class PhotographyController extends Controller
      */
     public function store(Request $request)
     {
-        //dd(date("Y"));
+        // dd($request->file);
         $user = Auth::user();
 
         $request->validate([
@@ -60,12 +60,12 @@ class PhotographyController extends Controller
 
         $photography = Photography::create([
             'user_id' => $user->id,
-            'filename' => $request->myfile->getBasename(),
+            'filename' => $request->file->getBasename(),
             'description' => $request->description,
             'theme' => $request->theme,
         ]);
 
-        $request->myfile->storeAs(date("Y"), $request->myfile->getBasename());
+        $request->file->storeAs(date("Y"), $request->file->getBasename());
 
 
         return view('home');

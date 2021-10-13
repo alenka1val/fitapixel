@@ -6,8 +6,8 @@
         <div></div>
         <div id="left">
             <h2>Súťaž trvá: od 30.3.2021 do 12.10.2021</h2>
-            <button id="main">
-                Podmienky súťaže
+            <button type="submit" id="main"  onclick="window.location='{{ route("photographies.create") }}'">
+                    Pridanie fotky
             </button>
         </div>
         <div></div>
