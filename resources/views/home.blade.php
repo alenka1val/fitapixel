@@ -2,16 +2,16 @@
 @section('title', 'FIIT a PIXEL')
 @section('content')
 <div class="container">
-    <div id="home">
+<div id="home">
         <div></div>
         <div id="left">
-            <h2>Súťaž trvá: </br> od 30.3.2021 </br>do 12.10.2021</h2>
+            <h2>Súťaž trvá: od 30.3.2021 do 12.10.2021</h2>
+            <button id="main">
+                Podmienky súťaže
+            </button>
         </div>
-        <button id="main">
-            Podmienky súťaže
-        </button>
+        <div></div>
         <div id="rigth">
-            <h2>It is not a square it is sample</h2>
         </div>
         <div></div>
     </div>

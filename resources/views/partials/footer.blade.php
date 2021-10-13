@@ -1,9 +1,10 @@
 <footer>
     <div class="footer">
         <div class="footer_1">
-            <p>Organizátor fotosúťaže FIITAPIXEL:</p>
+            <h5>Organizátor fotosúťaže FIITAPIXEL:</h5>
             <p>Fakulta informatiky a informačných technológií STU v Bratislave</p>
             <br>
+            <h5>Kontakt:</h5>
             <address>Ilkovičova 3</address>
             <address>842 16 Bratislava 4</address>
             <address>mail: foto@fiit.stuba.sk</address>
