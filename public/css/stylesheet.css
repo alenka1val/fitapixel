@@ -619,6 +619,55 @@ table tr.active-row {
     font-weight: normal;
 }
 
+.authContainer{
+    display: grid;
+    grid-template-columns: 20px auto 20px;
+    grid-template-rows: 20px auto 20px;
+    align-items: center;
+    justify-items: center;
+}
+
+.authCard{
+    min-width: 400px;
+    border: rgba(255, 255, 255, 0.25) 1px solid;
+    border-radius: 5px;
+    color: white;
+    grid-row: 2;
+    grid-column: 2;
+    background-color: var(--background_color);
+}
+
+.authCardHeader{
+    min-height: 60px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.authButton{
+    width: 100%;
+    background-color: var(--light-main-ambient);
+    border-color: var(--main_color);
+}
+
+.authButton:hover, .authButton:focus, .authButton:active{
+    background-color: var(--light-main) !important;
+    border-color: var(--main_color) !important;
+    box-shadow: 0 0 0 0.1rem var(--light-main) !important;
+}
+
+input:focus{
+    box-shadow: 0 0 0 0.1rem var(--light-main) !important;
+}
+
+.authLink{
+    color: var(--light-main-ambient);
+}
+
+.authLink:hover{
+    color: var(--main_color);
+}
+
 @media screen and (min-width: 1600px) {
     .photoContainer {
         grid-template-columns: calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5);
@@ -690,5 +739,9 @@ table tr.active-row {
         grid-template-columns: 100%;
         grid-template-rows: 50% 50%;
         row-gap: 10px;
+    }
+    
+    .authCard{
+        min-width: 250px;
     }
 }
