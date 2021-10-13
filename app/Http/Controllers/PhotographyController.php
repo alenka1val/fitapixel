@@ -116,6 +116,34 @@ class PhotographyController extends Controller
         //
     }
 
+    public function getResponse($event_id, $cat, $type)
+    {
+        $resultList = DB::table('votes')
+            ->select(DB::raw('votes.photo_id, count(*) as count'))
+            ->join('photographies', 'photographies.id', '=', 'votes.photo_id')
+            ->where('votes.event_id', $event_id)
+            ->where('votes.type', $type)
+            ->where('photographies.theme', $cat)
+            ->groupBy('votes.photo_id')
+            ->orderBy('count', 'desc')
+            ->limit(12)
+            ->get();
+
+        $tmpResultList = $resultList;
+
+        for ($i = 0; $i < count($tmpResultList); $i++) {
+            $resultList[$i]->photo = DB::table('photographies')
+                ->where('id', $resultList[$i]->photo_id)
+                ->get()[0];
+            $resultList[$i]->photograph = DB::table('users')
+                ->select('name')
+                ->where('id', $resultList[$i]->photo->user_id)
+                ->get()[0]->name;
+        }
+
+        return $resultList;
+    }
+
     /**
      * Show results for photoes.
      *
@@ -124,52 +152,24 @@ class PhotographyController extends Controller
      */
     public function results(Request $request)
     {
+        $resultCategoryList = ['Pôvab maličkosti', 'Farebná príroda', 'Výpoveď o človeku', 'M(i)esto, kde práve som'];
         $event_id = DB::table('events')->select('id')->where('url_path', $request->{'event_path'})->get()[0]->id;
-        $usersResultList = DB::table('votes')
-            ->select(DB::raw('photo_id, count(*) as count'))
-            ->where('event_id', $event_id)
-            ->where('type', 'users')
-            ->groupBy('photo_id')
-            ->orderBy('count', 'desc')
-            ->limit(12)
-            ->get();
-        $juryResultList = DB::table('votes')
-            ->select(DB::raw('photo_id, count(*) as count'))
-            ->where('event_id', $event_id)
-            ->where('type', 'jury')
-            ->groupBy('photo_id')
-            ->orderBy('count', 'desc')
-            ->limit(12)
-            ->get();
 
-        $tmpUsersResultList = $usersResultList;
-        $tmpJuryResultList = $juryResultList;
+        $result = [];
 
-        for ($i = 0; $i < count($tmpUsersResultList); $i++) {
-            $usersResultList[$i]->photo = DB::table('photographies')
-                ->where('id', $usersResultList[$i]->photo_id)
-                ->get()[0];
-            $usersResultList[$i]->photograph = DB::table('users')
-                ->select('name')
-                ->where('id', $usersResultList[$i]->photo->user_id)
-                ->get()[0]->name;
+        foreach ($resultCategoryList as $res) {
+            $result +=
+                array($res =>
+                    array(
+                        "users" => $this->getResponse($event_id, $res, 'users'),
+                        'jury' => $this->getResponse($event_id, $res, 'jury')
+                    )
+
+            );
         }
-
-        for ($i = 0; $i < count($tmpJuryResultList); $i++) {
-            $juryResultList[$i]->photo = DB::table('photographies')
-                ->where('id', $juryResultList[$i]->photo_id)
-                ->get()[0];
-            $juryResultList[$i]->photograph = DB::table('users')
-                ->select('name')
-                ->where('id', $juryResultList[$i]->photo->user_id)
-                ->get()[0]->name;
-        }
-
-        $resultCategoryList = ['Pôvab maličkosti','Farebná príroda','Výpoveď o človeku','M(i)esto, kde práve som'];
 
         return view('photography.results')
             ->with('resultCategoryList', $resultCategoryList)
-            ->with('usersResultList', $usersResultList)
-            ->with('juryResultList', $juryResultList);
+            ->with('resultList', $result);
     }
 }
