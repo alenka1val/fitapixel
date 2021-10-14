@@ -20,6 +20,7 @@
                 <hr>
                 <div class="resultTable">
                     <table>
+                        @if(count($resultList[$category]['users']))
                         <tr>
                             <th style="width: 5%">
                                 Poradie
@@ -28,7 +29,6 @@
                                 Hodnotenie odbornej poroty
                             </th>
                         </tr>
-                        @if(count($resultList[$category]['users']))
                             @foreach($resultList[$category]['users'] as $result)
                                 <tr>
                                     <td style="width: 5%">
@@ -49,9 +49,14 @@
                                     </td>
                                 </tr>
                             @endforeach
+                        @else
+                            <p>
+                                Výsledky hodnotenia návštevníkov neboli zverejnené
+                            </p>
                         @endif
                     </table>
                     <table>
+                        @if(count($resultList[$category]['jury']))
                         <tr>
                             <th style="width: 5%">
                                 Poradie
@@ -60,7 +65,6 @@
                                 Hodnotenie návštevníkmi
                             </th>
                         </tr>
-                        @if(count($resultList[$category]['jury']))
                             @foreach($resultList[$category]['jury'] as $result)
                                 <tr>
                                     <td style="width: 5%">
@@ -81,7 +85,11 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @endif
+                        @else
+                        <p>
+                            Výsledky hodnotenia poroty neboli zverejnené
+                        </p>
+                            @endif
                     </table>
                 </div>
             </div>

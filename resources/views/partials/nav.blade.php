@@ -19,24 +19,27 @@
         <div class="nav_grid right_grid large_grid">
             <div>
             </div>
+            <a class="nav-link" href="{{ route('photographies.create') }}">
+                Pridať foto
+            </a>
             @guest
                 <a class="nav-link" href="{{ route('login') }}">
                     <!-- <i class="fa-solid fa-user"></i> -->
                     Log in
                 </a>
-                <a class="nav-link" href="{{ route('register') }}">
-                    <!-- <i id="icon" class="fas fa-sign-in-alt "></i> -->
-                    Register
-                </a>
+                {{--                <a class="nav-link" href="{{ route('register') }}">--}}
+                {{--                    <!-- <i id="icon" class="fas fa-sign-in-alt "></i> -->--}}
+                {{--                    Register--}}
+                {{--                </a>--}}
             @endguest
             @auth
-                <form id="profile" action="" method="get">
-                    @csrf
-                    <a class="nav-link" href="javascript:{}" onclick="document.getElementById('profile').submit();">
-                        <!-- <i class="fas fa-user-circle"></i> -->
-                        Profile
-                    </a>
-                </form>
+                {{--                <form id="profile" action="" method="get">--}}
+                {{--                    @csrf--}}
+                {{--                    <a class="nav-link" href="javascript:{}" onclick="document.getElementById('profile').submit();">--}}
+                {{--                        <!-- <i class="fas fa-user-circle"></i> -->--}}
+                {{--                        Profile--}}
+                {{--                    </a>--}}
+                {{--                </form>--}}
                 <form id="logout_form" action="{{ route('logout') }}" method="POST">
                     @csrf
                     <a class="nav-link" href="javascript:{}" onclick="document.getElementById('logout_form').submit();">
@@ -61,20 +64,20 @@
             <p><a class="collapse_item" href="{{ route('login') }}">
                     Log in
                 </a></p>
-            <p><a class="collapse_item" href="{{ route('register') }}">
-                    Register
-                </a></p>
+            {{--            <p><a class="collapse_item" href="{{ route('register') }}">--}}
+            {{--                    Register--}}
+            {{--                </a></p>--}}
         @endguest
         @auth
-            <p>
-            <form id="profile" action="" method="get">
-                @csrf
-                <a class="collapse_item" href="javascript:{}"
-                   onclick="document.getElementById('profile').submit();">
-                    Profile
-                </a>
-            </form>
-            </p>
+            {{--            <p>--}}
+            {{--            <form id="profile" action="" method="get">--}}
+            {{--                @csrf--}}
+            {{--                <a class="collapse_item" href="javascript:{}"--}}
+            {{--                   onclick="document.getElementById('profile').submit();">--}}
+            {{--                    Profile--}}
+            {{--                </a>--}}
+            {{--            </form>--}}
+            {{--            </p>--}}
             <p>
             <form id="logout_form" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -85,5 +88,6 @@
             </form>
             </p>
         @endauth
+        <p><a class="collapse_item" href="{{ route('photographies.create') }}">Pridať foto</a></p>
     </section>
 </div>
