@@ -12,6 +12,27 @@ use Illuminate\Support\Facades\DB;
 
 class PhotographyController extends Controller
 {
+    function getFolderName()
+    {
+        $month = date("m");
+
+        if ($month >= 1 && $month <=6 ){
+            $season = "LJ" . date('Y');
+            $name = 'Leto/Jeseň ' . date('Y');
+        } else {
+            $season = "ZJ" . date('Y');
+            $name = 'Zima/Jar '. date('Y');
+        }
+
+
+        $event_id = Event::firstOrCreate([
+            'name' => $name,
+            'url_path' => $season,
+        ])->id;
+
+        return $event_id;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +41,7 @@ class PhotographyController extends Controller
      */
     public function index(Request $request)
     {
-        $event_id = DB::table('events')->select('id')->where('url_path', $request->{'event_path'})->get()[0]->id;
+        $event_id = $this->getFolderName();
         $photoList = DB::table('photographies')->where('event_id', $event_id)->get();
         $tmpPhotoList = $photoList;
 
@@ -48,8 +69,7 @@ class PhotographyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // dd($request->file);
+    {        
         $user = Auth::user();
 
         $request->validate([
@@ -60,12 +80,13 @@ class PhotographyController extends Controller
 
         $photography = Photography::create([
             'user_id' => $user->id,
-            'filename' => $request->file->getBasename(),
+            'event_id' => $this->getFolderName(),
+            'filename' => "/storage/".date("Y")."/".$request->file->getBasename(),
             'description' => $request->description,
             'theme' => $request->theme,
         ]);
 
-        $request->file->storeAs(date("Y"), $request->file->getBasename());
+        $request->file->storeAs(date("Y"), $request->file->getBasename(), 'public');
 
 
         return view('home');
@@ -153,8 +174,7 @@ class PhotographyController extends Controller
     public function results(Request $request)
     {
         $resultCategoryList = ['Pôvab maličkosti', 'Farebná príroda', 'Výpoveď o človeku', 'M(i)esto, kde práve som'];
-        $event_id = DB::table('events')->select('id')->where('url_path', $request->{'event_path'})->get()[0]->id;
-
+        $event_id = $this->getFolderName();
         $result = [];
 
         foreach ($resultCategoryList as $res) {
@@ -172,4 +192,7 @@ class PhotographyController extends Controller
             ->with('resultCategoryList', $resultCategoryList)
             ->with('resultList', $result);
     }
+
+
+    
 }
