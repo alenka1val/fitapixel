@@ -9,7 +9,7 @@
     --light-main: #5DD5D5;
     --light-main-ambient: rgba(93, 213, 213,0.7);
     --shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-    
+
 }
 
 #file::file-selector-button {
@@ -544,7 +544,7 @@ footer {
     max-width: 1024px;
     overflow: hidden;
     margin: 30px;
-    background-color: white;
+    background-color: var(--background_color);
     padding: 8px 20px 8px 20px;
     max-height: calc(3 * 12px);
 }
@@ -554,13 +554,13 @@ footer {
     grid-template-columns: 95% 5%;
     justify-items: left;
     align-items: center;
-    color: var(--dark);
+    color: var(--main_color);
     font-size: 14px;
     font-weight: bold;
 }
 
 .resultHeader a {
-    color: var(--dark);
+    color: var(--main_color);
     font-size: 20px;
     font-weight: bold;
 }
@@ -590,7 +590,7 @@ table p {
 
 table th {
      background-color: var(--main_color);
-     color: #ffffff;
+     color: black;
      text-align: left;
  }
 
@@ -598,12 +598,16 @@ table th, td {
     padding: 12px 15px;
 }
 
+table td {
+    color: white;
+}
+
 table tr {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: var(--background_color);
 }
 
 table tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: var(--background_color);
 }
 
 table tr:last-of-type {
@@ -616,7 +620,7 @@ table tr.active-row {
 }
 
 .article {
-    color: black;
+    color: white;
     border: 0;
     box-shadow: var(--shadow);
     border-radius: 15px;
@@ -624,11 +628,8 @@ table tr.active-row {
     max-width: 1024px;
     overflow: hidden;
     margin: 30px;
-    background-color: white;
+    background-color: var(--background_color);
     padding: 8px 20px 8px 20px;
-}
-.article h2 {
-    color: black;
 }
 
 .article a {
@@ -764,7 +765,7 @@ input:focus{
         grid-template-rows: 50% 50%;
         row-gap: 10px;
     }
-    
+
     .authCard{
         min-width: 250px;
     }
