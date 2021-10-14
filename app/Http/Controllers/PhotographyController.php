@@ -39,7 +39,7 @@ class PhotographyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $event_id = $this->getFolderName();
         $photoList = DB::table('photographies')->where('event_id', $event_id)->get();
@@ -69,7 +69,7 @@ class PhotographyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {
         $user = Auth::user();
 
         $request->validate([
@@ -171,7 +171,7 @@ class PhotographyController extends Controller
      * @param Request $request
      * @return void
      */
-    public function results(Request $request)
+    public function results()
     {
         $resultCategoryList = ['Pôvab maličkosti', 'Farebná príroda', 'Výpoveď o človeku', 'M(i)esto, kde práve som'];
         $event_id = $this->getFolderName();
@@ -192,7 +192,4 @@ class PhotographyController extends Controller
             ->with('resultCategoryList', $resultCategoryList)
             ->with('resultList', $result);
     }
-
-
-    
 }

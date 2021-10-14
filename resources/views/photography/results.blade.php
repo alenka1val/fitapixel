@@ -4,9 +4,9 @@
 @section('content')
     <div class="content margin_div">
         @foreach($resultCategoryList as $category)
-{{--            @if($result[0]{'Pôvab maličkosti'}{'users'})--}}
             <div id="resultDiv{{ $loop->index }}" class="resultDiv">
-                <div class="resultHeader" onclick="collapseResult({{ $loop->index }})" title="kategoria: {{ $category }}">
+                <div class="resultHeader" onclick="collapseResult({{ $loop->index }})"
+                     title="kategoria: {{ $category }}">
                     <p class="resultP">
                         {{ $category  }}
                     </p>
@@ -28,26 +28,28 @@
                                 Hodnotenie odbornej poroty
                             </th>
                         </tr>
-                        @foreach($resultList{$category}{'users'} as $result)
-                            <tr>
-                                <td style="width: 5%">
-                                    {{ $loop->index + 1 }}.
-                                </td>
-                                <td>
-                                    <p>
-                                        <b>
-                                            {{ $result->photograph }}
-                                        </b>
-                                    </p>
-                                    <p>
-                                        {{ $result->photo->description }}
-                                    </p>
-                                    <p>
-                                        {{ $result->photo->theme }}
-                                    </p>
-                                </td>
-                            </tr>
-                        @endforeach
+                        @if(count($resultList[$category]['users']))
+                            @foreach($resultList[$category]['users'] as $result)
+                                <tr>
+                                    <td style="width: 5%">
+                                        {{ $loop->index + 1 }}.
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                {{ $result->photograph }}
+                                            </b>
+                                        </p>
+                                        <p>
+                                            {{ $result->photo->description }}
+                                        </p>
+                                        <p>
+                                            {{ $result->photo->theme }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </table>
                     <table>
                         <tr>
@@ -58,26 +60,28 @@
                                 Hodnotenie návštevníkmi
                             </th>
                         </tr>
-                        @foreach($resultList{$category}{'jury'} as $result)
-                            <tr>
-                                <td style="width: 5%">
-                                    {{ $loop->index + 1 }}.
-                                </td>
-                                <td>
-                                    <p>
-                                        <b>
-                                            {{ $result->photograph }}
-                                        </b>
-                                    </p>
-                                    <p>
-                                        {{ $result->photo->description }}
-                                    </p>
-                                    <p>
-                                        {{ $result->photo->theme }}
-                                    </p>
-                                </td>
-                            </tr>
-                        @endforeach
+                        @if(count($resultList[$category]['jury']))
+                            @foreach($resultList[$category]['jury'] as $result)
+                                <tr>
+                                    <td style="width: 5%">
+                                        {{ $loop->index + 1 }}.
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                {{ $result->photograph }}
+                                            </b>
+                                        </p>
+                                        <p>
+                                            {{ $result->photo->description }}
+                                        </p>
+                                        <p>
+                                            {{ $result->photo->theme }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </table>
                 </div>
             </div>

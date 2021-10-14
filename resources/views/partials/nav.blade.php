@@ -1,10 +1,10 @@
 <div class="pos-f-t">
     <nav class="navbar navbar-dark bg-dark fiitapixel_nav">
         <div class="nav_grid left_grid large_grid">
-            <a class="nav-link @yield('galleryActive')" href="{{ route('photographies.index', ['event_path' => 'LJ2021']) }}">
+            <a class="nav-link @yield('galleryActive')" href="{{ route('photographies.index') }}">
                 Galéria
             </a>
-            <a class="nav-link @yield('resultsActive')" href="{{ route('results', ['event_path' => 'LJ2021']) }}">
+            <a class="nav-link @yield('resultsActive')" href="{{ route('results') }}">
                 Výsledky
             </a>
             <a class="nav-link @yield('rulesActive')" href="{{ route('rules') }}">
@@ -54,8 +54,8 @@
         </div>
     </nav>
     <section id="collapse">
-        <p><a class="collapse_item" href="{{ route('photographies.index', ['event_path' => 'LJ2021']) }}">Ročníky</a></p>
-        <p><a class="collapse_item" href="{{ route('results', ['event_path' => 'LJ2021']) }}">Výsledky</a></p>
+        <p><a class="collapse_item" href="{{ route('photographies.index') }}">Ročníky</a></p>
+        <p><a class="collapse_item" href="{{ route('results') }}">Výsledky</a></p>
         <p><a class="collapse_item" href="{{ route('rules') }}">Pravidlá</a></p>
         @guest
             <p><a class="collapse_item" href="{{ route('login') }}">

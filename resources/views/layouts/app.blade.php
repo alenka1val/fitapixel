@@ -31,19 +31,6 @@
     <main>
         <div>
             @yield('content')
-            <div id="myModal" class="modal">
-        <span class="close"><i class="fa fa-times zoomImageI"></i></span>
-        <img class="modal-content" id="img01">
-        <div id="caption">
-            <i class="fa fa-arrow-left zoomImageArrows" onclick="moveLeft({{ $photoList }})"></i>
-            <div class="modal-div">
-                <p id="captionText1"></p>
-                <p id="captionText2"></p>
-                <p id="captionText3"></p>
-            </div>
-            <i class="fa fa-arrow-right zoomImageArrows" onclick="moveRight({{ $photoList }})"></i>
-        </div>
-    </div>
         </div>
     </main>
 </div>
