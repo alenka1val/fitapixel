@@ -40,8 +40,11 @@ Auth::routes();
 
 Route::get('/photographies', 'App\Http\Controllers\PhotographyController@index')->name('photographies.index');
 Route::get('/results', 'App\Http\Controllers\PhotographyController@results')->name('results');
-Route::get('/photographies/create', 'App\Http\Controllers\PhotographyController@create')->name('photographies.create');
-Route::post('/photographies/create', 'App\Http\Controllers\PhotographyController@store')->name('photographies.store');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/photographies/create', 'App\Http\Controllers\PhotographyController@create')->name('photographies.create');
+    Route::post('/photographies/create', 'App\Http\Controllers\PhotographyController@store')->name('photographies.store');  
+});
 
 // Route::post('/photographies/{photography}/update', 'App\Http\Controllers\PhotographyController@update')->name('photographies.update');
 // Route::delete('/photographies/{photography}/delete', 'App\Http\Controllers\PhotographyController@destroy')->name('photographies.destroy');
