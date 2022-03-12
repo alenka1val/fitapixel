@@ -2,7 +2,7 @@
     <nav class="navbar fiitapixel_nav">
         <div class="nav_grid left_grid large_grid">
             <h1>
-                <a class="nav-home" href="{{ route('home') }}" target="_blank">
+                <a class="nav-home" href="{{ route('home') }}">
                     FiitAPixel
                 </a>   
             </h1>
@@ -11,13 +11,13 @@
         <div class="nav_grid right_grid large_grid">
             <div>
             </div>
-            <a class="nav-link @yield('resultsActive')" href="{{ route('results') }}">
+            <a class="nav-link @yield('resultsActive')" href="{{ route('info.competition') }}">
                 Súťaž
             </a>
-            <a class="nav-link @yield('rulesActive')" href="{{ route('rules') }}">
+            <a class="nav-link @yield('rulesActive')" href="{{ route('info.judges') }}">
                 Porotcovia
             </a>
-            <a class="nav-link-bold @yield('galleryActive')" href="{{ route('photographies.index') }}">
+            <a class="nav-link-bold @yield('galleryActive')" href="{{ route('info.themes') }}">
                 Galéria
             </a>
             <a class="nav-link" href="{{ route('photographies.create') }}">
@@ -59,9 +59,9 @@
     </nav>
     <section id="collapse">
         <div id="collapse-items">
-            <p class="p-nav"><a class="collapse_item" href="{{ route('photographies.index') }}">Súťaž</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('results') }}">Porotcovia</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('rules') }}">Galéria</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('info.competition') }}">Súťaž</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('info.judges') }}">Porotcovia</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('info.themes') }}">Galéria</a></p>
             <p class="p-nav"><a class="collapse_item" href="{{ route('photographies.create') }}">Pridať foto</a></p>
             @guest
                 <p class="p-nav">

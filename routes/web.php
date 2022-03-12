@@ -17,6 +17,15 @@ Route::get('/', function () {
     return view('home');
 });
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/judges', function () {
+    return view('info.judges');
+})->name('info.judges');
+Route::get('/competition', function () {
+    return view('info.competition');
+})->name('info.competition');
+Route::get('/themes', function () {
+    return view('info.themes');
+})->name('info.themes');
 Route::get('/rules', function () {
     return view('photography.rules');
 })->name('rules');
