@@ -2,7 +2,7 @@
 @section('title', 'FIIT a PIXEL')
 @section('content')
 <div class="container">
-    <div class="info-panel info-pannel-start pad-right-10vw">
+    <div class="info-panel info-panel-start">
         <!-- <div>
             <img class="info-image" src="../images/environment.jpeg"></img>         
         </div> -->
