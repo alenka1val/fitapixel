@@ -1,24 +1,25 @@
 <div class="pos-f-t">
-    <nav class="navbar navbar-dark bg-dark fiitapixel_nav">
+    <nav class="navbar fiitapixel_nav">
         <div class="nav_grid left_grid large_grid">
-            <a class="nav-link @yield('galleryActive')" href="{{ route('photographies.index') }}">
-                Galéria
-            </a>
-            <a class="nav-link @yield('resultsActive')" href="{{ route('results') }}">
-                Výsledky
-            </a>
-            <a class="nav-link @yield('rulesActive')" href="{{ route('rules') }}">
-                Pravidlá
-            </a>
-        </div>
-        <div class="nav_grid middle_grid">
-            <img id="nav_img" src="{{asset( '/images/fiitapixel_fulltext_blue.png' )}}" title="domov"
-                 alt="FIITAPIXEL" onclick="home()">
+            <h1>
+                <a class="nav-home" href="{{ route('home') }}" target="_blank">
+                    FiitAPixel
+                </a>   
+            </h1>
         </div>
         <div class="nav_icon"></div>
         <div class="nav_grid right_grid large_grid">
             <div>
             </div>
+            <a class="nav-link @yield('resultsActive')" href="{{ route('results') }}">
+                Súťaž
+            </a>
+            <a class="nav-link @yield('rulesActive')" href="{{ route('rules') }}">
+                Porotcovia
+            </a>
+            <a class="nav-link-bold @yield('galleryActive')" href="{{ route('photographies.index') }}">
+                Galéria
+            </a>
             <a class="nav-link" href="{{ route('photographies.create') }}">
                 Pridať foto
             </a>
@@ -57,37 +58,42 @@
         </div>
     </nav>
     <section id="collapse">
-        <p><a class="collapse_item" href="{{ route('photographies.index') }}">Ročníky</a></p>
-        <p><a class="collapse_item" href="{{ route('results') }}">Výsledky</a></p>
-        <p><a class="collapse_item" href="{{ route('rules') }}">Pravidlá</a></p>
-        @guest
-            <p><a class="collapse_item" href="{{ route('login') }}">
-                    Log in
-                </a></p>
-            {{--            <p><a class="collapse_item" href="{{ route('register') }}">--}}
-            {{--                    Register--}}
-            {{--                </a></p>--}}
-        @endguest
-        @auth
-            {{--            <p>--}}
-            {{--            <form id="profile" action="" method="get">--}}
-            {{--                @csrf--}}
-            {{--                <a class="collapse_item" href="javascript:{}"--}}
-            {{--                   onclick="document.getElementById('profile').submit();">--}}
-            {{--                    Profile--}}
-            {{--                </a>--}}
-            {{--            </form>--}}
-            {{--            </p>--}}
-            <p>
-            <form id="logout_form" action="{{ route('logout') }}" method="POST">
-                @csrf
-                <a class="collapse_item" href="javascript:{}"
-                   onclick="document.getElementById('logout_form').submit();">
-                    Log out
-                </a>
-            </form>
-            </p>
-        @endauth
-        <p><a class="collapse_item" href="{{ route('photographies.create') }}">Pridať foto</a></p>
+        <div id="collapse-items">
+            <p class="p-nav"><a class="collapse_item" href="{{ route('photographies.index') }}">Súťaž</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('results') }}">Porotcovia</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('rules') }}">Galéria</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('photographies.create') }}">Pridať foto</a></p>
+            @guest
+                <p class="p-nav">
+                    <a class="collapse_item" href="{{ route('login') }}">
+                        Log in
+                    </a>
+                </p>
+                {{--            <p><a class="collapse_item" href="{{ route('register') }}">--}}
+                {{--                    Register--}}
+                {{--                </a></p>--}}
+            @endguest
+            @auth
+                {{--            <p>--}}
+                {{--            <form id="profile" action="" method="get">--}}
+                {{--                @csrf--}}
+                {{--                <a class="collapse_item" href="javascript:{}"--}}
+                {{--                   onclick="document.getElementById('profile').submit();">--}}
+                {{--                    Profile--}}
+                {{--                </a>--}}
+                {{--            </form>--}}
+                {{--            </p>--}}
+                <p class="p-nav">
+                    <form id="logout_form" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <a class="collapse_item" href="javascript:{}"
+                        onclick="document.getElementById('logout_form').submit();">
+                            Log out
+                        </a>
+                    </form>
+                </p>
+            @endauth
+        </div>
+        
     </section>
 </div>

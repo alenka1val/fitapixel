@@ -17,7 +17,7 @@ function collapseNav() {
     } else {
         document.getElementById("collapse").style.display = "block";
         document.getElementById("collapse").style.height = height;
-        document.getElementById("collapse").style.borderTop = "2px solid #5DD5D5";
+        //document.getElementById("collapse").style.borderTop = "2px solid rgb(46, 163, 242)";
         document.getElementById("burgerMenu").style.display = "none";
         document.getElementById("burgerX").style.display = "block";
     }

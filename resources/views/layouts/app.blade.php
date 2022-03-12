@@ -29,9 +29,7 @@
 <div class="nav-background"></div>
 <div class="app-body">
     <main>
-        <div>
-            @yield('content')
-        </div>
+        @yield('content')
     </main>
 </div>
 @include('partials.footer')
