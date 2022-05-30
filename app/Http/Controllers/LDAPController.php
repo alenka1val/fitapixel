@@ -10,33 +10,58 @@ class LDAPController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = "newton";
+        // TODO: validation name, password, need_ldap_groups
+        $user_name = $request->user or env('LDAP_USER');
+        $ldap_dn = "uid=$user_name," . env('LDAP_DN');
+        $ldap_password = $request->password or env('LDAP_PASS');
 
-        $ldap_dn = env('LDAP_DN');
-        $ldap_dn = str_replace('user', $user, $ldap_dn);
-        $ldap_password = "password";
+        $need_ldap_groups = null;
+        $entries = array();
+        $ldap_con = @ldap_connect(env('LDAP_HOSTNAME'), env('LDAP_PORT'));
+        if ($ldap_con) {
+            ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, env('LDAP_OPT_PROTOCOL_VERSION'));
+            ldap_set_option($ldap_con, LDAP_OPT_REFERRALS, env('LDAP_OPT_REFERRALS'));
 
-        $ldap_con = ldap_connect(env('LDAP_HOSTNAME'));
-        ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, env('LDAP_OPT_PROTOCOL_VERSION'));
-        ldap_set_option($ldap_con, LDAP_OPT_REFERRALS, env('LDAP_OPT_REFERRALS'));
+            $ldap_bind = @ldap_bind($ldap_con, $ldap_dn, $ldap_password);
+            if ($ldap_bind) {
+                $status = "Authenticated";
 
-        $entries = null;
-        $result = null;
-        if (@ldap_bind($ldap_con, $ldap_dn, $ldap_password)) {
-            $status = "Authenticated";
-
-            $result=ldap_search($ldap_con, $ldap_dn, "(objectclass=*)", explode( ",", env('LDAP_FIELDS')));
-            $entries = ldap_get_entries($ldap_con, $result);
+                $results = ldap_search($ldap_con, env('LDAP_DN'), "(uid=" . $user_name . ")", explode(",", env('LDAP_FIELDS')));
+                if ($results === false) {
+                    $status = "Problem finding your data: " . ldap_error($ldap_con);
+                } else {
+                    $user = ldap_get_entries($ldap_con, $results);
+                    if (!empty($need_ldap_groups)) {
+                        $need_ldap_groups = explode(',', $need_ldap_groups);
+                        $_right = false;
+                        foreach ($need_ldap_groups as $v) {
+                            if (array_search($v, $user[0]['host']) !== false) {
+                                $_right = true;
+                                break;
+                            }
+                        }
+                        if (!$_right) {
+                            $status = "At AIS STU, you are not a member of the required group.";
+                            return view('auth.ldap')->with("status", $status)->with("entries", $entries);
+                        }
+                    }
+                    $entries['surname'] = $user[0]['sn'][0];
+                    $entries['name'] = $user[0]['givenname'][0];
+                    $entries['web'] = 'http://is.stuba.sk/lide/clovek.pl?id=' . $user[0]['uisid'][0] . '&lang=sk';
+                }
+            } else {
+                $status = "Invalid Name or Password";
+            }
         } else {
-            $status = "Invalid Name or Password";
+            $status = "LDAP server connection lost";
         }
 
         ldap_close($ldap_con);
-
         return view('auth.ldap')->with("status", $status)->with("entries", $entries);
     }
 
