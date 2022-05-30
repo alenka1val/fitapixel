@@ -3,14 +3,14 @@
 @section('content')
 <div class="authContainer">
     <div class="authCard">
-        <h3 class = "authCardHeader">{{ __('Login') }}</h3>
+        <h2>{{ __('Login') }}</h2>
         <div class="card-body">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
-                    <label for="email" >{{ __('E-Mail Address') }}</label>
+                    <!-- <label for="email" >{{ __('E-Mail Address') }}</label> -->
                     <div>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror input" name="email" value="{{ old('email') }}" required autocomplete="email"  placeholder="{{ __('E-Mail Address') }}" autofocus>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" >{{ __('Password') }}</label>
+                    <!-- <label for="password" >{{ __('Password') }}</label> -->
                     <div>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror input" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -29,7 +29,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div>
                         <div class="form-check">
@@ -46,15 +45,19 @@
                             {{ __('Login') }}
                         </button>
                     </div>
-                    <div>
-                        <a class="btn btn-link authLink" href="{{ route('register') }}">alebo sa Zaregistruj!</a>
-                    </div>
                 </div>
-                @if (Route::has('password.request'))
-                            <a class="btn btn-link authLink" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                        @endif
+                <div class="form-group">
+                    <button class="btn btn-secondary authButton" onClick="window.location='{{ route("register") }}'">
+                        Registrácia
+                    </button>
+                </div>
+                <div class="form-group">
+                    @if (Route::has('password.request'))
+                        <button class="btn btn-secondary authButton" onClick="window.location='{{ route("password.request") }}'">
+                            {{ __('Forgot Your Password?') }}
+                        </button>
+                    @endif
+                </div>
             </form>
         </div>
         <div>
