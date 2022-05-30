@@ -4,7 +4,7 @@
             <h1>
                 <a class="nav-home" href="{{ route('home') }}">
                     FiitAPixel
-                </a>   
+                </a>
             </h1>
         </div>
         <div class="nav_icon"></div>
@@ -94,6 +94,6 @@
                 </p>
             @endauth
         </div>
-        
+
     </section>
 </div>

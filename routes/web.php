@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('home');
 });
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+
 Route::get('/judges', function () {
     return view('info.judges');
 })->name('info.judges');
@@ -26,6 +27,9 @@ Route::get('/competition', function () {
 Route::get('/themes', function () {
     return view('info.themes');
 })->name('info.themes');
+
+Route::get('/ldap', 'App\Http\Controllers\LDAPController@index')->name('ldap');
+
 Route::get('/rules', function () {
     return view('photography.rules');
 })->name('rules');
@@ -52,7 +56,7 @@ Route::get('/results', 'App\Http\Controllers\PhotographyController@results')->na
 
 Route::middleware('auth')->group(function () {
     Route::get('/photographies/create', 'App\Http\Controllers\PhotographyController@create')->name('photographies.create');
-    Route::post('/photographies/create', 'App\Http\Controllers\PhotographyController@store')->name('photographies.store');  
+    Route::post('/photographies/create', 'App\Http\Controllers\PhotographyController@store')->name('photographies.store');
 });
 
 // Route::post('/photographies/{photography}/update', 'App\Http\Controllers\PhotographyController@update')->name('photographies.update');

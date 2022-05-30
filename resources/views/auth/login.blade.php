@@ -60,6 +60,11 @@
                 </div>
             </form>
         </div>
+        <div>
+            <a href="{{ route('ldap') }}">
+                LDAP
+            </a>
+        </div>
     </div>
 </div>
 @endsection
