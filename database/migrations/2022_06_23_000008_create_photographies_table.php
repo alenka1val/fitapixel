@@ -15,14 +15,16 @@ class CreatePhotographiesTable extends Migration
     {
         Schema::create('photographies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('event_id');
-            $table->string('filename');
-            $table->string('description');
-            $table->string('theme');
+            $table->integer('user_id')->nullable(false);
+            $table->integer('event_id')->nullable(false);
+            $table->integer('theme_id')->nullable();
+            $table->string('filename')->nullable(false);
+            $table->string('description')->nullable();
+            $table->integer('votes_value')->default(0);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('event_id')->references('id')->on('events');
+            $table->foreign('theme_id')->references('id')->on('themes');
         });
     }
 

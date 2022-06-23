@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Photography extends Model
+class ThemeEvent extends Model
 {
-    use SoftDeletes;
     use HasFactory;
 
     /**
@@ -17,23 +15,9 @@ class Photography extends Model
      * @var string[]
      */
     protected $fillable = [
-        'filename',
-        'description',
-        'user_id',
         'event_id',
         'theme_id',
-        'votes_value',
     ];
-
-    public function votes()
-    {
-        return $this->hasMany('App\Vote');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App/User');
-    }
 
     public function event()
     {
