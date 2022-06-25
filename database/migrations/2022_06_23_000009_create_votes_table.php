@@ -14,11 +14,11 @@ class CreateVotesTable extends Migration
     public function up()
     {
         Schema::create('votes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('photo_id');
-            $table->unsignedBigInteger('event_id');
-            $table->enum('type', ['users', 'jury']);
+            $table->id()->autoIncrement();
+            $table->integer('user_id')->nullable(false);
+            $table->integer('photo_id')->nullable(false);
+            $table->integer('event_id')->nullable(false);
+            $table->integer('value')->nullable(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('photo_id')->references('id')->on('photographies');

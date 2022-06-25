@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Photography extends Model
+class Group extends Model
 {
     use SoftDeletes;
     use HasFactory;
@@ -17,24 +17,14 @@ class Photography extends Model
      * @var string[]
      */
     protected $fillable = [
-        'filename',
-        'description',
-        'user_id',
-        'event_id',
+        'id',
+        'name',
+        'need_ldap',
+        'permission',
     ];
 
-    public function votes()
+    public function users()
     {
-        return $this->hasMany('App\Vote');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App/User');
-    }
-
-    public function event()
-    {
-        return $this->belongsTo('App/Event');
+        return $this->hasMany('App\User');
     }
 }
