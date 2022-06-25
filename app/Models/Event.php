@@ -29,6 +29,7 @@ class Event extends Model
         'min_height',
         'max_height',
         'allowed_ratios',
+        'description'
     ];
 
     public function photographies()
