@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use phpDocumentor\Reflection\Types\String_;
 
 class LDAPController extends Controller
 {
@@ -15,25 +16,36 @@ class LDAPController extends Controller
      */
     public function index(Request $request)
     {
-        // TODO: validation name, password, need_ldap_groups
-        $user_name = $request->user or env('LDAP_USER');
-        $ldap_dn = "uid=$user_name," . env('LDAP_DN');
-        $ldap_password = $request->password or env('LDAP_PASS');
+        $login = $request->login != null ? $request->login : env('LDAP_USER');
+        $password = $request->password != null ? $request->password : env('LDAP_PASS');
 
-        $need_ldap_groups = null;
+        $ldap_values = $this->LDAPLogin($login, $password);
+
+        return view('auth.ldap')
+            ->with("authenticated", $ldap_values['authenticated'])
+            ->with("status", $ldap_values['status'])
+            ->with("entries", $ldap_values['entries']);
+    }
+
+    public function LDAPLogin($login = null, $password = null, $need_ldap_groups = "")
+    {
+        $ldap_dn = "uid=$login," . env('LDAP_DN');
+
+        $return_object = array();
         $entries = array();
+        $return_object['authenticated'] = false;
         $ldap_con = @ldap_connect(env('LDAP_HOSTNAME'), env('LDAP_PORT'));
         if ($ldap_con) {
             ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, env('LDAP_OPT_PROTOCOL_VERSION'));
             ldap_set_option($ldap_con, LDAP_OPT_REFERRALS, env('LDAP_OPT_REFERRALS'));
 
-            $ldap_bind = @ldap_bind($ldap_con, $ldap_dn, $ldap_password);
+            $ldap_bind = @ldap_bind($ldap_con, $ldap_dn, $password);
             if ($ldap_bind) {
-                $status = "Authenticated";
+                $return_object['status'] = "Authenticated";
 
-                $results = ldap_search($ldap_con, env('LDAP_DN'), "(uid=" . $user_name . ")", explode(",", env('LDAP_FIELDS')));
+                $results = ldap_search($ldap_con, env('LDAP_DN'), "(uid=" . $login . ")", explode(",", env('LDAP_FIELDS')));
                 if ($results === false) {
-                    $status = "Problem finding your data: " . ldap_error($ldap_con);
+                    $return_object['status'] = "Problem finding your data: " . ldap_error($ldap_con);
                 } else {
                     $user = ldap_get_entries($ldap_con, $results);
                     if (!empty($need_ldap_groups)) {
@@ -46,23 +58,29 @@ class LDAPController extends Controller
                             }
                         }
                         if (!$_right) {
-                            $status = "At AIS STU, you are not a member of the required group.";
-                            return view('auth.ldap')->with("status", $status)->with("entries", $entries);
+                            $return_object['status'] = "At AIS STU, you are not a member of the required group.";
+                            $return_object['entries'] = $entries;
+                            return $return_object;
                         }
                     }
                     $entries['surname'] = $user[0]['sn'][0];
                     $entries['name'] = $user[0]['givenname'][0];
                     $entries['web'] = 'http://is.stuba.sk/lide/clovek.pl?id=' . $user[0]['uisid'][0] . '&lang=sk';
+                    $entries['hosts'] = join(',', $user[0]['host']);
+                    $entries['group'] = $user[0]['host'][0];
+                    $entries['mail'] = $user[0]['mail'][0];
+                    $return_object['authenticated'] = true;
                 }
             } else {
-                $status = "Invalid Name or Password";
+                $return_object['status'] = "Invalid Name or Password";
             }
         } else {
-            $status = "LDAP server connection lost";
+            $return_object['status'] = "LDAP server connection lost";
         }
 
         ldap_close($ldap_con);
-        return view('auth.ldap')->with("status", $status)->with("entries", $entries);
+        $return_object['entries'] = $entries;
+        return $return_object;
     }
 
     /**
