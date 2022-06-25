@@ -17,6 +17,7 @@ class Group extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'name',
         'need_ldap',
         'permission',

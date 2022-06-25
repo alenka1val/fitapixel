@@ -18,7 +18,7 @@ class Vote extends Model
         'user_id',
         'photo_id',
         'event_id',
-        'type',
+        'value'
     ];
 
     public function user()

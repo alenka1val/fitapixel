@@ -18,7 +18,7 @@ class CreateVotesTable extends Migration
             $table->integer('user_id')->nullable(false);
             $table->integer('photo_id')->nullable(false);
             $table->integer('event_id')->nullable(false);
-            $table->enum('type', ['user', 'jury'])->nullable(false);
+            $table->integer('value')->nullable(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('photo_id')->references('id')->on('photographies');

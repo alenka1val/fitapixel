@@ -21,8 +21,6 @@ class Photography extends Model
         'description',
         'user_id',
         'event_id',
-        'theme_id',
-        'votes_value',
     ];
 
     public function votes()
@@ -38,10 +36,5 @@ class Photography extends Model
     public function event()
     {
         return $this->belongsTo('App/Event');
-    }
-
-    public function theme()
-    {
-        return $this->belongsTo('App/Theme');
     }
 }

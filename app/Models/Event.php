@@ -29,17 +29,12 @@ class Event extends Model
         'min_height',
         'max_height',
         'allowed_ratios',
-        'description'
+        'description',
     ];
 
     public function photographies()
     {
         return $this->hasMany('App\Photography');
-    }
-
-    public function themes()
-    {
-        return $this->hasMany('App\ThemeEvent');
     }
 
     public function sponsors()
