@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Content;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
+use App\Http\Controllers\EventController;
 
 class ContentController extends Controller
 {
@@ -81,5 +85,24 @@ class ContentController extends Controller
     public function destroy(Content $content)
     {
         //
+    }
+
+    /**
+     * Return all Contents by tab
+     *
+     * @param $tab
+     * @return Collection
+     */
+    public function getContents($tab){
+
+        if (isEmpty($tab)){
+            return DB::table('contents')->get();
+        } else {
+            return DB::table('contents')->where('tab', $tab)->get();
+        }
+    }
+
+    public function getAllJury(){
+        return DB::table('users')->where('groupId', 6)->get();
     }
 }
