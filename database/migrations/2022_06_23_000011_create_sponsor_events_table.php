@@ -18,6 +18,7 @@ class CreateSponsorEventsTable extends Migration
             $table->integer('event_id')->nullable(false);
             $table->integer('sponsor_id')->nullable(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
             $table->foreign('event_id')->references('id')->on('events');
             $table->foreign('sponsor_id')->references('id')->on('sponsors');
         });

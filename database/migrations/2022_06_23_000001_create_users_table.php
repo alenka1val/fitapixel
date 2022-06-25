@@ -39,7 +39,8 @@ class CreateUsersTable extends Migration
             'name' => 'Administrator',
             'email' => env('ADMIN_Email'),
             'group_id' => 7,
-            'password' => Hash::make(env('ADMIN_PASSWORD'))
+            'password' => Hash::make(env('ADMIN_PASSWORD')),
+            'created_at' => Carbon\Carbon::now()
         ]);
     }
 

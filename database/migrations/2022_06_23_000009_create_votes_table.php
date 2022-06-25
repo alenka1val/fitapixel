@@ -20,6 +20,7 @@ class CreateVotesTable extends Migration
             $table->integer('event_id')->nullable(false);
             $table->integer('value')->nullable(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('photo_id')->references('id')->on('photographies');
             $table->foreign('event_id')->references('id')->on('events');

@@ -20,6 +20,7 @@ class CreateContentsTable extends Migration
             $table->integer('position')->nullable(false);
             $table->string('tab')->nullable(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

@@ -8,7 +8,7 @@
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="name">*</label>
+                    <!-- <label for="email">{{ __('Name') }}</label> -->
                         <div>
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror input"
                                    name="name" value="{{ old('name') }}" required autocomplete="name"

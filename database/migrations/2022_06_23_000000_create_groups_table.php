@@ -20,51 +20,59 @@ class CreateGroupsTable extends Migration
             $table->string('need_ldap')->default("");
             $table->enum('permission', ['admin', 'jury', 'photographer'])->nullable(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
 
         DB::table('groups')->insert([
             'id' => 1,
             'name' => "Študent FIIT",
             'need_ldap' => "student",
-            'permission' => 'photographer'
+            'permission' => 'photographer',
+            'created_at' => Carbon\Carbon::now()
         ]);
 
         DB::table('groups')->insert([
             'id' => 2,
             'name' => "Absolvent FIIT",
             'need_ldap' => "other",
-            'permission' => 'photographer'
+            'permission' => 'photographer',
+            'created_at' => Carbon\Carbon::now()
         ]);
 
         DB::table('groups')->insert([
             'id' => 3,
             'name' => "Záujemcovia o informatiku",
-            'permission' => 'photographer'
+            'permission' => 'photographer',
+            'created_at' => Carbon\Carbon::now()
         ]);
 
         DB::table('groups')->insert([
             'id' => 4,
             'name' => "Zamestnanci FIIT STU s AIS",
             'need_ldap' => "ext,staff",
-            'permission' => 'photographer'
+            'permission' => 'photographer',
+            'created_at' => Carbon\Carbon::now()
         ]);
 
         DB::table('groups')->insert([
             'id' => 5,
             'name' => "Zamestnanci FIIT STU bez AIS",
-            'permission' => 'photographer'
+            'permission' => 'photographer',
+            'created_at' => Carbon\Carbon::now()
         ]);
 
         DB::table('groups')->insert([
             'id' => 6,
             'name' => "Porodca",
-            'permission' => 'jury'
+            'permission' => 'jury',
+            'created_at' => Carbon\Carbon::now()
         ]);
 
         DB::table('groups')->insert([
             'id' => 7,
             'name' => "Admin",
-            'permission' => 'admin'
+            'permission' => 'admin',
+            'created_at' => Carbon\Carbon::now()
         ]);
     }
 

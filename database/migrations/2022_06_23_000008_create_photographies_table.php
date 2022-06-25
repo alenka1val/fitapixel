@@ -20,6 +20,7 @@ class CreatePhotographiesTable extends Migration
             $table->string('filename')->nullable(false);
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('event_id')->references('id')->on('events');
         });
