@@ -16,7 +16,7 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('name')->nullable(false);
-            $table->boolean('need_ldap')->default(false);
+            $table->string('need_ldap')->default("");
             $table->enum('permission', ['admin', 'jury', 'photographer'])->nullable(false);
             $table->timestamps();
         });
