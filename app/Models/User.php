@@ -35,7 +35,8 @@ class User extends Authenticatable
         'specialisation',
         'education_attainment_stu',
         'ais_uid',
-        'group_id'
+        'group_id',
+        'description'
     ];
 
     /**

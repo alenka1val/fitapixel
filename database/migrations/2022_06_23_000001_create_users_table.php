@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->integer('education_attainment_stu')->nullable();
             $table->string('ais_uid')->nullable();
             $table->integer('group_id')->nullable(false);
+            $table->string('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->foreign('group_id')->references('id')->on('groups');
