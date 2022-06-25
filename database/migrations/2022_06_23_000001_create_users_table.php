@@ -24,11 +24,6 @@ class CreateUsersTable extends Migration
             $table->string('address_city')->nullable();
             $table->string('address_zip_code')->nullable();
             $table->string('password')->index();
-            $table->string('school')->nullable();
-            $table->integer('year_school_termination')->nullable();
-            $table->integer('year_school_termination_stu')->nullable();
-            $table->string('specialisation')->nullable();
-            $table->integer('education_attainment_stu')->nullable();
             $table->string('ais_uid')->nullable();
             $table->integer('group_id')->nullable(false);
             $table->string('description')->nullable();

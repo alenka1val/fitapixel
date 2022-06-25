@@ -26,7 +26,7 @@ class CreateEventsTable extends Migration
             $table->integer('max_width')->default(1920);
             $table->integer('min_height')->default(480);
             $table->integer('max_height')->default(1080);
-            $table->string('allowed_ratios')->default("16x9");
+            $table->string('allowed_ratios')->default("3x2");
             $table->string('description')->nullable(false);
             $table->timestamps();
         });

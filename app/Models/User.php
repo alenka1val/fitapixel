@@ -29,11 +29,6 @@ class User extends Authenticatable
         'address_city',
         'address_zip_code',
         'password',
-        'school',
-        'year_school_termination',
-        'year_school_termination_stu',
-        'specialisation',
-        'education_attainment_stu',
         'ais_uid',
         'group_id',
         'description'
