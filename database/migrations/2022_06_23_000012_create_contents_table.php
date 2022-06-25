@@ -18,6 +18,7 @@ class CreateContentsTable extends Migration
             $table->string('text')->nullable(false);
             $table->string('name')->nullable(false);
             $table->integer('position')->nullable(false);
+            $table->string('tab')->nullable(false);
             $table->timestamps();
         });
     }

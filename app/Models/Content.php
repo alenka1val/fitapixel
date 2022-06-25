@@ -18,5 +18,6 @@ class Content extends Model
         'text',
         'name',
         'position',
+        'tab',
     ];
 }
