@@ -6,7 +6,24 @@
         <div id="header-main">
             <h1>FIITAPIXEL</h1>
             <br\>
-            <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p>
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 3</div>
+                <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p>
+            </div>
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 3</div>
+                <p>Súťaž trvá: do 12.10.2021</p>
+            </div>
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 3</div>
+                <p>Súťaž trvá: do 12.10.2021</p>
+            </div>
+            <div style="text-align:center">
+                <span class="dot" onclick="resetSlides(1)"></span> 
+                <span class="dot" onclick="resetSlides(2)"></span> 
+                <span class="dot" onclick="resetSlides(3)"></span> 
+            </div>
+            <!-- <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p> -->
         </div>
         <div class="main-button">
             <button class="main-button yellow-background last">
