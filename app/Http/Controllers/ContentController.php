@@ -103,6 +103,6 @@ class ContentController extends Controller
     }
 
     public function getAllJury(){
-        return DB::table('users')->where('groupId', 6)->get();
+        return DB::table('users')->where('group_id', 6)->get();
     }
 }

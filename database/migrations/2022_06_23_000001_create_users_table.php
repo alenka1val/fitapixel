@@ -28,7 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('password')->index();
             $table->string('ais_uid')->nullable();
             $table->integer('group_id')->nullable(false);
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
+            $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

@@ -30,7 +30,8 @@ class User extends Authenticatable
         'password',
         'ais_uid',
         'group_id',
-        'description'
+        'description',
+        'photo'
     ];
 
     /**

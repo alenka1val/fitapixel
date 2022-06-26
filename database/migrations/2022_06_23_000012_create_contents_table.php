@@ -15,10 +15,11 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('text')->nullable(false);
+            $table->text('text')->nullable(false);
             $table->string('name')->nullable(false);
             $table->integer('position')->nullable(false);
             $table->string('tab')->nullable(false);
+            $table->string('photo')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

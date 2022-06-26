@@ -13,14 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/judges', 'App\Http\Controllers\HomeController@indexJury')->name('info.judges');
 
-Route::get('/judges', function () {
-    return view('info.judges');
-})->name('info.judges');
 Route::get('/competition', function () {
     return view('info.competition');
 })->name('info.competition');

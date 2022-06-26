@@ -56,7 +56,7 @@ class RegisterController extends Controller
                 ->where('id', auth()->user()->group_id)
                 ->first();
 
-            if ($user_group == null){
+            if (is_null($user_group)){
                 return redirect()->back()
                     ->withInput()
                     ->withErrors(['user' => "Logged user have no valid Group"]);
@@ -128,7 +128,7 @@ class RegisterController extends Controller
             ->where('id', $request->group_id)
             ->first();
         $need_ldap = $need_ldap != null ? $need_ldap->need_ldap : null;
-        if ($need_ldap == null) {
+        if (is_null($need_ldap)) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['group_id' => 'Invalid Group']);

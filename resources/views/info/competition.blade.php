@@ -5,7 +5,7 @@
     <div id="home">
         <div id="header-main">
             <h1>Súťaž</h1>
-            <br\>
+            <br>
             <div class="mySlides fade">
                 <div class="numbertext">1 / 3</div>
                 <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p>
@@ -19,9 +19,9 @@
                 <p>Súťaž trvá: do 12.10.2021</p>
             </div>
             <div style="text-align:center">
-                <span class="dot" onclick="resetSlides(1)"></span> 
-                <span class="dot" onclick="resetSlides(2)"></span> 
-                <span class="dot" onclick="resetSlides(3)"></span> 
+                <span class="dot" onclick="resetSlides(1)"></span>
+                <span class="dot" onclick="resetSlides(2)"></span>
+                <span class="dot" onclick="resetSlides(3)"></span>
             </div>
             <!-- <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p> -->
         </div>
@@ -33,7 +33,7 @@
     </div>
     <div class="info-panel-left col-2">
         <div>
-            <img class="info-image" src="../images/environment.jpeg"></img>         
+            <img class="info-image" src="../images/environment.jpeg"></img>
         </div>
         <div class="pad-left-5p">
             <div>
@@ -56,12 +56,12 @@
             </p>
         </div>
         <div>
-            <img class="info-image" src="../images/environment.jpeg"></img>         
+            <img class="info-image" src="../images/environment.jpeg"></img>
         </div>
     </div>
     <div class="info-panel-left col-2">
         <div>
-            <img class="info-image" src="../images/environment.jpeg"></img>         
+            <img class="info-image" src="../images/environment.jpeg"></img>
         </div>
         <div class="pad-left-5p">
             <div>
