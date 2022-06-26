@@ -127,7 +127,7 @@ class RegisterController extends Controller
         $need_ldap = DB::table('groups')->select('need_ldap')
             ->where('id', $request->group_id)
             ->first();
-        $need_ldap = $need_ldap != null ? $need_ldap->need_ldap : null;
+        $need_ldap = !is_null($need_ldap) ? $need_ldap->need_ldap : null;
         if (is_null($need_ldap)) {
             return redirect()->back()
                 ->withInput()
