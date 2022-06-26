@@ -38,8 +38,7 @@
         </div>
         <div id="about" class="info-panel-left col-2">
             <div>
-                <img class="info-image" src="../images/environment.jpeg"></img>
-                {{--<img class="info-image" src="{{$contents['about']['photo']}}"></img>--}}
+                <img class="info-image" src="{{$contents['history']['photo']}}" alt="{{$contents['history']['photo']}}"/>
             </div>
             <div class="pad-left-5p">
                 <div>
@@ -62,12 +61,11 @@
                 </p>
             </div>
             <div>
-                {{--<img class="info-image" src="{{$contents['history']['photo']}}"></img>--}}
-                <img class="info-image" src="../images/environment.jpeg"></img>
+                <img class="info-image" src="{{$contents['history']['photo']}}" alt="{{$contents['history']['photo']}}"/>
             </div>
         </div>
         <div id="price">
-            <br\>
+            <br>
         </div>
 
     </div>

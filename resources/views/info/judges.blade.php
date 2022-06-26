@@ -18,8 +18,7 @@
             @if($loop->index % 2 == 0)
                 <div class="info-panel-left col-2">
                     <div>
-                        {{--<img class="info-image" src="{{ $jury->photo }}"></img>--}}
-                        <img class="info-image" src="../images/environment.jpeg"></img>
+                        <img class="info-image" src="{{ $jury->photo }}" alt="{{ $jury->name }}">
                     </div>
                     <div class="pad-left-5p">
                         <div>
@@ -43,8 +42,7 @@
                         </p>
                     </div>
                     <div>
-                        {{--<img class="info-image" src="{{ $jury->photo }}"></img>--}}
-                        <img class="info-image" src="../images/environment.jpeg"></img>
+                        <img class="info-image" src="{{ $jury->photo }}" alt="{{ $jury->name }}">
                     </div>
                 </div>
             @endif
