@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <!-- <label for="email" >{{ __('E-Mail Address') }}</label> -->
                     <div>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror input" name="email" value="{{ old('email') }}" required autocomplete="email"  placeholder="{{ __('E-Mail Address') }}" autofocus>
+                        <input id="email" type="text" class="form-control @error('email') is-invalid @enderror input" name="email" value="{{ old('email') }}" required autocomplete="email"  placeholder="{{ __('E-Mail Address or AIS login') }}" autofocus>
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -59,11 +59,6 @@
                     @endif
                 </div>
             </form>
-        </div>
-        <div>
-            <a href="{{ route('ldap') }}">
-                LDAP
-            </a>
         </div>
     </div>
 </div>

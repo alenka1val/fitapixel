@@ -19,6 +19,7 @@ class CreateSponsorsTable extends Migration
             $table->string('photo_path')->nullable(false);
             $table->string('url_path')->nullable(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

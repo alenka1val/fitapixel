@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
@@ -15,7 +17,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->nullable();
@@ -29,8 +31,17 @@ class CreateUsersTable extends Migration
             $table->string('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
             $table->foreign('group_id')->references('id')->on('groups');
         });
+
+        DB::table('users')->insert([
+            'name' => 'Administrator',
+            'email' => env('ADMIN_EMAIL'),
+            'group_id' => 7,
+            'password' => Hash::make(env('ADMIN_PASSWORD')),
+            'created_at' => Carbon\Carbon::now()
+        ]);
     }
 
     /**

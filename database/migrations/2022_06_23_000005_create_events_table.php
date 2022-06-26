@@ -29,6 +29,7 @@ class CreateEventsTable extends Migration
             $table->string('allowed_ratios')->default("3x2");
             $table->string('description')->nullable(false);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
