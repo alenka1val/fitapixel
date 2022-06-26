@@ -27,7 +27,7 @@ class CreateContentsTable extends Migration
 
         DB::table('contents')->insert([
             'tab' => 'home',
-            'name' => 'about',
+            'name' => 'Čo je FIITaPIXEL?',
             'position' => '1',
             'text' => 'Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt.',
             'photo' => '../images/environment.jpeg',
@@ -36,7 +36,7 @@ class CreateContentsTable extends Migration
 
         DB::table('contents')->insert([
             'tab' => 'home',
-            'name' => 'history',
+            'name' => 'Ako vznikol FIITaPIXEL?',
             'position' => '2',
             'text' => 'Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt.',
             'photo' => '../images/environment.jpeg',
@@ -45,7 +45,7 @@ class CreateContentsTable extends Migration
 
         DB::table('contents')->insert([
             'tab' => 'competition',
-            'name' => 'motivation',
+            'name' => 'Prečo sa prihlásiť?',
             'position' => 1,
             'text' => 'Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt.',
             'photo' => '../images/environment.jpeg',
@@ -54,17 +54,17 @@ class CreateContentsTable extends Migration
 
         DB::table('contents')->insert([
             'tab' => 'competition',
-            'name' => 'about',
-            'position' => 1,
-            'text' => 'Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt.',
-            'photo' => '../images/environment.jpeg',
-            'created_at' => Carbon\Carbon::now()
-        ]);
-
-        DB::table('contents')->insert([
-            'tab' => 'competition',
-            'name' => 'rules',
+            'name' => 'Informácie o súťaži',
             'position' => 2,
+            'text' => 'Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt.',
+            'photo' => '../images/environment.jpeg',
+            'created_at' => Carbon\Carbon::now()
+        ]);
+
+        DB::table('contents')->insert([
+            'tab' => 'competition',
+            'name' => 'Podmienky súťaže',
+            'position' => 3,
             'text' => 'Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Vivamus suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Nulla porttitor accumsan tincidunt.',
             'photo' => '../images/environment.jpeg',
             'created_at' => Carbon\Carbon::now()

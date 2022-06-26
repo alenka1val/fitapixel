@@ -110,3 +110,8 @@ function showAISLogin() {
         ais_login.style.display = "none";
     }
 }
+
+function redirect(url) {
+    console.log(url);
+    window.location.href = url;
+}

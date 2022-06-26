@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isNull;
 
 class HomeController extends Controller
 {
@@ -24,14 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $contents = (new ContentController())->getContents("home");
+        $content_list = (new ContentController())->getContents("home");
+        $content_list = !is_null($content_list) ? $content_list : array();
 
-        $contents_dict = array();
-        foreach ($contents as $content) {
-            $contents_dict[$content->name] = array('text' => $content->text, 'photo' => $content->photo);
-        }
+        $event_list = (new EventController())->getAllRunningEvents();
+        $event_list = !is_null($event_list) ? $event_list : array();
 
-        return view('home')->with('contents', $contents_dict);
+        return view('home')
+            ->with('contents', $content_list)
+            ->with('events', $event_list);
     }
 
     public function indexJury()
@@ -39,6 +42,10 @@ class HomeController extends Controller
         $jury_list = (new ContentController())->getAllJury();
         $jury_list = is_null($jury_list) ? array() : $jury_list;
 
-        return view('info.judges')->with('jury_list', $jury_list);
+        $event_list = (new EventController())->getAllRunningEvents();
+        $event_list = !is_null($event_list) ? $event_list : array();
+        return view('info.judges')
+            ->with('jury_list', $jury_list)
+            ->with('events', $event_list);
     }
 }

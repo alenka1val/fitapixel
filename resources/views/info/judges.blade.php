@@ -1,15 +1,16 @@
 @extends('layouts.app')
 @section('title', 'FIIT a PIXEL')
+@section('juryActive') nav-link-bold @endsection
 @section('content')
     <div class="container">
         <div id="home">
             <div id="header-main">
                 <h1>Rozhodujú o Vás</h1>
-                <br\>
+                <br>
                 <!-- <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p> -->
             </div>
             <div class="main-button">
-                <button class="main-button yellow-background last">
+                <button class="main-button yellow-background last" onclick="redirect('{{route('info.competition')}}' + '#competitions')">
                     Zapojiť sa do súťaže
                 </button>
             </div>

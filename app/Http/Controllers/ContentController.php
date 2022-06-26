@@ -93,12 +93,11 @@ class ContentController extends Controller
      * @param $tab
      * @return Collection
      */
-    public function getContents($tab){
-
-        if (isEmpty($tab)){
-            return DB::table('contents')->get();
+    public function getContents($tab = null){
+        if (empty($tab)){
+            return DB::table('contents')->orderBy('position', 'ASC')->get();
         } else {
-            return DB::table('contents')->where('tab', $tab)->get();
+            return DB::table('contents')->where('tab', $tab)->orderBy('position', 'ASC')->get();
         }
     }
 

@@ -31,42 +31,48 @@
                 <!-- <p>Súťaž trvá:<wbr> od 30.3.2021<wbr> do 12.10.2021</p> -->
             </div>
             <div class="main-button">
-                <button class="main-button yellow-background last">
+                <button class="main-button yellow-background last" onclick="redirect('{{route('info.competition')}}' + '#competitions')">
                     Zapojiť sa do súťaže
                 </button>
             </div>
         </div>
-        <div id="about" class="info-panel-left col-2">
-            <div>
-                <img class="info-image" src="{{$contents['history']['photo']}}" alt="{{$contents['history']['photo']}}"/>
-            </div>
-            <div class="pad-left-5p">
-                <div>
-                    <h2>Čo je FIITAPIXEL?</h2>
-                    <div class="underline"></div>
+        @foreach($contents as $content)
+            @if($loop->index % 2 == 0)
+                <div class="info-panel-left col-2">
+                    <div>
+                        <img class="info-image" src="{{$content->photo}}"
+                             alt="{{$content->photo}}"/>
+                    </div>
+                    <div class="pad-left-5p">
+                        <div>
+                            <h2>{{$content->name}}</h2>
+                            <div class="underline"></div>
+                        </div>
+                        <p>
+                            {{$content->text}}
+                        </p>
+                    </div>
                 </div>
-                <p>
-                    {{$contents['about']['text']}}
-                </p>
-            </div>
-        </div>
-        <div id="history" class="info-panel col-2">
-            <div class="pad-right-5p">
-                <div>
-                    <h2>Ako vznikol FIITAPIXEL?</h2>
-                    <div class="underline"></div>
+            @else
+                <div class="info-panel col-2">
+                    <div class="pad-right-5p">
+                        <div>
+                            <h2>{{$content->name}}</h2>
+                            <div class="underline"></div>
+                        </div>
+                        <p>
+                            {{$content->text}}
+                        </p>
+                    </div>
+                    <div>
+                        <img class="info-image" src="{{$content->photo}}"
+                             alt="{{$content->photo}}"/>
+                    </div>
                 </div>
-                <p>
-                    {{$contents['history']['text']}}
-                </p>
-            </div>
-            <div>
-                <img class="info-image" src="{{$contents['history']['photo']}}" alt="{{$contents['history']['photo']}}"/>
-            </div>
-        </div>
+            @endif
+        @endforeach
         <div id="price">
             <br>
         </div>
-
     </div>
 @endsection

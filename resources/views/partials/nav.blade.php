@@ -11,16 +11,16 @@
         <div class="nav_grid right_grid large_grid">
             <div>
             </div>
-            <a class="nav-link @yield('resultsActive')" href="{{ route('info.competition') }}">
+            <a class="nav-link @yield('competitionActive')" href="{{ route('info.competition') }}">
                 Súťaž
             </a>
-            <a class="nav-link @yield('rulesActive')" href="{{ route('info.judges') }}">
+            <a class="nav-link @yield('juryActive')" href="{{ route('info.judges') }}">
                 Porotcovia
             </a>
-            <a class="nav-link-bold @yield('galleryActive')" href="{{ route('info.themes') }}">
+            <a class="nav-link @yield('galleryActive')" href="{{ route('info.themes') }}">
                 Galéria
             </a>
-            <a class="nav-link" href="{{ route('photographies.create') }}">
+            <a class="nav-link @yield('addActive')" href="{{ route('photographies.create') }}">
                 Pridať foto
             </a>
             @guest

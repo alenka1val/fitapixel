@@ -16,10 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/judges', 'App\Http\Controllers\HomeController@indexJury')->name('info.judges');
+Route::get('/competition', 'App\Http\Controllers\EventController@index')->name('info.competition');
 
-Route::get('/competition', function () {
-    return view('info.competition');
-})->name('info.competition');
 Route::get('/themes', function () {
     return view('info.themes');
 })->name('info.themes');
