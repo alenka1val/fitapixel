@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration
 
         DB::table('users')->insert([
             'name' => 'Administrator',
-            'email' => env('ADMIN_Email'),
+            'email' => env('ADMIN_EMAIL'),
             'group_id' => 7,
             'password' => Hash::make(env('ADMIN_PASSWORD')),
             'created_at' => Carbon\Carbon::now()
