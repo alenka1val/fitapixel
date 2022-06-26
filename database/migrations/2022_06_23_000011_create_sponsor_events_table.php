@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhotographiesTable extends Migration
+class CreateSponsorEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreatePhotographiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('photographies', function (Blueprint $table) {
+        Schema::create('sponsor_events', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('event_id');
-            $table->string('filename');
-            $table->string('description');
-            $table->string('theme');
+            $table->integer('event_id')->nullable(false);
+            $table->integer('sponsor_id')->nullable(false);
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamp('deleted_at')->nullable();
             $table->foreign('event_id')->references('id')->on('events');
+            $table->foreign('sponsor_id')->references('id')->on('sponsors');
         });
     }
 
@@ -33,6 +31,6 @@ class CreatePhotographiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photographies');
+        Schema::dropIfExists('sponsor_events');
     }
 }

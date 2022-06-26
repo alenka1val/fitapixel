@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Photography extends Model
 {
-    use HasFactory;
+    use SoftDeletes, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -15,8 +16,16 @@ class Photography extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_id', 'filename', 'description', 'theme', 'event_id',
+        'filename',
+        'description',
+        'user_id',
+        'event_id',
     ];
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
+    }
 
     public function user()
     {

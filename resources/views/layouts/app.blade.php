@@ -14,6 +14,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/select.js') }}" defer></script>
     <script src="https://kit.fontawesome.com/4380ff5b6c.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/slider.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,6 +23,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/stylesheet.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/slider.css') }}" rel="stylesheet">
 </head>
 <body>
 <header class="app-header">

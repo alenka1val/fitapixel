@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
-class LDAPController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,30 +15,7 @@ class LDAPController extends Controller
      */
     public function index()
     {
-        $user = "newton";
-
-        $ldap_dn = env('LDAP_DN');
-        $ldap_dn = str_replace('user', $user, $ldap_dn);
-        $ldap_password = "password";
-
-        $ldap_con = ldap_connect(env('LDAP_HOSTNAME'));
-        ldap_set_option($ldap_con, LDAP_OPT_PROTOCOL_VERSION, env('LDAP_OPT_PROTOCOL_VERSION'));
-        ldap_set_option($ldap_con, LDAP_OPT_REFERRALS, env('LDAP_OPT_REFERRALS'));
-
-        $entries = null;
-        $result = null;
-        if (@ldap_bind($ldap_con, $ldap_dn, $ldap_password)) {
-            $status = "Authenticated";
-
-            $result=ldap_search($ldap_con, $ldap_dn, "(objectclass=*)", explode( ",", env('LDAP_FIELDS')));
-            $entries = ldap_get_entries($ldap_con, $result);
-        } else {
-            $status = "Invalid Name or Password";
-        }
-
-        ldap_close($ldap_con);
-
-        return view('auth.ldap')->with("status", $status)->with("entries", $entries);
+        //
     }
 
     /**
@@ -53,7 +31,7 @@ class LDAPController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -64,7 +42,7 @@ class LDAPController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -75,7 +53,7 @@ class LDAPController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,8 +64,8 @@ class LDAPController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -98,11 +76,23 @@ class LDAPController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Return all running Events in current day
+     *
+     * @return Collection
+     */
+    public function getAllRunningEvents(){
+        return DB::table('events')
+            ->whereRaw('started_at <= curdate()')
+            ->whereRaw('finished_at > curdate()')
+            ->get();
     }
 }

@@ -131,7 +131,7 @@ h2 {
     line-height: 56px;
     overflow-wrap: break-word;
     padding-bottom: 10px;
-    margin-bottom: 3%; 
+    margin-bottom: 3%;
 }
 
 h3 {
@@ -922,6 +922,11 @@ table tr.active-row {
     width: 85%;
 }
 
+.select {
+    width: 97%;
+
+}
+
 .filterCard {
     width: 90%;
     padding-top: 14px;
@@ -1162,6 +1167,9 @@ table tr.active-row {
         width: 70%;
     }
 
+    .select {
+        width: 85%;
+    }
     .info-panel-start {
         padding-right: 0px;
         padding-top: 0px;

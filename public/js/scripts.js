@@ -98,3 +98,15 @@ function moveRight(photoList) {
     captionText3.innerHTML = "Téma: " + photoList[nextIndex]['theme'];
     modalImg.alt = nextIndex;
 }
+
+function showAISLogin() {
+    let ais_login = document.getElementById("fiit_user");
+    let group_select = document.getElementById("group_id");
+
+    let select_value = group_select.options[group_select.selectedIndex].value;
+    if (select_value == 1 || select_value == 2 || select_value == 4) {
+        ais_login.style.display = "block";
+    } else {
+        ais_login.style.display = "none";
+    }
+}
