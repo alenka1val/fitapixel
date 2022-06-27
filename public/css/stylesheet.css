@@ -189,7 +189,10 @@ h3 {
 
 img.info-image {
     width: 100%;
-    background-size: cover;
+}
+
+img.galery-image {
+    width: 90%;
 }
 
 .themes {
@@ -1018,8 +1021,76 @@ table tr.active-row {
 
 .darkPanel{
     padding: 54px 0;
-    padding-right: 10vw;
     background-color: #151f33;
+}
+
+.winners {
+    display: grid;
+    grid-template-columns: [a] auto [b] auto [c] auto;
+    grid-template-rows: [sub-a] auto [sub-b] auto;
+    justify-items: center;
+    align-items: center;
+}
+
+/* .galery-row-item {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-rows: [sub-a] [sub-b];
+} */
+
+.winners img.first  {
+    box-shadow: rgba(255, 223, 0, 0.3) 0px 32px 200px 16px;
+}
+
+.winners img.second  {
+    box-shadow: rgba(255, 255, 255, 0.3) 0px 32px 200px 16px;
+    width: 80%;
+}
+
+.winners img.third  {
+    box-shadow: rgba(173, 138, 86, 0.3) 0px 32px 200px 16px;
+    width: 70%;
+}
+
+.winners img.first {
+    grid-column: b;
+    grid-row: sub-a;
+}
+
+.winners img.second {
+    grid-column: a;
+    grid-row: sub-a;
+}
+
+.winners img.third {
+    grid-column: c;
+    grid-row: sub-a;
+}
+
+.winners h3 {
+    align-self: flex-end;
+}
+
+h3.first  {
+    grid-column: b;
+    grid-row: sub-b;
+}
+
+h3.second {
+    grid-column: a;
+    grid-row: sub-b;
+}
+
+h3.third {
+    grid-column: c;
+    grid-row: sub-b;
+}
+
+.darkPanel h2 {
+    padding-left: 5%;
+    text-align: center;
+    color: #ffba5a;
 }
 
 @media screen and (min-width: 1600px) {
@@ -1173,6 +1244,37 @@ table tr.active-row {
     .info-panel-start {
         padding-right: 0px;
         padding-top: 0px;
+    }
+
+
+    .winners {
+        grid-template-columns: none;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: "a" "b" "c";
+    }
+
+    .winners .first img {
+        grid-area: a;
+    }
+
+    .winners .second img {
+        grid-area: b;
+    }
+
+    .winners .third img {
+        grid-area: c;
+    }
+
+    .winners .first img {
+        height: 90%;
+    }
+
+    .winners .second img {
+        height: 85%;
+    }
+
+    .winners .third img {
+        height: 75%;
     }
 
 }

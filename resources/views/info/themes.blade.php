@@ -57,11 +57,30 @@
             </div>
         </div>
     </div>
-    <div>
-        <div class="darkPanel">
+    <div class="darkPanel">
+        <h2>Víťazi</h2>
+        <div class="winners">
+            <img class="galery-image first" src="../images/environment.jpeg"></img>
+            <h3 class="first-winner first">1. Janko Mrkvička</h3>
+            <!-- <div class="galery-row-item first">
+                
+            </div> -->
+            <img class="galery-image second" src="../images/environment.jpeg"></img>
+            <h3 class="second-winner second">2. Jožko Moško</h3>
             
+
+            <!-- <div class="galery-row-item second">
+                
+            </div> -->
+            <img class="galery-image third" src="../images/environment.jpeg"></img>
+            <h3 class="third-winner third">3. Pušiak Lušiak Sokol</h3>
+
+            <!-- <div class="galery-row-item third">
+            
+            </div>     -->
         </div>
     </div>
+ 
     <div>
         <div class="info-panel-left col-2">
 
