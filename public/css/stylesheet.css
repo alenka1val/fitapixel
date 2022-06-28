@@ -1090,7 +1090,7 @@ h3.third {
 .darkPanel h2 {
     padding-left: 5%;
     text-align: center;
-    color: #ffba5a;
+    color: rgb(255, 186, 90);
 }
 
 @media screen and (min-width: 1600px) {
@@ -1246,35 +1246,22 @@ h3.third {
         padding-top: 0px;
     }
 
-
     .winners {
         grid-template-columns: none;
-        grid-template-rows: auto auto auto;
-        grid-template-areas: "a" "b" "c";
+        grid-template-rows: repeat(6,auto);
+        grid-template-areas: none;
+        grid-column: auto;
+        grid-row: auto;
     }
 
-    .winners .first img {
-        grid-area: a;
+    .winners img.first, .winners img.second, .winners img.third {
+        grid-column: auto;
+        grid-row: auto;
     }
 
-    .winners .second img {
-        grid-area: b;
-    }
-
-    .winners .third img {
-        grid-area: c;
-    }
-
-    .winners .first img {
-        height: 90%;
-    }
-
-    .winners .second img {
-        height: 85%;
-    }
-
-    .winners .third img {
-        height: 75%;
+    .winners h3 {
+        grid-column: auto;
+        grid-row: auto;
     }
 
 }

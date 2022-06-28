@@ -73,7 +73,7 @@
                 
             </div> -->
             <img class="galery-image third" src="../images/environment.jpeg"></img>
-            <h3 class="third-winner third">3. Pušiak Lušiak Sokol</h3>
+            <h3 class="third-winner third">3. Pušiak Lušiak Sokol Omar</h3>
 
             <!-- <div class="galery-row-item third">
             
