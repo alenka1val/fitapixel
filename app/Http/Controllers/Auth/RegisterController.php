@@ -113,6 +113,7 @@ class RegisterController extends Controller
             'ais_uid' => $data['ais_uid'],
             'description' => $data['description'],
             'group_id' => $data['group_id'],
+            'photo' => $data['photo'],
         ]);
     }
 
@@ -144,6 +145,12 @@ class RegisterController extends Controller
             }
             $request['password'] = env('LDAP_USER_PASSWORD');
             $request['password_confirmation'] = env('LDAP_USER_PASSWORD');
+        }
+
+        if (!is_null($request->file)){
+            $file_name = "photo_".rand(1000,9999)."_".date("Ymdhis").".".$request->file->getClientOriginalExtension();
+            $request['photo'] = "/storage/persons/$file_name";
+            $request->file->storeAs("persons", $file_name, 'public');
         }
 
         $this->create($request->all());

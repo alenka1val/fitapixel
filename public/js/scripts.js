@@ -102,12 +102,19 @@ function moveRight(photoList) {
 function showAISLogin() {
     let ais_login = document.getElementById("fiit_user");
     let group_select = document.getElementById("group_id");
+    let jury_div = document.getElementById("juryDiv");
 
     let select_value = group_select.options[group_select.selectedIndex].value;
     if (select_value == 1 || select_value == 2 || select_value == 4) {
         ais_login.style.display = "block";
     } else {
         ais_login.style.display = "none";
+    }
+
+    if (select_value == 6) {
+        jury_div.style.display = "block";
+    } else {
+        jury_div.style.display = "none";
     }
 }
 
