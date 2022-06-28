@@ -16,10 +16,8 @@ class EventController extends Controller
     public function index()
     {
         $content_list = (new ContentController())->getContents("competition");
-        $content_list = !is_null($content_list) ? $content_list : array();
 
         $event_list = $this->getAllRunningEvents();
-        $event_list = !is_null($event_list) ? $event_list : array();
 
         return view('info.competition')
             ->with('contents', $content_list)
@@ -98,9 +96,13 @@ class EventController extends Controller
      * @return Collection
      */
     public function getAllRunningEvents(){
-        return DB::table('events')
+        $competitions = DB::table('events')
             ->whereRaw('started_at <= DATE(now())')
             ->whereRaw('finished_at > DATE(now())')
             ->get();
+
+        $competitions = is_null($competitions) ? array() : $competitions;
+
+        return $competitions;
     }
 }

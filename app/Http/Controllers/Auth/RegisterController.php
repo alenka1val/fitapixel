@@ -50,7 +50,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-
+        $groups = null;
         if (auth()->user()) {
             $user_group = DB::table('groups')
                 ->where('id', auth()->user()->group_id)
@@ -67,7 +67,9 @@ class RegisterController extends Controller
                     ->select(['id', 'name'])
                     ->get();
             }
-        } else {
+        }
+
+        if (is_null($groups)) {
             $groups = DB::table('groups')
                 ->select(['id', 'name'])
                 ->where('permission', 'photographer')

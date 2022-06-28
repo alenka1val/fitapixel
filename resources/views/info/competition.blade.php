@@ -88,7 +88,7 @@
                                 <p>
                                     Súťaž končí: {{$event->finished_at}}
                                 </p>
-                                <a class="theme-card-link" href="{{ route('photographies.create') }}">Zapojiť sa do súťaže</a>
+                                <a class="theme-card-link" href="{{ route('photographies', ['competition' => $event->url_path]) }}">Zapojiť sa do súťaže</a>
                             </div>
                         </div>
                     </div>
