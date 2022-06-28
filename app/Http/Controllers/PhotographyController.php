@@ -47,10 +47,10 @@ class PhotographyController extends Controller
         $request['event_id'] = is_null($request->event_id) ? $events[array_keys($events)[0]][0]['id'] : $request->event_id;
 
         $photos = DB::table('photographies')
-            ->select(DB::raw('photographies.*, sum(votes.value) as vote_sum, max(users.name) as user_name'))
-            ->leftJoin('users', 'users.id', '=', 'photographies.user_id')
+            ->select(DB::raw('photographies.*, coalesce(sum(votes.value), 0) as vote_sum, max(users.name) as user_name'))
+            ->join('users', 'users.id', '=', 'photographies.user_id')
             ->leftJoin('votes', 'photographies.id', '=', 'votes.photo_id')
-            ->where('votes.event_id', $request->event_id)
+            ->where('photographies.event_id', $request->event_id)
             ->groupBy(DB::raw('photographies.id'))
             ->orderBy('vote_sum', 'DESC')
             ->get();
