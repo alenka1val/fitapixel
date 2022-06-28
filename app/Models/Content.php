@@ -19,5 +19,6 @@ class Content extends Model
         'name',
         'position',
         'tab',
+        'photo'
     ];
 }

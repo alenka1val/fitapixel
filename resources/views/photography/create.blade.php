@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('addActive') nav-link-bold @endsection
 @section('content')
 <div class="authContainer">
     <div class="authCard">
@@ -41,6 +42,6 @@
 
     </div>
     </div>
-    
+
 </div>
 @endsection

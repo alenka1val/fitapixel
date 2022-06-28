@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'FIIT a PIXEL')
+@section('galleryActive') nav-link-bold @endsection
 @section('content')
 <div class="container">
     <div class="filter-panel">
@@ -28,7 +29,7 @@
                                     <li id="2022">2022</li>
                                 </ul>
                                 <input id="year" type="text" name="year" class="hidden">
-                            </div>   
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -45,13 +46,13 @@
                                     <li id="2022">B</li>
                                 </ul>
                                 <input id="year" type="text" name="year" class="hidden">
-                            </div>   
-                        </div>                      
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group button">
                         <button type="submit" class="btn btn-primary authButton">
                             Zobraziť
-                        </button>                       
+                        </button>
                     </div>
                 </form>
             </div>
@@ -62,15 +63,15 @@
         <div class="winners">
             <img class="galery-image first" src="../images/environment.jpeg"></img>
             <h3 class="first-winner first">1. Janko Mrkvička</h3>
- 
+
             <img class="galery-image second" src="../images/environment.jpeg"></img>
             <h3 class="second-winner second">2. Jožko Moško</h3>
-            
+
             <img class="galery-image third" src="../images/environment.jpeg"></img>
             <h3 class="third-winner third">3. Pušiak Lušiak Sokol Omar</h3>
         </div>
     </div>
- 
+
     <div>
         <div class="galery">
             <img class="galery-image" src="../images/environment.jpeg"></img>

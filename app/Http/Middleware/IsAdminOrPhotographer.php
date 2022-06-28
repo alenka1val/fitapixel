@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class IsPhotographer
+class IsAdminOrPhotographer
 {
     /**
      * Handle an incoming request.
@@ -23,11 +23,11 @@ class IsPhotographer
                 ->where('id', auth()->user()->group_id)
                 ->first();
             $permission = !is_null($permission) ? $permission->permission : null;
-            if ($permission == 'photographer') {
+            if ($permission == 'admin' || $permission == 'photographer') {
                 return $next($request);
             }
         }
 
-        return redirect('home')->with('error', 'You have not photographer access');
+        return redirect('home')->with('error', 'You have not admin access');
     }
 }

@@ -5,7 +5,7 @@
         <div class="authCard">
             <h2>{{ __('Register') }}</h2>
             <div class="card-body">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}"  enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                     <!-- <label for="email">{{ __('Name') }}</label> -->
@@ -38,10 +38,14 @@
 
                     <div class="form-group">
                         <div>
-                            <select id="group_id" name="group_id" class="form-control input select" onchange="showAISLogin()">
-                                <option value="" @if( old('group_id') == "") selected @endif disabled hidden>Vyber skupinu</option>
+                            <select id="group_id" name="group_id" class="form-control input select"
+                                    onchange="showAISLogin()">
+                                <option value="" @if( old('group_id') == "") selected @endif disabled hidden>Vyber
+                                    skupinu
+                                </option>
                                 @foreach($groups as $group)
-                                    <option value="{{ $group->id }}" @if( old('group') == $group->id) selected @endif>{{ $group->name }}</option>
+                                    <option value="{{ $group->id }}"
+                                            @if( old('group') == $group->id) selected @endif>{{ $group->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -118,19 +122,30 @@
 
                     <br>
 
-                    <div class="form-group">
-                        <div>
-                            <textarea id="description" name="description" class="form-control input" autocomplete
+                    <div id="juryDiv" style="display: none">
+                        <div class="form-group">
+                            <div>
+                            <textarea id="description" name="description" class="form-control input"
                                       placeholder="Napíšte nám niečo o sebe" autofocus cols="40" rows="10"></textarea>
+                            </div>
                         </div>
+
+
+                        <label class="file">
+                            <p>Pridať fotku</p>
+                            <input type="file" id="file" name="file" aria-label="File browser example">
+                            <span class="file-custom"></span>
+                        </label>
                     </div>
+
 
                     <div class="form-group" id="fiit_user">
                         <br>
                         <div>
                             <input id="ais_uid" type="text"
                                    class="form-control @error('ais_uid') is-invalid @enderror input" name="ais_uid"
-                                   autocomplete="ais_uid" value="{{ old('ais_uid') }}" placeholder="AIS prihlasovacie meno">
+                                   autocomplete="ais_uid" value="{{ old('ais_uid') }}"
+                                   placeholder="AIS prihlasovacie meno">
                             @error('ais_uid')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

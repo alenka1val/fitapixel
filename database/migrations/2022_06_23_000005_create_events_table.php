@@ -27,7 +27,7 @@ class CreateEventsTable extends Migration
             $table->integer('min_height')->default(480);
             $table->integer('max_height')->default(1080);
             $table->string('allowed_ratios')->default("3x2");
-            $table->string('description')->nullable(false);
+            $table->text('description')->nullable(false);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

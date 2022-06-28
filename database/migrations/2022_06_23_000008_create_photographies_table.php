@@ -18,7 +18,7 @@ class CreatePhotographiesTable extends Migration
             $table->integer('user_id')->nullable(false);
             $table->integer('event_id')->nullable(false);
             $table->string('filename')->nullable(false);
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

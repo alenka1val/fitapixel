@@ -56,7 +56,7 @@ class RegisterController extends Controller
                 ->where('id', auth()->user()->group_id)
                 ->first();
 
-            if ($user_group == null){
+            if (is_null($user_group)){
                 return redirect()->back()
                     ->withInput()
                     ->withErrors(['user' => "Logged user have no valid Group"]);
@@ -113,6 +113,7 @@ class RegisterController extends Controller
             'ais_uid' => $data['ais_uid'],
             'description' => $data['description'],
             'group_id' => $data['group_id'],
+            'photo' => $data['photo'],
         ]);
     }
 
@@ -127,8 +128,8 @@ class RegisterController extends Controller
         $need_ldap = DB::table('groups')->select('need_ldap')
             ->where('id', $request->group_id)
             ->first();
-        $need_ldap = $need_ldap != null ? $need_ldap->need_ldap : null;
-        if ($need_ldap == null) {
+        $need_ldap = !is_null($need_ldap) ? $need_ldap->need_ldap : null;
+        if (is_null($need_ldap)) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['group_id' => 'Invalid Group']);
@@ -144,6 +145,12 @@ class RegisterController extends Controller
             }
             $request['password'] = env('LDAP_USER_PASSWORD');
             $request['password_confirmation'] = env('LDAP_USER_PASSWORD');
+        }
+
+        if (!is_null($request->file)){
+            $file_name = "photo_".rand(1000,9999)."_".date("Ymdhis").".".$request->file->getClientOriginalExtension();
+            $request['photo'] = "/storage/persons/$file_name";
+            $request->file->storeAs("persons", $file_name, 'public');
         }
 
         $this->create($request->all());

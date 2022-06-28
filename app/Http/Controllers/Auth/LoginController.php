@@ -66,7 +66,7 @@ class LoginController extends Controller
         $user_group = DB::table('groups')
             ->where('id', $user->group_id)
             ->first();
-        if ($user_group == null) {
+        if (is_null($user_group)) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['email' => 'Invalid Group']);
@@ -156,5 +156,14 @@ class LoginController extends Controller
         ldap_close($ldap_con);
         $return_object['entries'] = $entries;
         return $return_object;
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+
+        return redirect('home');
     }
 }
