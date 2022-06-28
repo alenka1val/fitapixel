@@ -1093,6 +1093,22 @@ h3.third {
     color: rgb(255, 186, 90);
 }
 
+.galery {
+    background-color: rgb(247, 247, 247);
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-items: center;
+    align-items: center;
+    gap: 3em 1em;
+    padding-top: 54px;
+    padding-bottom: 54px;
+    box-shadow: rgba(85, 103, 127, 0.3) 0px 32px 200px -16px;
+}
+
+.galery img {
+    cursor: pointer;
+}
+
 @media screen and (min-width: 1600px) {
     .photoContainer {
         grid-template-columns: calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5);
