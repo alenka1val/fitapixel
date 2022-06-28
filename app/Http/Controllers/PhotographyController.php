@@ -21,11 +21,61 @@ class PhotographyController extends Controller
      */
     public function index(Request $request)
     {
+        $event_list = DB::table('events')
+            ->select(DB::raw('date_part(\'year\', finished_at) as year, name, id'))
+            ->orderBy(DB::raw('1'), 'DESC')
+            ->orderBy('finished_at', 'DESC')
+            ->orderBy('started_at', 'DESC')
+            ->get();
+
+        $events = array();
+        foreach ($event_list as $e) {
+            if (empty($events[$e->year])) {
+                $events[$e->year] = array();
+            }
+            array_push($events[$e->year], array('name' => $e->name, 'id' => $e->id));
+        }
+
+        if (empty($events)) {
+            return view('info.gallery')
+                ->with('events', $events)
+                ->with('photos', array())
+                ->with('event_id', $request->event_id)
+                ->with('year', $request->year);
+        }
+
+        $request['event_id'] = is_null($request->event_id) ? $events[array_keys($events)[0]][0]['id'] : $request->event_id;
+
+        $photos = DB::table('photographies')
+            ->select(DB::raw('photographies.*, sum(votes.value) as vote_sum, max(users.name) as user_name'))
+            ->leftJoin('users', 'users.id', '=', 'photographies.user_id')
+            ->leftJoin('votes', 'photographies.id', '=', 'votes.photo_id')
+            ->where('votes.event_id', $request->event_id)
+            ->groupBy(DB::raw('photographies.id'))
+            ->orderBy('vote_sum', 'DESC')
+            ->get();
+
+        return view('info.gallery')
+            ->with('events', $events)
+            ->with('photos', $photos)
+            ->with('event_id', $request->event_id)
+            ->with('year', $request->year);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function create(Request $request)
+    {
         $competitions = (new EventController())->getAllRunningEvents();
 
         $competition_id = null;
-        if (!is_null($request->competition)){
-            foreach ($competitions as $competition){
+        if (!is_null($request->competition)) {
+            foreach ($competitions as $competition) {
                 if ($competition->url_path == $request->competition) {
                     $competition_id = $competition->id;
                     break;
@@ -39,23 +89,13 @@ class PhotographyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public
+    function store(Request $request)
     {
         $user = Auth::user();
 
@@ -100,7 +140,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         //
     }
@@ -111,7 +152,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         //
     }
@@ -123,7 +165,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public
+    function update(Request $request, $id)
     {
         //
     }
@@ -134,7 +177,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         //
     }
@@ -145,7 +189,8 @@ class PhotographyController extends Controller
      * @param Request $request
      * @return void
      */
-    public function results()
+    public
+    function results()
     {
         $resultCategoryList = ['Pôvab maličkosti', 'Farebná príroda', 'Výpoveď o človeku', 'M(i)esto, kde práve som'];
         $event_id = $this->getFolderName();

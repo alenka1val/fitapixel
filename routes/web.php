@@ -21,19 +21,20 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/judges', 'App\Http\Controllers\HomeController@indexJury')->name('info.judges');
 
 Route::group(['middleware' => ['auth', 'adminOrPhotographer']], function () {
-    Route::get('/photographies', 'App\Http\Controllers\PhotographyController@index')->name('photographies');
-    Route::post('/photographies', 'App\Http\Controllers\PhotographyController@store')->name('photographies.store');
-
+    Route::get('/photographies/create', 'App\Http\Controllers\PhotographyController@create')->name('photographies.create');
+    Route::post('/photographies/create', 'App\Http\Controllers\PhotographyController@store')->name('photographies.store');
 });
+
+Route::get('/gallery', 'App\Http\Controllers\PhotographyController@index')->name('info.gallery');
 
 Route::group(['middleware' => ['auth', 'adminOrJury']], function () {
 });
 
 Route::get('/competition', 'App\Http\Controllers\EventController@index')->name('info.competition');
 
-Route::get('/gallery', function () {
-    return view('info.gallery');
-})->name('info.gallery');
+//Route::get('/gallery', function () {
+//    return view('info.gallery');
+//})->name('info.gallery');
 
 Route::get('/rules', function () {
     return view('photography.rules');
