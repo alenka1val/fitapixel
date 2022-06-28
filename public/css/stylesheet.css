@@ -189,7 +189,10 @@ h3 {
 
 img.info-image {
     width: 100%;
-    background-size: cover;
+}
+
+img.galery-image {
+    width: 90%;
 }
 
 .themes {
@@ -202,6 +205,10 @@ img.info-image {
 .info-panel-start {
     padding-right: 10vw;
     padding-top: 0px;
+}
+
+.filter-panel {
+    padding-left: 5%;
 }
 
 .theme-card {
@@ -444,7 +451,9 @@ ul {
     padding: 0;
 }
 
-ul:not(.social-media) li::before {content: "▪"; color: rgb(102, 102, 102)}
+ul:not(.social-media, .dropdown-menu) li::before {
+    content: "▪"; color: rgb(102, 102, 102)
+}
 
 li {
     list-style-position: inside;
@@ -457,7 +466,7 @@ li span {
     font-size: 14px;
 }
 
-li.social-media a{
+li.social-media a {
     border: 3px solid rgba(255, 255, 255, 0.15);
     border-radius: 50%;
     width: 58px;
@@ -839,7 +848,7 @@ table tr.active-row {
     justify-items: center;
 }
 
-.authCard {
+.authCard, .filterCard {
     border: rgba(255, 255, 255, 0.25) 1px solid;
     color: white;
     grid-row: 2;
@@ -869,7 +878,6 @@ table tr.active-row {
     font-weight: 700;
     letter-spacing: 4px;
     line-height: 1.7em;
-    /* width: 350px; */
     transition: 0.3s;
     margin-bottom: 14px;
 }
@@ -902,7 +910,7 @@ table tr.active-row {
     line-height: 32px;
 }
 
-.input {
+.input, .dropdown {
     padding: 14px 24px;
     margin-bottom: 14px;
     background-color: rgba(85, 103, 127, 0.08);
@@ -919,6 +927,186 @@ table tr.active-row {
 
 .select {
     width: 97%;
+
+}
+
+.filterCard {
+    width: 90%;
+    padding-top: 14px;
+}
+
+.dropdown {
+    transition: all .5s ease;
+    position: relative;
+    min-width: 200px;
+    width: 70%;
+}
+
+.dropdown .select {
+    cursor: pointer;
+    display: block;
+    line-height: normal;
+}
+
+.dropdown .select > i {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 22px;
+}
+
+.dropdown.active:hover,
+.dropdown.active {
+    border-radius: 2px 2px 0 0;
+    background-color: rgba(85, 103, 127, 0.08);
+}
+
+.dropdown.active .select > i {
+    transform: rotate(-90deg);
+}
+
+.dropdown .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    left: 0;
+    margin-top: 14px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 2px 2px;
+    overflow: hidden;
+    display: none;
+    max-height: 144px;
+    overflow-y: auto;
+    z-index: 9;
+}
+
+.dropdown .dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+} 
+
+.dropdown .dropdown-menu {
+    padding: 0;
+    list-style: none;
+}
+
+.dropdown .dropdown-menu li:hover {
+    background-color: #f2f2f2
+}
+
+.dropdown .dropdown-menu li:active {
+    background-color: #e2e2e2
+}
+
+.hidden {
+    display: none;
+}
+
+.left {
+    text-align: left;
+}
+
+.filterCard .card-body form {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+}
+
+.form-group.button {
+    display: grid;
+    align-items: flex-end;
+}
+
+.darkPanel{
+    padding: 54px 0;
+    background-color: #151f33;
+}
+
+.winners {
+    display: grid;
+    grid-template-columns: [a] auto [b] auto [c] auto;
+    grid-template-rows: [sub-a] auto [sub-b] auto;
+    justify-items: center;
+    align-items: center;
+}
+
+/* .galery-row-item {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-rows: [sub-a] [sub-b];
+} */
+
+.winners img.first  {
+    box-shadow: rgba(255, 223, 0, 0.3) 0px 32px 200px 16px;
+}
+
+.winners img.second  {
+    box-shadow: rgba(255, 255, 255, 0.3) 0px 32px 200px 16px;
+    width: 80%;
+}
+
+.winners img.third  {
+    box-shadow: rgba(173, 138, 86, 0.3) 0px 32px 200px 16px;
+    width: 70%;
+}
+
+.winners img.first {
+    grid-column: b;
+    grid-row: sub-a;
+}
+
+.winners img.second {
+    grid-column: a;
+    grid-row: sub-a;
+}
+
+.winners img.third {
+    grid-column: c;
+    grid-row: sub-a;
+}
+
+.winners h3 {
+    align-self: flex-end;
+}
+
+h3.first  {
+    grid-column: b;
+    grid-row: sub-b;
+}
+
+h3.second {
+    grid-column: a;
+    grid-row: sub-b;
+}
+
+h3.third {
+    grid-column: c;
+    grid-row: sub-b;
+}
+
+.darkPanel h2 {
+    padding-left: 5%;
+    text-align: center;
+    color: rgb(255, 186, 90);
+}
+
+.galery {
+    background-color: rgb(247, 247, 247);
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-items: center;
+    align-items: center;
+    gap: 3em 1em;
+    padding-top: 54px;
+    padding-bottom: 54px;
+}
+
+.galery img {
+    cursor: pointer;
+    box-shadow: rgba(85, 103, 127, 0.3) 0px 32px 200px -16px;
 }
 
 @media screen and (min-width: 1600px) {
@@ -996,8 +1184,12 @@ table tr.active-row {
         row-gap: 10px;
     }
 
-    .authCard{
+    .authCard, .filterCard{
         min-width: 250px;
+    }
+
+    .filterCard {
+        width: 100%;
     }
 
     div.main-button {
@@ -1024,13 +1216,36 @@ table tr.active-row {
         grid-gap: none;
     }
 
+    .filterCard .card-body form {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(3,33%);
+        padding-left: 14px;
+        display: grid;
+    }
+
+    .filterCard .card-body .form-group {
+        margin-bottom: 14px;
+    }
+
+    .filterContainer {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        align-items: center;
+        justify-items: center;
+    }
+
+    .form-group.button {
+        justify-items: center;
+    }
+
     h2 {
         font-size: 24px;
         line-height: 33px;
         margin-top: 10px;
     }
 
-    .authCard {
+    .authCard, .filterCard {
         padding-left: 0;
         padding-right: 0;
     }
@@ -1042,4 +1257,33 @@ table tr.active-row {
     .select {
         width: 85%;
     }
+    .info-panel-start {
+        padding-right: 0px;
+        padding-top: 0px;
+    }
+
+    .winners {
+        grid-template-columns: none;
+        grid-template-rows: repeat(6,auto);
+        grid-template-areas: none;
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .winners img.first, .winners img.second, .winners img.third {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .winners h3 {
+        grid-column: auto;
+        grid-row: auto;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .galery {
+        grid-template-columns: auto;
+    }
+
 }
