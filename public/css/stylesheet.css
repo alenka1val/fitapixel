@@ -1102,11 +1102,11 @@ h3.third {
     gap: 3em 1em;
     padding-top: 54px;
     padding-bottom: 54px;
-    box-shadow: rgba(85, 103, 127, 0.3) 0px 32px 200px -16px;
 }
 
 .galery img {
     cursor: pointer;
+    box-shadow: rgba(85, 103, 127, 0.3) 0px 32px 200px -16px;
 }
 
 @media screen and (min-width: 1600px) {
