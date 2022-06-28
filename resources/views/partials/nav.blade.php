@@ -17,7 +17,7 @@
             <a class="nav-link @yield('juryActive')" href="{{ route('info.judges') }}">
                 Porotcovia
             </a>
-            <a class="nav-link @yield('galleryActive')" href="{{ route('info.themes') }}">
+            <a class="nav-link @yield('galleryActive')" href="{{ route('info.gallery') }}">
                 Galéria
             </a>
             <a class="nav-link @yield('addActive')" href="{{ route('photographies.create') }}">
@@ -61,7 +61,7 @@
         <div id="collapse-items">
             <p class="p-nav"><a class="collapse_item" href="{{ route('info.competition') }}">Súťaž</a></p>
             <p class="p-nav"><a class="collapse_item" href="{{ route('info.judges') }}">Porotcovia</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('info.themes') }}">Galéria</a></p>
+            <p class="p-nav"><a class="collapse_item" href="{{ route('info.gallery') }}">Galéria</a></p>
             <p class="p-nav"><a class="collapse_item" href="{{ route('photographies.create') }}">Pridať foto</a></p>
             @guest
                 <p class="p-nav">

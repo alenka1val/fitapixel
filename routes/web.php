@@ -18,9 +18,9 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('/judges', 'App\Http\Controllers\HomeController@indexJury')->name('info.judges');
 Route::get('/competition', 'App\Http\Controllers\EventController@index')->name('info.competition');
 
-Route::get('/themes', function () {
-    return view('info.themes');
-})->name('info.themes');
+Route::get('/gallery', function () {
+    return view('info.gallery');
+})->name('info.gallery');
 
 Route::get('/ldap', 'App\Http\Controllers\LDAPController@index')->name('ldap');
 
