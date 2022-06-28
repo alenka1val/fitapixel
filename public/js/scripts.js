@@ -122,3 +122,10 @@ function redirect(url) {
     console.log(url);
     window.location.href = url;
 }
+
+function countCharacters(max_count) {
+    let text_area = document.getElementById("description");
+    let count_characters = document.getElementById("count_characters");
+
+    count_characters.innerText = text_area.value.length + "/" + max_count;
+}

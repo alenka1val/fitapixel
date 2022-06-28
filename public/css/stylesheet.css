@@ -12,28 +12,37 @@
 
 }
 
+.hint {
+    margin-top: 0;
+    text-align: right;
+}
+
+#count_characters {
+    margin-top: -20px;
+}
+
 #file::file-selector-button {
-	border: 1px solid var(--main_color);
-    color: white;
+	border: 1px solid rgb(255, 186, 90);
+    color: black;
 	padding: 6px 12px;
 	border-radius: 4px;
 	background-color: #ffffff;
 }
 
 #file::file-selector-button:hover {
-	background-color: var(--main_color);
+	background-color: rgb(255, 186, 90);
 }
 
 #file::-webkit-file-upload-button {
-	border: 1px solid var(--main_color);
-    color: white;
+	border: 1px solid rgb(255, 186, 90);;
+    color: black;
 	padding: 6px 12px;
 	border-radius: 4px;
-	background-color: var(--light-main-ambient);
+	background-color: rgb(255, 186, 90);
 }
 
 #file::-webkit-file-upload-button:hover {
-	background-color: var(--main_color);
+	background-color: rgb(235, 166, 50);
 }
 
 hr {
@@ -987,7 +996,7 @@ table tr.active-row {
     padding: 10px;
     transition: all .2s ease-in-out;
     cursor: pointer;
-} 
+}
 
 .dropdown .dropdown-menu {
     padding: 0;

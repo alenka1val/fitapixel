@@ -6,7 +6,6 @@ use App\Models\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\Framework\isEmpty;
 use App\Http\Controllers\EventController;
 
 class ContentController extends Controller
@@ -94,14 +93,23 @@ class ContentController extends Controller
      * @return Collection
      */
     public function getContents($tab = null){
+        $contents = null;
         if (empty($tab)){
-            return DB::table('contents')->orderBy('position', 'ASC')->get();
+            $contents = DB::table('contents')->orderBy('position', 'ASC')->get();
         } else {
-            return DB::table('contents')->where('tab', $tab)->orderBy('position', 'ASC')->get();
+            $contents = DB::table('contents')->where('tab', $tab)->orderBy('position', 'ASC')->get();
         }
+
+        $contents = is_null($contents) ? array() : $contents;
+
+        return $contents;
     }
 
     public function getAllJury(){
-        return DB::table('users')->where('group_id', 6)->get();
+        $jury = DB::table('users')->where('group_id', 6)->get();
+
+        $jury = is_null($jury) ? array() : $jury;
+
+        return $jury;
     }
 }

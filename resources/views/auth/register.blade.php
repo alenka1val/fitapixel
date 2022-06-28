@@ -40,12 +40,12 @@
                         <div>
                             <select id="group_id" name="group_id" class="form-control input select"
                                     onchange="showAISLogin()">
-                                <option value="" @if( old('group_id') == "") selected @endif disabled hidden>Vyber
-                                    skupinu
+                                <option value="" @if( old('group_id') == "") selected @endif disabled hidden>
+                                    Vyberte skupinu
                                 </option>
                                 @foreach($groups as $group)
                                     <option value="{{ $group->id }}"
-                                            @if( old('group') == $group->id) selected @endif>{{ $group->name }}</option>
+                                            @if( old('group_id') == $group->id) selected @endif>{{ $group->name }}</option>
                                 @endforeach
                             </select>
                         </div>

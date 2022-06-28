@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\EventController;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -12,54 +13,79 @@ use Illuminate\Support\Facades\DB;
 
 class PhotographyController extends Controller
 {
-    function getFolderName()
-    {
-        $month = date("m");
-
-        if ($month >= 1 && $month <=6 ){
-            $season = "LJ" . date('Y');
-            $name = 'Leto/Jeseň ' . date('Y');
-        } else {
-            $season = "ZJ" . date('Y');
-            $name = 'Zima/Jar '. date('Y');
-        }
-
-
-        $event_id = Event::firstOrCreate([
-            'name' => $name,
-            'url_path' => $season,
-        ])->id;
-
-        return $event_id;
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $event_id = $this->getFolderName();
-        $photoList = DB::table('photographies')->where('event_id', $event_id)->get();
-        $tmpPhotoList = $photoList;
+        $event_list = DB::table('events')
+            ->select(DB::raw('date_part(\'year\', finished_at) as year, name, id'))
+            ->orderBy(DB::raw('1'), 'DESC')
+            ->orderBy('finished_at', 'DESC')
+            ->orderBy('started_at', 'DESC')
+            ->get();
 
-        for ($i = 0; $i < count($tmpPhotoList); $i++) {
-            $photoList[$i]->photograph = DB::table('users')->select('name')->where('id', $photoList[$i]->user_id)->get()[0]->name;
+        $events = array();
+        foreach ($event_list as $e) {
+            if (empty($events[$e->year])) {
+                $events[$e->year] = array();
+            }
+            array_push($events[$e->year], array('name' => $e->name, 'id' => $e->id));
         }
 
-        return view('photography.gallery')->with('photoList', $photoList);
+        if (empty($events)) {
+            return view('info.gallery')
+                ->with('events', $events)
+                ->with('photos', array())
+                ->with('event_id', $request->event_id)
+                ->with('year', $request->year);
+        }
+
+        $request['event_id'] = is_null($request->event_id) ? $events[array_keys($events)[0]][0]['id'] : $request->event_id;
+
+        $photos = DB::table('photographies')
+            ->select(DB::raw('photographies.*, sum(votes.value) as vote_sum, max(users.name) as user_name'))
+            ->leftJoin('users', 'users.id', '=', 'photographies.user_id')
+            ->leftJoin('votes', 'photographies.id', '=', 'votes.photo_id')
+            ->where('votes.event_id', $request->event_id)
+            ->groupBy(DB::raw('photographies.id'))
+            ->orderBy('vote_sum', 'DESC')
+            ->get();
+
+        return view('info.gallery')
+            ->with('events', $events)
+            ->with('photos', $photos)
+            ->with('event_id', $request->event_id)
+            ->with('year', $request->year);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public
+    function create(Request $request)
     {
-        return view('photography.create');
+        $competitions = (new EventController())->getAllRunningEvents();
+
+        $competition_id = null;
+        if (!is_null($request->competition)) {
+            foreach ($competitions as $competition) {
+                if ($competition->url_path == $request->competition) {
+                    $competition_id = $competition->id;
+                    break;
+                }
+            }
+        }
+
+        return view('photography.create')
+            ->with('competition_id', $competition_id)
+            ->with('competitions', $competitions);
     }
 
     /**
@@ -68,28 +94,44 @@ class PhotographyController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public
+    function store(Request $request)
     {
         $user = Auth::user();
 
         $request->validate([
-            'description' => 'required',
-            'theme' => 'required',
+            'description' => ['required', 'max:255'],
+            'competition_id' => ['required', 'integer'],
         ]);
 
+        $competition_dir = DB::table('events')->select('image_folder')
+            ->where('id', $request->competition_id)->first();
+        if (is_null($competition_dir)) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['cmp_id' => "Súťaž neexistuje"]);
+        }
 
-        $photography = Photography::create([
+        $competition_dir = $competition_dir->image_folder;
+
+        $file_name = "photo_"
+            . rand(10000, 99999)
+            . "_"
+            . date("Ymdhis")
+            . "."
+            . $request->file->getClientOriginalExtension();
+
+        Photography::create([
             'user_id' => $user->id,
-            'event_id' => $this->getFolderName(),
-            'filename' => "/storage/".date("Y")."/".$request->file->getBasename(),
+            'event_id' => $request->competition_id,
+            'filename' => "/storage/$competition_dir/$file_name",
             'description' => $request->description,
-            'theme' => $request->theme,
         ]);
 
-        $request->file->storeAs(date("Y"), $request->file->getBasename(), 'public');
+        $request->file->storeAs($competition_dir, $file_name, 'public');
 
 
-        return view('home');
+        return view('info.gallery');
     }
 
     /**
@@ -98,7 +140,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         //
     }
@@ -109,7 +152,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         //
     }
@@ -121,7 +165,8 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public
+    function update(Request $request, $id)
     {
         //
     }
@@ -132,37 +177,10 @@ class PhotographyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         //
-    }
-
-    public function getResponse($event_id, $cat, $type)
-    {
-        $resultList = DB::table('votes')
-            ->select(DB::raw('votes.photo_id, count(*) as count'))
-            ->join('photographies', 'photographies.id', '=', 'votes.photo_id')
-            ->where('votes.event_id', $event_id)
-            ->where('votes.type', $type)
-            ->where('photographies.theme', $cat)
-            ->groupBy('votes.photo_id')
-            ->orderBy('count', 'desc')
-            ->limit(12)
-            ->get();
-
-        $tmpResultList = $resultList;
-
-        for ($i = 0; $i < count($tmpResultList); $i++) {
-            $resultList[$i]->photo = DB::table('photographies')
-                ->where('id', $resultList[$i]->photo_id)
-                ->get()[0];
-            $resultList[$i]->photograph = DB::table('users')
-                ->select('name')
-                ->where('id', $resultList[$i]->photo->user_id)
-                ->get()[0]->name;
-        }
-
-        return $resultList;
     }
 
     /**
@@ -171,7 +189,8 @@ class PhotographyController extends Controller
      * @param Request $request
      * @return void
      */
-    public function results()
+    public
+    function results()
     {
         $resultCategoryList = ['Pôvab maličkosti', 'Farebná príroda', 'Výpoveď o človeku', 'M(i)esto, kde práve som'];
         $event_id = $this->getFolderName();
@@ -185,7 +204,7 @@ class PhotographyController extends Controller
                         'jury' => $this->getResponse($event_id, $res, 'jury')
                     )
 
-            );
+                );
         }
 
         return view('photography.results')
