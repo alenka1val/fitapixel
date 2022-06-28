@@ -1278,6 +1278,12 @@ h3.third {
     .winners h3 {
         grid-column: auto;
         grid-row: auto;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .galery {
+        grid-template-columns: auto;
     }
 
 }
