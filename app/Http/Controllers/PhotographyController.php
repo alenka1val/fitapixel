@@ -46,6 +46,12 @@ class PhotographyController extends Controller
 
         $request['event_id'] = is_null($request->event_id) ? $events[array_keys($events)[0]][0]['id'] : $request->event_id;
 
+        $finished = DB::table('events')
+            ->select(DB::raw('(case when DATE(now()) > voted_at then 1 else 0 end) as finished'))
+            ->where('id', $request->event_id)
+            ->first();
+        $finished = is_null($finished) ? 0 : $finished->finished;
+
         $photos = DB::table('photographies')
             ->select(DB::raw('photographies.*, coalesce(sum(votes.value), 0) as vote_sum, max(users.name) as user_name'))
             ->join('users', 'users.id', '=', 'photographies.user_id')
@@ -59,7 +65,8 @@ class PhotographyController extends Controller
             ->with('events', $events)
             ->with('photos', $photos)
             ->with('event_id', $request->event_id)
-            ->with('year', $request->year);
+            ->with('year', $request->year)
+            ->with('finished', $finished);
     }
 
     /**

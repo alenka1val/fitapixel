@@ -68,7 +68,8 @@
                 </div>
             </div>
         </div>
-        <div class="darkPanel">
+        {{--@if($finished)--}}
+            <div class="darkPanel">
             <h2>Víťazi</h2>
             <div class="winners">
                 <img class="galery-image first" src="../images/environment.jpeg"></img>
@@ -93,6 +94,7 @@
                 {{--<h4 class="third-winner third">{{$photos[2]->description}}</h4>--}}
             </div>
         </div>
+        {{--@endif--}}
 
         <div>
             <div class="galery">
@@ -102,7 +104,7 @@
                 <img class="galery-image" src="../images/environment.jpeg"></img>
                 <img class="galery-image" src="../images/environment.jpeg"></img>
                 <img class="galery-image" src="../images/environment.jpeg"></img>
-                {{--@for ($i = 3; $i < count($photos); $i++)--}}
+                {{--@for ($i = $finished ? 3 : 0; $i < count($photos); $i++)--}}
                 {{--    <img class="galery-image" src="{{$photos[$i]->filename}}" alt="{{$photos[$i]->filename}}"/>--}}
                 {{--@endfor--}}
             </div>
