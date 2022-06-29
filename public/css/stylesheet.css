@@ -1119,6 +1119,30 @@ h3.third {
     box-shadow: rgba(85, 103, 127, 0.3) 0px 32px 200px -16px;
 }
 
+.other_context {
+    width: 90%;
+    text-align: justify;
+    color: black;
+    margin: 0 auto;
+    background-color: #151f33;
+}
+
+.other_context p, dt {
+    color:  rgb(247, 247, 247);
+}
+
+.other_context h2 {
+    color: rgb(255, 186, 90);
+}
+
+.other_context a {
+    color: rgb(255, 186, 90);
+}
+
+.other_context a:hover {
+    color: white;
+}
+
 @media screen and (min-width: 1600px) {
     .photoContainer {
         grid-template-columns: calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5) calc((100% - 80px) / 5);
