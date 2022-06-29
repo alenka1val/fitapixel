@@ -303,6 +303,9 @@ body {
 }
 
 /*nav*/
+#nav_img {
+    max-height: 50px;
+}
 
 .navbar {
     position: relative;
@@ -1150,6 +1153,10 @@ h3.third {
 }
 
 @media screen and (max-width: 768px) {
+
+    #nav_img {
+        content: url('/images/fiitapixel_blue.png');
+    }
 
     #home {
         align-items: flex-start;

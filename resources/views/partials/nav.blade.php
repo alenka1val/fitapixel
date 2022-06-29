@@ -2,9 +2,11 @@
     <nav class="navbar fiitapixel_nav">
         <div class="nav_grid left_grid large_grid">
             <h1>
-                <a class="nav-home" href="{{ route('home') }}">
-                    FiitAPixel
-                </a>
+                <img id="nav_img" src="{{asset( '/images/fiitapixel_fulltext_blue.png' )}}"  title="domov"
+                     alt="FIITaPIXEL" onclick="redirect('{{ route('home') }}')">
+{{--                <a class="nav-home" href="{{ route('home') }}">--}}
+{{--                    FiitAPixel--}}
+{{--                </a>--}}
             </h1>
         </div>
         <div class="nav_icon"></div>
