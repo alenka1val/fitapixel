@@ -2,7 +2,7 @@
 @section('title', 'FIITAPIXEL - Odkazy')
 @section('content')
     <div class="content margin_div">
-        <div class="article">
+        <div class="article other_context">
             <h2>Odkazy</h2>
             <ul>
                 <li class="xfolkentry"><a href="http://www.fiit.stuba.sk" target="_blank" class="external" rel="me">Fakulta
@@ -16,12 +16,16 @@
             </ul>
             <br>
             <dl>
-                <dt>Budeme radi ak nám do časti Odkazy prispejete nejakým zaujímavým odkazom. Zaujímajú nas odkazy na
-                    zaujímavé
-                    stránky súvisiace s fotografovaním. V prípade, že o takom viete neváhajte a pošlite nám ho na
+                <dt>
+                    Budeme radi ak nám do časti Odkazy prispejete nejakým zaujímavým odkazom. Zaujímajú nas odkazy na
+                    zaujímavé stránky súvisiace s fotografovaním. V prípade, že o takom viete neváhajte a pošlite nám ho
+                    na
                     adresu: foto@fiit.stuba.sk
                 </dt>
-                <dt>Ďakujeme ;)</dt>
+                <br>
+                <dt>
+                    Ďakujeme ;)
+                </dt>
             </dl>
         </div>
     </div>

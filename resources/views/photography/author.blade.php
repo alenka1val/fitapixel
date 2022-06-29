@@ -2,7 +2,7 @@
 @section('title', 'FIITAPIXEL - Autorská ochrana')
 @section('content')
     <div class="content margin_div">
-        <div class="article">
+        <div class="article other_context">
             <h2>Autorská ochrana</h2>
             <p>
                 Všetky fotografie uverejnené na tejto stránke podliehajú autorskému zákonu.

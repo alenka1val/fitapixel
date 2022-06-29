@@ -21,9 +21,9 @@
             <ul>
                 <li><span><a class="footerNav" href="{{ route('gdpr') }}"  title="domov">Ochrana osobných údajov</a></span></li>
                 <li><span><a class="footerNav" href="{{ route('author') }}" title="aktuality">Autorská ochrana</a></span></li>
-                <li><span><a class="footerNav" href="{{ route('rss') }}" title="dokumenty">RSS kanál</a></span></li>
                 <li><span><a class="footerNav" href="{{ route('faq') }}" title="fotoalbum">FAQ</a></span></li>
                 <li><span><a class="footerNav" href="{{ route('links') }}" title="kontakt">Odkazy</a></span></li>
+                <li><span><a class="footerNav" href="http://147.175.146.40" target="_blank" title="oldFIITaPIXEL">Pôvodný FIITaPIXEL</a></span></li>
             </ul>
         </div>
         <div>
