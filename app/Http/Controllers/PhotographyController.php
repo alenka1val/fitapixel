@@ -61,12 +61,19 @@ class PhotographyController extends Controller
             ->orderBy('vote_sum', 'DESC')
             ->get();
 
+        $sponsors = DB::table('sponsors')
+            ->join('sponsor_events', "sponsors.id", '=', "sponsor_events.sponsor_id")
+            ->where('sponsor_events.event_id', $request->event_id)
+            ->get();
+        $sponsors = is_null($sponsors) ? array() : $sponsors;
+
         return view('info.gallery')
             ->with('events', $events)
             ->with('photos', $photos)
             ->with('event_id', $request->event_id)
             ->with('year', $request->year)
-            ->with('finished', $finished);
+            ->with('finished', $finished)
+            ->with('sponsors', $sponsors);
     }
 
     /**
