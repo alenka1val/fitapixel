@@ -2,11 +2,11 @@
     <nav class="navbar fiitapixel_nav">
         <div class="nav_grid left_grid large_grid">
             <h1>
-                <img id="nav_img" src="{{asset( '/images/fiitapixel_fulltext_blue.png' )}}"  title="domov"
+                <img id="nav_img" src="{{asset( '/images/fiitapixel_fulltext_blue.png' )}}" title="domov"
                      alt="FIITaPIXEL" onclick="redirect('{{ route('home') }}')">
-{{--                <a class="nav-home" href="{{ route('home') }}">--}}
-{{--                    FiitAPixel--}}
-{{--                </a>--}}
+                {{--                <a class="nav-home" href="{{ route('home') }}">--}}
+                {{--                    FiitAPixel--}}
+                {{--                </a>--}}
             </h1>
         </div>
         <div class="nav_icon"></div>
@@ -43,13 +43,18 @@
                 {{--                        Profile--}}
                 {{--                    </a>--}}
                 {{--                </form>--}}
-                <form id="logout_form" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <a class="nav-link" href="javascript:{}" onclick="document.getElementById('logout_form').submit();">
-                        <!-- <i class="fas fa-sign-out-alt"></i> -->
-                        Log out
-                    </a>
-                </form>
+                {{--                <form id="logout_form" action="{{ route('logout') }}" method="POST">--}}
+                {{--                    @csrf--}}
+                {{--                    <a class="nav-link" href="javascript:{}" onclick="document.getElementById('logout_form').submit();">--}}
+                {{--                        <!-- <i class="fas fa-sign-out-alt"></i> -->--}}
+                {{--                        Log out--}}
+                {{--                    </a>--}}
+                {{--                </form>--}}
+
+                <a class="nav-link @yield('profileActive')" href="{{ route('users.profile') }}">
+                    <!-- <i class="fa-solid fa-user"></i> -->
+                    Váš profil
+                </a>
             @endauth
         </div>
         <div>
@@ -85,14 +90,21 @@
                 {{--                </a>--}}
                 {{--            </form>--}}
                 {{--            </p>--}}
+{{--                <p class="p-nav">--}}
+{{--                <form id="logout_form" action="{{ route('logout') }}" method="POST">--}}
+{{--                    @csrf--}}
+{{--                    <a class="collapse_item" href="javascript:{}"--}}
+{{--                       onclick="document.getElementById('logout_form').submit();">--}}
+{{--                        Log out--}}
+{{--                    </a>--}}
+{{--                </form>--}}
+{{--                </p>--}}
+
                 <p class="p-nav">
-                    <form id="logout_form" action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <a class="collapse_item" href="javascript:{}"
-                        onclick="document.getElementById('logout_form').submit();">
-                            Log out
-                        </a>
-                    </form>
+                    <a class="nav-link @yield('profileActive')" href="{{ route('users.profile') }}">
+                        <!-- <i class="fa-solid fa-user"></i> -->
+                        Váš profil
+                    </a>
                 </p>
             @endauth
         </div>
