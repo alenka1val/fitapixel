@@ -72,7 +72,7 @@
             <div class="darkPanel">
             <h2>Víťazi</h2>
             <div class="winners">
-                <img class="galery-image first" src="../images/environment.jpeg"></img>
+                <img id="photoImg-" class="galery-image first" onclick="zoomIn('photoImg-', 'index', 'fotograf', 'opis', 'súťaž')" src="../images/environment.jpeg"></img>
                 <h3 class="first-winner first">1. Janko Mrkvička</h3>
 
                 <img class="galery-image second" src="../images/environment.jpeg"></img>
@@ -80,7 +80,7 @@
 
                 <img class="galery-image third" src="../images/environment.jpeg"></img>
                 <h3 class="third-winner third">3. Pušiak Lušiak Sokol Omar</h3>
-
+ 
                 {{--<img class="galery-image first" src="{{$photos[0]->filename}}" alt="{{$photos[0]->description}}"/>--}}
                 {{--<h3 class="first-winner first">{{$photos[0]->user_name}}</h3>--}}
                 {{--<h4 class="first-winner first">{{$photos[0]->description}}</h4>--}}
@@ -98,7 +98,7 @@
 
         <div>
             <div class="galery">
-                <img class="galery-image" src="../images/environment.jpeg"></img>
+                <img id="photoImg-" class="galery-image" onclick="zoomIn('photoImg-', 'index', 'fotograf', 'opis', 'súťaž')" src="../images/environment.jpeg"></img>
                 <img class="galery-image" src="../images/environment.jpeg"></img>
                 <img class="galery-image" src="../images/environment.jpeg"></img>
                 <img class="galery-image" src="../images/environment.jpeg"></img>
@@ -107,6 +107,19 @@
                 {{--@for ($i = $finished ? 3 : 0; $i < count($photos); $i++)--}}
                 {{--    <img class="galery-image" src="{{$photos[$i]->filename}}" alt="{{$photos[$i]->filename}}"/>--}}
                 {{--@endfor--}}
+            </div>
+        </div>
+        <div id="myModal" class="modal">
+            <span class="close"><i class="fa fa-times zoomImageI"></i></span>
+            <img class="modal-content" id="img01">
+            <div id="caption">
+                <i class="fa fa-arrow-left zoomImageArrows" onclick="moveLeft({{ $photoList }})"></i>
+                <div class="modal-div">
+                    <p id="captionText1"></p>
+                    <p id="captionText2"></p>
+                    <p id="captionText3"></p>
+                </div>
+                <i class="fa fa-arrow-right zoomImageArrows" onclick="moveRight({{ $photoList }})"></i>
             </div>
         </div>
     </div>

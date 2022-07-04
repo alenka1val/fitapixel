@@ -203,6 +203,7 @@ img.info-image {
 
 img.galery-image {
     width: 90%;
+    cursor: pointer;
 }
 
 .themes {
@@ -1149,7 +1150,11 @@ h3.third {
 
 .galery img {
     cursor: pointer;
-    box-shadow: rgba(85, 103, 127, 0.3) 0px 32px 200px -16px;
+    transition: 0.3s;
+}
+
+.galery img:hover {
+    box-shadow: rgba(85, 103, 127, 0.3) 0px 20px 20px 0px;
 }
 
 .other_context {

@@ -47,7 +47,7 @@ function collapseResult(index) {
     }
 }
 
-function zoomIn(imgName, index, photograph, description, theme) {
+function zoomIn(imgName, index, photograph, description, competition) {
     const modal = document.getElementById("myModal");
     modal.style.zIndex = "99";
 
@@ -62,7 +62,7 @@ function zoomIn(imgName, index, photograph, description, theme) {
     modalImg.alt = index;
     captionText1.innerHTML = "Fotograf: " + photograph;
     captionText2.innerHTML = "Opis: " + description;
-    captionText3.innerHTML = "Téma: " + theme;
+    captionText3.innerHTML = "Súťaž: " + competition;
 
     const span = document.getElementsByClassName("close")[0];
 
