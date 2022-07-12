@@ -61,6 +61,18 @@ class PhotographyController extends Controller
             ->orderBy('vote_sum', 'DESC')
             ->get();
 
+        $place = 0;
+        $counter = 1;
+        $prev_value = 0;
+        foreach ($photos as $photo) {
+            if ($prev_value != $photo->vote_sum) {
+                $place = $counter;
+                $prev_value = $photo->vote_sum;
+            }
+            $photo->place = $place;
+            $counter += 1;
+        }
+
         $sponsors = DB::table('sponsors')
             ->join('sponsor_events', "sponsors.id", '=', "sponsor_events.sponsor_id")
             ->where('sponsor_events.event_id', $request->event_id)
