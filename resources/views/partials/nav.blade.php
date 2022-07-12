@@ -22,9 +22,15 @@
             <a class="nav-link @yield('galleryActive')" href="{{ route('info.gallery') }}">
                 Galéria
             </a>
-            <a class="nav-link @yield('addActive')" href="{{ route('photographies.create') }}">
-                Pridať foto
-            </a>
+            @if(!is_null(Auth::user()) && Session::get('role')[0] == 'jury')
+                <a class="nav-link @yield('voteActive')" href="{{ route('info.voteList') }}">
+                    Vyhodnotiť
+                </a>
+            @else
+                <a class="nav-link @yield('addActive')" href="{{ route('photographies.create') }}">
+                    Pridať foto
+                </a>
+            @endif
             @guest
                 <a class="nav-link" href="{{ route('login') }}">
                     <!-- <i class="fa-solid fa-user"></i> -->
@@ -90,15 +96,15 @@
                 {{--                </a>--}}
                 {{--            </form>--}}
                 {{--            </p>--}}
-{{--                <p class="p-nav">--}}
-{{--                <form id="logout_form" action="{{ route('logout') }}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    <a class="collapse_item" href="javascript:{}"--}}
-{{--                       onclick="document.getElementById('logout_form').submit();">--}}
-{{--                        Log out--}}
-{{--                    </a>--}}
-{{--                </form>--}}
-{{--                </p>--}}
+                {{--                <p class="p-nav">--}}
+                {{--                <form id="logout_form" action="{{ route('logout') }}" method="POST">--}}
+                {{--                    @csrf--}}
+                {{--                    <a class="collapse_item" href="javascript:{}"--}}
+                {{--                       onclick="document.getElementById('logout_form').submit();">--}}
+                {{--                        Log out--}}
+                {{--                    </a>--}}
+                {{--                </form>--}}
+                {{--                </p>--}}
 
                 <p class="p-nav">
                     <a class="nav-link @yield('profileActive')" href="{{ route('users.profile') }}">
