@@ -57,3 +57,12 @@ Route::get('/rss', function () {
 
 // Route::post('/photographies/{photography}/update', 'App\Http\Controllers\PhotographyController@update')->name('photographies.update');
 // Route::delete('/photographies/{photography}/delete', 'App\Http\Controllers\PhotographyController@destroy')->name('photographies.destroy');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user', 'App\Http\Controllers\UserController@index')->name('users.profile');
+    Route::get('/user/photos', 'App\Http\Controllers\UserController@photos')->name('users.photos');
+    Route::get('/user/update', 'App\Http\Controllers\UserController@create')->name('users.create');
+    Route::post('/user/update', 'App\Http\Controllers\UserController@store')->name('users.store');
+    Route::get('/user/password/update', 'App\Http\Controllers\UserController@passwordCreate')->name('users.passwordCreate');
+    Route::post('/user/password/update', 'App\Http\Controllers\UserController@passwordStore')->name('users.passwordStore');
+});
