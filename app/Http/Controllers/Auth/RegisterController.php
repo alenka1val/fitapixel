@@ -153,6 +153,8 @@ class RegisterController extends Controller
             $file_name = "photo_".rand(1000,9999)."_".date("Ymdhis").".".$request->file->getClientOriginalExtension();
             $request['photo'] = "/storage/persons/$file_name";
             $request->file->storeAs("persons", $file_name, 'public');
+        } else {
+            $request['photo'] = "";
         }
 
         $this->create($request->all());
