@@ -124,21 +124,41 @@ class PhotographyController extends Controller
     function store(Request $request)
     {
         $user = Auth::user();
-
-        $request->validate([
-            'description' => ['required', 'max:255'],
-            'competition_id' => ['required', 'integer'],
-        ]);
-
-        $competition_dir = DB::table('events')->select('image_folder')
+        $event = DB::table('events')
             ->where('id', $request->competition_id)->first();
-        if (is_null($competition_dir)) {
+
+        if (is_null($event)) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['cmp_id' => "Súťaž neexistuje"]);
         }
 
-        $competition_dir = $competition_dir->image_folder;
+        $request->validate([
+            'description' => ['required', 'max:255'],
+            'competition_id' => ['required', 'integer'],
+            'file' => ['required',
+                'image',
+                'mimes:jpeg,png,jpg',
+                "dimensions:min_width=$event->min_width",
+                "dimensions:min_height=$event->min_height",
+                "dimensions:max_width=$event->max_width",
+                "dimensions:max_height=$event->max_height",
+            ]
+        ]);
+
+        $ratios = explode("x", $event->allowed_ratios);
+        $data = getimagesize($request->file);
+        $width = $data[0];
+        $height = $data[1];
+        $ratio = round($width / $height, 1);
+
+        if ($ratio != round($ratios[0]/$ratios[1], 1) && $ratio != round($ratios[1]/$ratios[0], 1)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['file' => "The file has invalid image ratio dimensions."]);
+        }
+
+        $competition_dir = $event->image_folder;
 
         $file_name = "photo_"
             . rand(10000, 99999)
