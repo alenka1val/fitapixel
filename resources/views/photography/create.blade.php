@@ -11,9 +11,14 @@
                     <div class="form-group">
                         <label class="file">
                             <p>Pridať fotku</p>
-                            <input type="file" id="file" name="file" aria-label="File browser example">
+                            <input type="file" id="file" name="file" aria-label="File browser example" accept=".jpg,.png,.jpeg">
                             <span class="file-custom"></span>
                         </label>
+                        @error('file')
+                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <!-- <div class="form-group">
                         <label for="myfile">Select a file:</label>
@@ -53,6 +58,11 @@
                                 <p id="count_characters">0/255</p>
                             </div>
                         </div>
+                        @error('description')
+                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary authButton">Pridať foto</button>
                 </form>
