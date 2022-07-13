@@ -20,7 +20,7 @@
                     <form id="logout_form" action="{{ route('users.passwordCreate') }}" method="GET">
                         @csrf
                         <button class="btn btn-primary authButton btn-profile" type="submit">
-                            Zmaeniť heslo
+                            Zmeniť heslo
                         </button>
                     </form>
                     <form id="logout_form" action="{{ route('logout') }}" method="POST">
