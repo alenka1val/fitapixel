@@ -106,15 +106,15 @@ function showAISLogin() {
 
     let select_value = group_select.options[group_select.selectedIndex].value;
     if (select_value == 1 || select_value == 2 || select_value == 4) {
-        ais_login.style.display = "block";
+        if (ais_login !== null) ais_login.style.display = "block";
     } else {
-        ais_login.style.display = "none";
+        if (ais_login !== null) ais_login.style.display = "none";
     }
 
     if (select_value == 6) {
-        jury_div.style.display = "block";
+        if (jury_div !== null) jury_div.style.display = "block";
     } else {
-        jury_div.style.display = "none";
+        if (jury_div !== null) jury_div.style.display = "none";
     }
 }
 

@@ -56,7 +56,7 @@ class RegisterController extends Controller
                 ->where('id', auth()->user()->group_id)
                 ->first();
 
-            if (is_null($user_group)){
+            if (is_null($user_group)) {
                 return redirect()->back()
                     ->withInput()
                     ->withErrors(['user' => "Logged user have no valid Group"]);
@@ -127,15 +127,27 @@ class RegisterController extends Controller
             Log::error("register ERROR: $e");
         }
 
+        if (!is_null(DB::table('users')->where('email', $request['email'])->first())) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['email' => "Email is already in use"]);
+        }
+
+        if ($request->password != $request->password_confirmation) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['password' => 'Passwords do not match!']);
+        }
+
         $need_ldap = DB::table('groups')->select('need_ldap')
             ->where('id', $request->group_id)
             ->first();
-        $need_ldap = !is_null($need_ldap) ? $need_ldap->need_ldap : null;
         if (is_null($need_ldap)) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['group_id' => 'Invalid Group']);
         }
+        $need_ldap = $need_ldap->need_ldap;
 
         if (!empty($need_ldap)) {
             $ldap_values = (new LoginController())->LDAPLogin($request->ais_uid, $request->password, $need_ldap);
@@ -149,8 +161,8 @@ class RegisterController extends Controller
             $request['password_confirmation'] = env('LDAP_USER_PASSWORD');
         }
 
-        if (!is_null($request->file)){
-            $file_name = "photo_".rand(1000,9999)."_".date("Ymdhis").".".$request->file->getClientOriginalExtension();
+        if (!is_null($request->file)) {
+            $file_name = "photo_" . rand(1000, 9999) . "_" . date("Ymdhis") . "." . $request->file->getClientOriginalExtension();
             $request['photo'] = "/storage/persons/$file_name";
             $request->file->storeAs("persons", $file_name, 'public');
         } else {

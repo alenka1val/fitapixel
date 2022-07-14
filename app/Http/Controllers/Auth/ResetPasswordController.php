@@ -50,6 +50,12 @@ class ResetPasswordController extends Controller
     {
         $request->validate($this->rules(), $this->validationErrorMessages());
 
+        if ($request->password != $request->password_confirmation) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['password' => 'Passwords do not match!']);
+        }
+
         $updatePassword = DB::table('password_resets')
             ->where([
                 'email' => $request->email,

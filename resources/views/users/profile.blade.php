@@ -17,12 +17,14 @@
                             Upraviť profil
                         </button>
                     </form>
-                    <form id="logout_form" action="{{ route('users.passwordCreate') }}" method="GET">
-                        @csrf
-                        <button class="btn btn-primary authButton btn-profile" type="submit">
-                            Zmeniť heslo
-                        </button>
-                    </form>
+                    @if(empty($user->need_ldap))
+                        <form id="logout_form" action="{{ route('users.passwordCreate') }}" method="GET">
+                            @csrf
+                            <button class="btn btn-primary authButton btn-profile" type="submit">
+                                Zmeniť heslo
+                            </button>
+                        </form>
+                    @endif
                     <form id="logout_form" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="btn btn-primary authButton btn-profile" type="submit">
