@@ -6,6 +6,13 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="author" content="FIIT STU, http://fiit.stuba.sk">
+    <meta name="copyright"
+          content="Fakulta informatiky a informačných technológií STU v Bratislave - www.fiit.stuba.sk">
+    <meta name="description"
+          content="Fotosúťaž pre študentov a zamestnancov FIIT STU a ďalších záujemcov o informatiku. (Fotografie Zima/jar 2022 - prehľad tém)">
+    <meta name="keywords"
+          content="fotosutaz, fotky, foto, fotografie, fotografia, photo, fiit, stu, informatici, študenti, študentská, fotograf">
 
     <title>@yield('title')</title>
     <link rel="icon" href='{{ asset( '/images/fiitapixel_blue.ico' ) }}' type="image/x-icon">
