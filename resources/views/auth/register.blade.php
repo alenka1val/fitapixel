@@ -191,3 +191,8 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+    <script>
+        showAISLogin()
+    </script>
+@endsection

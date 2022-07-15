@@ -6,23 +6,6 @@
             <div class="card-body card-body-left">
                 <form method="POST" action="{{ route('users.passwordStore') }}" enctype="multipart/form-data">
                     @csrf
-                    @if(!empty($need_ldap))
-                        <div class="form-group">
-                            <div>
-                                <input id="ais_uid" type="text"
-                                       class="form-control @error('ais_uid') is-invalid @enderror input" name="ais_uid"
-                                       autocomplete="ais_uid"
-                                       value="@if(old('ais_uid')){{ old('ais_uid') }}@elseif($user->ais_uid){{ $user->ais_uid }}@endif"
-                                       placeholder="AIS prihlasovacie meno">
-                                @error('ais_uid')
-                                <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <br>
-                    @endif
                     <div class="form-group">
                         <div>
                             <input id="password" type="password"
