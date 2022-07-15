@@ -11,7 +11,7 @@
     <link rel="icon" href='{{ asset( '/images/fiitapixel_blue.ico' ) }}' type="image/x-icon">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href=“https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css” rel=“stylesheet”>
     <script src="{{ asset('js/select.js') }}" defer></script>
     <script src="https://kit.fontawesome.com/4380ff5b6c.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/slider.js') }}" defer></script>
@@ -36,7 +36,10 @@
     </main>
 </div>
 @include('partials.footer')
-<script src="{{asset( '/js/scripts.js' )}}"></script>
+<script src="{{ asset( 'js/app.js' ) }}"></script>
+<script src="{{ asset( '/js/scripts.js' )}}"></script>
+<script src="{{ asset( 'js/jquery-1.10.2.js' ) }}"></script>
+<script src="{{ asset( 'js/jquery-ui.js' ) }}"></script>
 @yield('scripts')
 </body>
 </html>
