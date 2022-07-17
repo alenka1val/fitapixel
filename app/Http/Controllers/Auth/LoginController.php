@@ -95,6 +95,7 @@ class LoginController extends Controller
         );
 
         if (Auth::attempt($credentials)) {
+            $request->session()->push('role', $user_group->permission);
             return redirect()->intended($this->redirectPath());
         }
 
@@ -161,6 +162,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $this->guard()->logout();
+        $request->session()->forget('role');
         $request->session()->flush();
         $request->session()->regenerate();
 
