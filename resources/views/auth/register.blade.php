@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <div>
                             <select id="group_id" name="group_id" class="form-control input select"
-                                    onchange="showAISLogin()">
+                                    onchange="showAISLogin({{ $groups }})">
                                 <option value="" @if( old('group_id') == "") selected @endif disabled hidden>
                                     Vyberte skupinu
                                 </option>
@@ -193,6 +193,6 @@
 @endsection
 @section('scripts')
     <script>
-        showAISLogin()
+        showAISLogin({{ $groups }})
     </script>
 @endsection

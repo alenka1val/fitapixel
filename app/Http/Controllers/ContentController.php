@@ -106,7 +106,11 @@ class ContentController extends Controller
     }
 
     public function getAllJury(){
-        $jury = DB::table('users')->where('group_id', 6)->get();
+        $jury = DB::table('users')
+            ->select(DB::raw('users.*'))
+            ->join('groups', 'users.group_id', '=', 'groups.id')
+            ->where('permission', 'jury')
+            ->get();
 
         $jury = is_null($jury) ? array() : $jury;
 

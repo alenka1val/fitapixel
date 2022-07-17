@@ -99,28 +99,39 @@ function moveRight(photoList) {
     modalImg.alt = nextIndex;
 }
 
-function showAISLogin() {
+function needLdapById(groups, id) {
+    let result = groups.find(obj => {
+        return obj['id'] === id
+    });
+
+    return result['need_ldap'] === "" ? 1 : 0;
+}
+
+function isJuryById(groups, id) {
+    let result = groups.find(obj => {
+        return obj.id === id
+    });
+
+    return result['permission'] === "jury" ? 1 : 0;
+}
+
+function showAISLogin(groups) {
     let ais_login = document.getElementById("fiit_user");
     let group_select = document.getElementById("group_id");
     let jury_div = document.getElementById("juryDiv");
 
-    let select_value = group_select.options[group_select.selectedIndex].value;
-    if (select_value == 1 || select_value == 2 || select_value == 4) {
+    let select_value = Number(group_select.options[group_select.selectedIndex].value);
+    if (needLdapById(groups, select_value) !== 1) {
         if (ais_login !== null) ais_login.style.display = "block";
     } else {
         if (ais_login !== null) ais_login.style.display = "none";
     }
 
-    if (select_value == 6) {
+    if (isJuryById(groups, select_value) === 1) {
         if (jury_div !== null) jury_div.style.display = "block";
     } else {
         if (jury_div !== null) jury_div.style.display = "none";
     }
-}
-
-function redirect(url) {
-    console.log(url);
-    window.location.href = url;
 }
 
 function countCharacters(max_count) {

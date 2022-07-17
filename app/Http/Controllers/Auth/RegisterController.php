@@ -64,14 +64,12 @@ class RegisterController extends Controller
 
             if ($user_group->permission == "admin") {
                 $groups = DB::table('groups')
-                    ->select(['id', 'name'])
                     ->get();
             }
         }
 
         if (is_null($groups)) {
             $groups = DB::table('groups')
-                ->select(['id', 'name'])
                 ->where('permission', 'photographer')
                 ->get();
         }

@@ -3,7 +3,7 @@
         <div class="nav_grid left_grid large_grid">
             <h1>
                 <img id="nav_img" src="{{asset( '/images/fiitapixel_fulltext_blue.png' )}}" title="domov"
-                     alt="FIITaPIXEL" onclick="redirect('{{ route('home') }}')">
+                     alt="FIITaPIXEL" onclick="home()">
                 {{--                <a class="nav-home" href="{{ route('home') }}">--}}
                 {{--                    FiitAPixel--}}
                 {{--                </a>--}}
@@ -22,7 +22,7 @@
             <a class="nav-link @yield('galleryActive')" href="{{ route('info.gallery') }}">
                 Galéria
             </a>
-            @if(!is_null(Auth::user()) && Session::get('role')[0] == 'jury')
+            @if(!is_null(Auth::user()) && (Session::get('role')[0] == 'jury' || Session::get('role')[0] == 'admin'))
                 <a class="nav-link @yield('voteActive')" href="{{ route('info.voteList') }}">
                     Vyhodnotiť
                 </a>

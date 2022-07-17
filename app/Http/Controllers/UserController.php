@@ -36,7 +36,6 @@ class UserController extends Controller
     public function create()
     {
         $groups = DB::table('groups')
-            ->select(['id', 'name'])
             ->where('permission', 'photographer')
             ->orWhere('id', Auth::user()->group_id)
             ->get();
