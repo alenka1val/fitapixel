@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Photography;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class PhotographyController extends Controller
@@ -152,30 +153,39 @@ class PhotographyController extends Controller
         $height = $data[1];
         $ratio = round($width / $height, 1);
 
-        if ($ratio != round($ratios[0]/$ratios[1], 1) && $ratio != round($ratios[1]/$ratios[0], 1)) {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors(['file' => "The file has invalid image ratio dimensions."]);
+        if ($ratio != round($ratios[0] / $ratios[1], 1) && $ratio != round($ratios[1] / $ratios[0], 1)) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['file' => "The file has invalid image ratio dimensions."]);
         }
 
-        $competition_dir = $event->image_folder;
+        DB::beginTransaction();
+        try {
+            $competition_dir = $event->image_folder;
 
-        $file_name = "photo_"
-            . rand(10000, 99999)
-            . "_"
-            . date("Ymdhis")
-            . "."
-            . $request->file->getClientOriginalExtension();
+            $file_name = "photo_"
+                . rand(10000, 99999)
+                . "_"
+                . date("Ymdhis")
+                . "."
+                . $request->file->getClientOriginalExtension();
 
-        Photography::create([
-            'user_id' => $user->id,
-            'event_id' => $request->competition_id,
-            'filename' => "/storage/$competition_dir/$file_name",
-            'description' => $request->description,
-        ]);
+            Photography::create([
+                'user_id' => $user->id,
+                'event_id' => $request->competition_id,
+                'filename' => "/storage/$competition_dir/$file_name",
+                'description' => $request->description,
+            ]);
 
-        $request->file->storeAs($competition_dir, $file_name, 'public');
+            $request->file->storeAs($competition_dir, $file_name, 'public');
 
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
+        }
 
         return view('info.gallery');
     }

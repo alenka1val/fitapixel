@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -55,92 +56,101 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
 
-        $user = DB::table('users')->where('email', $request['email'])->first();
-        if (!is_null($user) && $user->email != auth()->user()->email) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['email' => "Email is already in use"]);
-        }
-
-        if (!is_null($request->file)) {
-            $file_name = "photo_" . rand(1000, 9999) . "_" . date("Ymdhis") . "." . $request->file->getClientOriginalExtension();
-            $request['photo'] = "/storage/persons/$file_name";
-            $request->file->storeAs("persons", $file_name, 'public');
-        } else {
-            $request['photo'] = "";
-        }
-
-        $old_need_ldap = DB::table('groups')
-            ->select('need_ldap')
-            ->where('id', auth()->user()->group_id)
-            ->first();
-
-        $need_ldap = DB::table('groups')
-            ->select('need_ldap')
-            ->where('id', $request['group_id'])
-            ->first();
-
-        if (is_null($need_ldap)) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['message' => "Logged user have no valid Group"]);
-        }
-
-        if (!empty($need_ldap->need_ldap) && auth()->user()->group_id != $request['group_id']) {
-            if (empty($request->ais_uid)) {
+        DB::beginTransaction();
+        try {
+            $user = DB::table('users')->where('email', $request['email'])->first();
+            if (!is_null($user) && $user->email != auth()->user()->email) {
                 return redirect()->back()
                     ->withInput()
-                    ->withErrors(['ais_uid' => 'AIS ID is required']);
-            }
-            if (empty($request->password)) {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors(['password' => 'Password is required']);
-            }
-            if (empty($request->password_confirmation)) {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors(['password_confirmation' => 'Confirm password is required']);
+                    ->withErrors(['email' => "Email is already in use"]);
             }
 
-            if ($request->password != $request->password_confirmation) {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors(['password' => 'Passwords do not match!']);
+            if (!is_null($request->file)) {
+                $file_name = "photo_" . rand(1000, 9999) . "_" . date("Ymdhis") . "." . $request->file->getClientOriginalExtension();
+                $request['photo'] = "/storage/persons/$file_name";
+                $request->file->storeAs("persons", $file_name, 'public');
+            } else {
+                $request['photo'] = "";
             }
 
-            $ldap_values = (new LoginController())->LDAPLogin($request->ais_uid, $request->password, $need_ldap->need_ldap);
+            $old_need_ldap = DB::table('groups')
+                ->select('need_ldap')
+                ->where('id', auth()->user()->group_id)
+                ->first();
 
-            if (!$ldap_values['authenticated']) {
+            $need_ldap = DB::table('groups')
+                ->select('need_ldap')
+                ->where('id', $request['group_id'])
+                ->first();
+
+            if (is_null($need_ldap)) {
                 return redirect()->back()
                     ->withInput()
-                    ->withErrors(['password' => "AIS login error: " . $ldap_values['status']]);
+                    ->withErrors(['message' => "Logged user have no valid Group"]);
             }
-            $request['password'] = env('LDAP_USER_PASSWORD');
-            $request['password_confirmation'] = env('LDAP_USER_PASSWORD');
+
+            if (!empty($need_ldap->need_ldap) && auth()->user()->group_id != $request['group_id']) {
+                if (empty($request->ais_uid)) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['ais_uid' => 'AIS ID is required']);
+                }
+                if (empty($request->password)) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['password' => 'Password is required']);
+                }
+                if (empty($request->password_confirmation)) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['password_confirmation' => 'Confirm password is required']);
+                }
+
+                if ($request->password != $request->password_confirmation) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['password' => 'Passwords do not match!']);
+                }
+
+                $ldap_values = (new LoginController())->LDAPLogin($request->ais_uid, $request->password, $need_ldap->need_ldap);
+
+                if (!$ldap_values['authenticated']) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['password' => "AIS login error: " . $ldap_values['status']]);
+                }
+                $request['password'] = env('LDAP_USER_PASSWORD');
+                $request['password_confirmation'] = env('LDAP_USER_PASSWORD');
+
+                DB::table('users')->where('id', auth()->user()->id)->update(
+                    [
+                        'ais_uid' => $request['ais_uid'],
+                        'password' => $request['password']
+                    ]
+                );
+            }
 
             DB::table('users')->where('id', auth()->user()->id)->update(
                 [
-                    'ais_uid' => $request['ais_uid'],
-                    'password' => $request['password']
+                    'name' => $request['name'],
+                    'email' => $request['email'],
+                    'phone' => $request['phone'],
+                    'web' => $request['web'],
+                    'address_street' => $request['address_street'],
+                    'address_city' => $request['address_city'],
+                    'address_zip_code' => $request['address_zip_code'],
+                    'description' => $request['description'],
+                    'group_id' => $request['group_id'],
+                    'photo' => $request['photo'],
                 ]
             );
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
         }
-
-        DB::table('users')->where('id', auth()->user()->id)->update(
-            [
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'phone' => $request['phone'],
-                'web' => $request['web'],
-                'address_street' => $request['address_street'],
-                'address_city' => $request['address_city'],
-                'address_zip_code' => $request['address_zip_code'],
-                'description' => $request['description'],
-                'group_id' => $request['group_id'],
-                'photo' => $request['photo'],
-            ]
-        );
 
         if (empty($need_ldap->need_ldap) && !empty($old_need_ldap->need_ldap)) {
             return redirect(route('users.passwordCreate'));
@@ -272,11 +282,20 @@ class UserController extends Controller
                 ->withErrors(['email' => 'Your group cannot change it`s password!']);
         }
 
-        DB::table('users')->where('id', auth()->user()->id)->update(
-            [
-                'password' => Hash::make($request['password']),
-            ]
-        );
+        DB::beginTransaction();
+        try {
+            DB::table('users')->where('id', auth()->user()->id)->update(
+                [
+                    'password' => Hash::make($request['password']),
+                ]
+            );
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
+        }
 
         return redirect(route('users.profile'));
     }

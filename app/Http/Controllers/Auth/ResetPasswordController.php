@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ResetPasswordController extends Controller
@@ -67,10 +68,19 @@ class ResetPasswordController extends Controller
             return back()->withInput()->withErrors(['email' => 'Invalid token!']);
         }
 
-        $user = DB::table('users')->where('email', $request->email)
-            ->update(['password' => Hash::make($request->password)]);
+        DB::beginTransaction();
+        try {
+            $user = DB::table('users')->where('email', $request->email)
+                ->update(['password' => Hash::make($request->password)]);
 
-        DB::table('password_resets')->where(['email' => $request->email])->delete();
+            DB::table('password_resets')->where(['email' => $request->email])->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
+        }
 
         return view('auth/login')->with('message', 'Your password has been changed!');
     }
