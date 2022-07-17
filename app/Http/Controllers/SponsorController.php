@@ -10,7 +10,7 @@ class SponsorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function index()
     {
@@ -20,7 +20,7 @@ class SponsorController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
@@ -28,10 +28,20 @@ class SponsorController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return void
+     */
+    public function adminIndex()
+    {
+        //
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return void
      */
     public function store(Request $request)
     {
@@ -41,10 +51,10 @@ class SponsorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Sponsor  $sponsor
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return void
      */
-    public function show(Sponsor $sponsor)
+    public function show($id)
     {
         //
     }
@@ -52,10 +62,10 @@ class SponsorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Sponsor  $sponsor
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return void
      */
-    public function edit(Sponsor $sponsor)
+    public function edit($id)
     {
         //
     }
@@ -63,11 +73,11 @@ class SponsorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Sponsor  $sponsor
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return void
      */
-    public function update(Request $request, Sponsor $sponsor)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +85,10 @@ class SponsorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Sponsor  $sponsor
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return void
      */
-    public function destroy(Sponsor $sponsor)
+    public function destroy($id)
     {
         //
     }

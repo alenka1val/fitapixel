@@ -69,3 +69,36 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/password/update', 'App\Http\Controllers\UserController@passwordCreate')->name('users.passwordCreate');
     Route::post('/user/password/update', 'App\Http\Controllers\UserController@passwordStore')->name('users.passwordStore');
 });
+
+
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::get('/admin/contents', 'App\Http\Controllers\ContentController@adminIndex')->name('admin.contentIndex');
+    Route::get('/admin/contents/{id}', 'App\Http\Controllers\ContentController@show')->name('admin.contentShow');
+    Route::post('/admin/contents/{id}', 'App\Http\Controllers\ContentController@update')->name('admin.contentStore');
+    Route::delete('/admin/contents/{id}', 'App\Http\Controllers\ContentController@destroy')->name('admin.contentDestroy');
+
+    Route::get('/admin/events', 'App\Http\Controllers\EventController@adminIndex')->name('admin.eventIndex');
+    Route::get('/admin/events/{id}', 'App\Http\Controllers\EventController@show')->name('admin.eventShow');
+    Route::post('/admin/events/{id}', 'App\Http\Controllers\EventController@update')->name('admin.eventStore');
+    Route::delete('/admin/events/{id}', 'App\Http\Controllers\EventController@destroy')->name('admin.eventDestroy');
+
+    Route::get('/admin/photos', 'App\Http\Controllers\PhotographyController@adminIndex')->name('admin.photosIndex');
+    Route::get('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@show')->name('admin.photosShow');
+    Route::post('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@update')->name('admin.photosStore');
+    Route::delete('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@destroy')->name('admin.photosDestroy');
+
+    Route::get('/admin/sponsors', 'App\Http\Controllers\SponsorController@adminIndex')->name('admin.sponsorIndex');
+    Route::get('/admin/sponsors/{id}', 'App\Http\Controllers\SponsorController@show')->name('admin.sponsorShow');
+    Route::post('/admin/sponsors/{id}', 'App\Http\Controllers\SponsorController@update')->name('admin.sponsorStore');
+    Route::delete('/admin/sponsors/{id}', 'App\Http\Controllers\SponsorController@destroy')->name('admin.sponsorDestroy');
+
+    Route::get('/admin/users', 'App\Http\Controllers\UserController@adminIndex')->name('admin.userIndex');
+    Route::get('/admin/users/{id}', 'App\Http\Controllers\UserController@show')->name('admin.userShow');
+    Route::post('/admin/users/{id}', 'App\Http\Controllers\UserController@update')->name('admin.userStore');
+    Route::delete('/admin/users/{id}', 'App\Http\Controllers\UserController@destroy')->name('admin.userDestroy');
+
+    Route::get('/admin/groups', 'App\Http\Controllers\GroupController@adminIndex')->name('admin.groupIndex');
+    Route::get('/admin/groups/{id}', 'App\Http\Controllers\GroupController@show')->name('admin.groupShow');
+    Route::post('/admin/groups/{id}', 'App\Http\Controllers\GroupController@update')->name('admin.groupStore');
+    Route::delete('/admin/groups/{id}', 'App\Http\Controllers\GroupController@destroy')->name('admin.groupDestroy');
+});
