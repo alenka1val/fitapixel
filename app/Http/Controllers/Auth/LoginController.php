@@ -163,6 +163,7 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
         $request->session()->forget('role');
+        $request->session()->forget('webAdmin');
         $request->session()->flush();
         $request->session()->regenerate();
 

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'FIITAPIXEL - Môj profil')
 @section('profileActive') nav-link-bold @endsection
 @section('content')
     <div class="authContainer">
@@ -25,9 +26,17 @@
                             </button>
                         </form>
                     @endif
+                    @if(empty($user->group == "admin"))
+                        <form id="logout_form" action="{{ route('admin.home') }}" method="GET">
+                            @csrf
+                            <button class="btn btn-primary authButton btn-profile" type="submit">
+                                Web Admin
+                            </button>
+                        </form>
+                    @endif
                     <form id="logout_form" action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="btn btn-primary authButton btn-profile" type="submit">
+                        <button class="btn btn-secondary authButton btn-profile" type="submit">
                             Odhlásiť sa
                         </button>
                     </form>

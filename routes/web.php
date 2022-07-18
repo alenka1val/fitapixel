@@ -72,20 +72,22 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::get('/admin/contents', 'App\Http\Controllers\ContentController@adminIndex')->name('admin.contentIndex');
-    Route::get('/admin/contents/{id}', 'App\Http\Controllers\ContentController@show')->name('admin.contentShow');
-    Route::post('/admin/contents/{id}', 'App\Http\Controllers\ContentController@update')->name('admin.contentStore');
-    Route::delete('/admin/contents/{id}', 'App\Http\Controllers\ContentController@destroy')->name('admin.contentDestroy');
+    Route::get('/admin', 'App\Http\Controllers\HomeController@adminIndex')->name('admin.home');
 
     Route::get('/admin/events', 'App\Http\Controllers\EventController@adminIndex')->name('admin.eventIndex');
     Route::get('/admin/events/{id}', 'App\Http\Controllers\EventController@show')->name('admin.eventShow');
     Route::post('/admin/events/{id}', 'App\Http\Controllers\EventController@update')->name('admin.eventStore');
     Route::delete('/admin/events/{id}', 'App\Http\Controllers\EventController@destroy')->name('admin.eventDestroy');
 
-    Route::get('/admin/photos', 'App\Http\Controllers\PhotographyController@adminIndex')->name('admin.photosIndex');
-    Route::get('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@show')->name('admin.photosShow');
-    Route::post('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@update')->name('admin.photosStore');
-    Route::delete('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@destroy')->name('admin.photosDestroy');
+    Route::get('/admin/contents', 'App\Http\Controllers\ContentController@adminIndex')->name('admin.contentIndex');
+    Route::get('/admin/contents/{id}', 'App\Http\Controllers\ContentController@show')->name('admin.contentShow');
+    Route::post('/admin/contents/{id}', 'App\Http\Controllers\ContentController@update')->name('admin.contentStore');
+    Route::delete('/admin/contents/{id}', 'App\Http\Controllers\ContentController@destroy')->name('admin.contentDestroy');
+
+    Route::get('/admin/photos', 'App\Http\Controllers\PhotographyController@adminIndex')->name('admin.photoIndex');
+    Route::get('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@show')->name('admin.photoShow');
+    Route::post('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@update')->name('admin.photoStore');
+    Route::delete('/admin/photos/{id}', 'App\Http\Controllers\PhotographyController@destroy')->name('admin.photoDestroy');
 
     Route::get('/admin/sponsors', 'App\Http\Controllers\SponsorController@adminIndex')->name('admin.sponsorIndex');
     Route::get('/admin/sponsors/{id}', 'App\Http\Controllers\SponsorController@show')->name('admin.sponsorShow');

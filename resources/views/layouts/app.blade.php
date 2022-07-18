@@ -34,7 +34,11 @@
 </head>
 <body>
 <header class="app-header">
-    @include('partials.nav')
+    @if(!empty(Session::get('webAdmin')) && Session::get('webAdmin')[0] == 1)
+        @include('partials.webAdminNav')
+    @else
+        @include('partials.nav')
+    @endif
 </header>
 <div class="nav-background"></div>
 <div class="app-body">

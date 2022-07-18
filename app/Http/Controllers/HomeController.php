@@ -22,10 +22,12 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->session()->forget('webAdmin');
         $content_list = (new ContentController())->getContents("home");
 
         $event_list = (new EventController())->getAllRunningEvents();
@@ -43,5 +45,12 @@ class HomeController extends Controller
         return view('info.judges')
             ->with('jury_list', $jury_list)
             ->with('events', $event_list);
+    }
+
+    public function adminIndex(Request $request)
+    {
+        $request->session()->push('webAdmin', 1);
+
+        return redirect(route('admin.eventIndex'));
     }
 }
