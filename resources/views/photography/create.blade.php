@@ -3,15 +3,15 @@
 @section('content')
     <div class="authContainer">
         <div class="authCard">
-            <h3 class="authCardHeader">Photo Upload</h3>
+            <h2 class="authCardHeader">Photo Upload</h2>
             <div class="card-body">
                 <form method="POST" route="{{ url('/photographies/create') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group">
                         <label class="file">
-                            <p>Pridať fotku</p>
-                            <input type="file" id="file" name="file" aria-label="File browser example" accept=".jpg,.png,.jpeg">
+                            <span>Pridať fotku</span>
+                            <input type="file" id="file" name="file" aria-label="File browser example">
                             <span class="file-custom"></span>
                         </label>
                         @error('file')
@@ -26,23 +26,27 @@
                     </div> -->
 
                     <br>
-
+                    
                     <div class="form-group">
-                        <div>
-                            <p>Vyberte súťaž</p>
-                            <select id="competition_id" name="competition_id" class="form-control input select"
-                                    onchange="showAISLogin()">
-                                <option value="" @if( old('competition_id') == "") selected @endif disabled hidden>
-                                    Vyberte súťaž
-                                </option>
+                        <div class="dropdown">
+                            <div class="select">
+                                <span>Vyberte súťaž</span>
+                                <i class="fa fa-chevron-left"></i>
+                            </div>
+                            <input id="competition_id" type="text" name="competition_id" class="hidden" value={{ $competitions[0]->id }}>
+                            <ul class="dropdown-menu">
                                 @foreach($competitions as $competition)
-                                    <option value="{{ $competition->id }}"
-                                            @if(
-                                            (!is_null($competition_id) and $competition_id == $competition->id)
-                                            or old('competition_id') == $competition->id
-                                            ) selected @endif>{{ $competition->name }}</option>
+                                    <li id="{{ $competition->id }}">{{ $competition->name }}</li>
                                 @endforeach
-                            </select>
+                            </ul>
+                            
+                            {{--@foreach(array_keys($events) as $year)--}}
+                            {{--   @foreach($events[$year] as $event)--}}
+                            {{--       <ul id="dropdown_{{$year}}" class="dropdown-menu">--}}
+                            {{--           <li id="{{$event->id}}">{{$event->name}}</li>--}}
+                            {{--        </ul>--}}
+                            {{--   @endforeach--}}
+                            {{--@endforeach--}}
                         </div>
                     </div>
 
@@ -66,9 +70,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary authButton">Pridať foto</button>
                 </form>
-
             </div>
         </div>
-
     </div>
 @endsection

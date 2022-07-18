@@ -18,13 +18,13 @@
                         <div class="form-group">
                             <div class="left filter">
                                 <span>Ročník</span>
-                                <div class="dropdown">
+                                <div class="dropdown selected_year">
                                     <div class="select">
-                                        <span>Vyberte rok</span>
+                                        <span>{{ $selected_year }}</span>
                                         <i class="fa fa-chevron-left"></i>
                                     </div>
-                                    <input id="year" type="text" name="year" class="hidden">
-                                    <ul class="dropdown-menu">
+                                    <input id="selected_year" type="text" name="selected_year" class="" value="{{ $selected_year }}">
+                                    <ul id="year-list" class="dropdown-menu">
                                         @foreach(array_keys($events) as $year)
                                             <li id="{{$year}}">{{$year}}</li>
                                         @endforeach
@@ -37,21 +37,15 @@
                                 <span>Súťaž</span>
                                 <div class="dropdown">
                                     <div class="select">
-                                        <span>Vyberte súťaž</span>
+                                        <span>{{ $selected_event['name'] }}</span>
                                         <i class="fa fa-chevron-left"></i>
                                     </div>
-                                    <input id="year" type="text" name="year" class="hidden">
-                                    <ul class="dropdown-menu">
-                                        <li id="A">A</li>
-                                        <li id="B">B</li>
+                                    <input id="selected_event" type="text" name="selected_event" class="" value="{{ $selected_event['id'] }}">
+                                    <ul id="event_list" class="dropdown-menu">
+                                        @foreach($events[$year] as $event)
+                                            <li id="{{$event['id']}}">{{ $event['name'] }}</li>
+                                        @endforeach
                                     </ul>
-                                    {{--@foreach(array_keys($events) as $year)--}}
-                                    {{--   @foreach($events[$year] as $event)--}}
-                                    {{--       <ul id="dropdown_{{$year}}" class="dropdown-menu">--}}
-                                    {{--           <li id="{{$event->id}}">{{$event->name}}</li>--}}
-                                    {{--        </ul>--}}
-                                    {{--   @endforeach--}}
-                                    {{--@endforeach--}}
                                 </div>
                             </div>
                         </div>
@@ -64,7 +58,7 @@
                 </div>
             </div>
         </div>
-        @if($finished)
+        @if($finished && count($photos)>=3)
             <div class="darkPanel">
             <h2>Víťazi</h2>
             <div class="winners">
@@ -108,4 +102,7 @@
         </div>
         @endif
     </div>
+    <script>
+        const events = <?php echo(json_encode($events)); ?>;
+    </script>
 @endsection
