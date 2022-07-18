@@ -35,8 +35,12 @@
   animation-duration: 1.5s;
 }
 
+.mySlides {
+    min-width: 80%;
+}
+
 @keyframes fade {
-  from {opacity: .4} 
+  from {opacity: .4}
   to {opacity: 1}
 }
 

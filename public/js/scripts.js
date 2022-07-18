@@ -31,6 +31,10 @@ function redirect(url) {
     window.open(url, '_blank');
 }
 
+function redirect_self(url) {
+    window.open(url, '_self');
+}
+
 function collapseResult(index) {
     if (document.getElementById("arrow-up-" + index).style.display !== "block") {
         document.getElementById("resultDiv" + index).style.maxHeight = "none";
