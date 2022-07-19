@@ -110,7 +110,7 @@ function needLdapById(groups, id) {
         return obj['id'] === id
     });
 
-    return result['need_ldap'] === "" ? 1 : 0;
+    return (typeof (result) == "undefined" || result['need_ldap'] === "") ? 1 : 0;
 }
 
 function isJuryById(groups, id) {
@@ -118,7 +118,7 @@ function isJuryById(groups, id) {
         return obj.id === id
     });
 
-    return result['permission'] === "jury" ? 1 : 0;
+    return (typeof (result) != "undefined" && result['permission'] === "jury") ? 1 : 0;
 }
 
 function showAISLogin(groups) {

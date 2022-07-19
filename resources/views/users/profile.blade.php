@@ -26,7 +26,7 @@
                             </button>
                         </form>
                     @endif
-                    @if(empty($user->group == "admin"))
+                    @if($user->permission == "admin")
                         <form id="logout_form" action="{{ route('admin.home') }}" method="GET">
                             @csrf
                             <button class="btn btn-primary authButton btn-profile" type="submit">

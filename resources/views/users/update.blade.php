@@ -189,6 +189,6 @@
 @endsection
 @section('scripts')
     <script>
-        showAISLogin({{ $groups }})
+        document.getElementById("group_id").onchange();
     </script>
 @endsection

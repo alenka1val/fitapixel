@@ -56,8 +56,9 @@ class EventController extends Controller
      */
     public function adminIndex(Request $request)
     {
+        $pageCount = 10;
         $eventsCount = Event::withoutTrashed()->count();
-        $maxPage = ceil($eventsCount / 15);
+        $maxPage = ceil($eventsCount / $pageCount);
         $page = $request->page;
 
         if ($page > $maxPage) {
@@ -70,13 +71,13 @@ class EventController extends Controller
 
         $events = null;
 
-        if ($eventsCount <= 15) {
+        if ($eventsCount <= $pageCount) {
             $events = Event::withoutTrashed()->orderBy('name', 'ASC')->get();
             $page = 1;
             $maxPage = 1;
         } else {
             $events = Event::withoutTrashed()->orderBy('name', 'ASC')
-                ->paginate(15);
+                ->paginate($pageCount);
         }
 
         return view('admin.entriesTable')

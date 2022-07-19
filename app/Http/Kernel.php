@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'photographer' => \App\Http\Middleware\IsPhotographer::class,
         'adminOrPhotographer' => \App\Http\Middleware\IsAdminOrPhotographer::class,
         'adminOrJury' => \App\Http\Middleware\IsAdminOrJury::class,
+        'guestOrAdmin' => \App\Http\Middleware\GuestOrAdmin::class,
     ];
 }

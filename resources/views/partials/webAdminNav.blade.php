@@ -1,5 +1,5 @@
 <div class="pos-f-t">
-    <nav class="navbar fiitapixel_nav fiitapixel_nav_admin" style="background-color: rgb(255, 186, 90">
+    <nav class="navbar fiitapixel_nav" style="background-color: rgb(255, 186, 90)">
         <div class="nav_grid left_grid large_grid">
             <h1>
                 <img id="nav_img" src="{{asset( '/images/web_admin.png' )}}" title="domov"
@@ -7,7 +7,7 @@
             </h1>
         </div>
         <div class="nav_icon"></div>
-        <div class="nav_grid right_grid_admin large_grid">
+        <div class="nav_grid right_grid large_grid">
             <div>
             </div>
             <a class="nav-link @yield('adminEventActive')" href="{{ route('admin.eventIndex') }}">
@@ -38,12 +38,12 @@
     </nav>
     <section id="collapse">
         <div id="collapse-items" style="background-color: rgb(255, 186, 90)">
-            <p class="p-nav"><a class="collapse_item" href="{{ route('admin.eventIndex') }}">Súťaže</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('admin.userIndex') }}">Používatelia</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('admin.photoIndex') }}">Fotky</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('admin.groupIndex') }}">Skupiny</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('admin.contentIndex') }}">Content</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('admin.sponsorIndex') }}">Sponzori</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminEventActive')" href="{{ route('admin.eventIndex') }}">Súťaže</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminUserActive')" href="{{ route('admin.userIndex') }}">Používatelia</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminPhotoActive')" href="{{ route('admin.photoIndex') }}">Fotky</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminGroupActive')" href="{{ route('admin.groupIndex') }}">Skupiny</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminContentActive')" href="{{ route('admin.contentIndex') }}">Content</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminSponsorActive')" href="{{ route('admin.sponsorIndex') }}">Sponzori</a></p>
         </div>
 
     </section>

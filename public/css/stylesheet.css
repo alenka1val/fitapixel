@@ -326,13 +326,9 @@ body {
     color: rgb(32, 41, 47);
     margin: 0 auto 0 auto;
     display: grid;
-    grid-template-columns: 30% 40%;
+    grid-template-columns: 20% 50%;
     align-items: center;
     justify-items: center;
-}
-
-.fiitapixel_nav_admin {
-    grid-template-columns: 20% 50%;
 }
 
 .nav-link {
@@ -375,13 +371,6 @@ a.nav-home {
 
 .right_grid {
     display: grid;
-    grid-template-columns: 0 repeat(5, 20%);
-    align-items: center;
-    justify-items: center;
-}
-
-.right_grid_admin {
-    display: grid;
     grid-template-columns: 0 repeat(6, calc(100% / 6));
     align-items: center;
     justify-items: center;
@@ -409,8 +398,6 @@ a.nav-home {
     margin: 0;
     transition: var(--transition);
     z-index: 98;
-    font-size: 14px;
-    font-weight: 500px;
 }
 
 .p-nav {
@@ -430,7 +417,6 @@ a.nav-home {
 #collapse p a {
     color: rgb(32, 41, 47);
     text-decoration: none;
-    font-weight: 500;
     padding: 10px 5%;
 }
 
@@ -945,6 +931,7 @@ table tr.active-row {
     font-size: 16px;
     font-weight: 500;
     line-height: 32px;
+    padding: 20px;
 }
 
 .card-body-left {
@@ -1307,12 +1294,45 @@ h3.third {
 
 /* sortable */
 
-.pagination {
-    margin: 40px 20px 70px 20px;
+.paginationOut {
+    margin: 0 auto 30px auto;
+    width: 100%;
     display: grid;
     justify-items: center;
-    grid-template-columns: 50% 50%;
-    gap: 10px;
+}
+
+.pagination {
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination a.active {
+    background-color: var(--border_color);
+    color: black;
+}
+
+.pagination a:hover {
+    background-color: #151f33;
+    color: white;
+}
+
+.pagination .arrowPage {
+    border: 1px solid black;
+}
+
+.pagination .nonPage:hover {
+    background-color: white;
+    color: black;
+    border: none;
 }
 
 .pageButton {

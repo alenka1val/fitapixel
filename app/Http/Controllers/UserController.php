@@ -21,9 +21,10 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $group = DB::table('groups')->select('name', 'need_ldap')->where('id', $user->group_id)->first();
+        $group = DB::table('groups')->select('name', 'need_ldap', 'permission')->where('id', $user->group_id)->first();
         $user['group'] = is_null($group) ? "Neznáma" : $group->name;
         $user['need_ldap'] = is_null($group) ? "" : $group->need_ldap;
+        $user['permission'] = is_null($group) ? "" : $group->permission;
 
         return view('users.profile')->with('user', $user);
     }
@@ -124,7 +125,7 @@ class UserController extends Controller
                 DB::table('users')->where('id', auth()->user()->id)->update(
                     [
                         'ais_uid' => $request['ais_uid'],
-                        'password' => $request['password']
+                        'password' => Hash::make($request['password']),
                     ]
                 );
             }
