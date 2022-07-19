@@ -10,9 +10,10 @@ $('.dropdown').focusout(function () {
 $('.dropdown .dropdown-menu li').click(setSelect);
 
 function setSelect(){
-    console.log('select3');
+    
     $(this).parents('.dropdown').find('span').text($(this).text());
     $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
+    
     
     if(this.parentElement!=null){
         if(this.parentElement.parentElement.classList.contains('selected_year')){
@@ -26,7 +27,6 @@ function setSelect(){
             //add new items
             var events_in_year = events[selected_year];
     
-            console.log(events_in_year);
             events_in_year.forEach(event => {
                 let li = document.createElement("li");
                 li.setAttribute('id',event.id);
@@ -34,6 +34,10 @@ function setSelect(){
                 parent.appendChild(li);
                 $('#event_list #'+event.id).on('click', setSelect);
             });
+
+            //clear selected events
+            document.getElementById('selected_event').setAttribute('value', '');
+            document.getElementById('selected-item-name').innerHTML = 'Vyberte súťaž';
         }
     }
 }
