@@ -1131,6 +1131,10 @@ h3.third {
     grid-row: sub-b;
 }
 
+.photo-not-found {
+    color: #b3c938;
+}
+
 .darkPanel h2 {
     padding-left: 5%;
     text-align: center;
@@ -1482,6 +1486,10 @@ h3.third {
     .userGalleryDetail {
         grid-template-rows: auto auto;
         grid-template-columns: auto;
+    }
+
+    .photo-not-found {
+        padding-left: 14px;
     }
 }
 

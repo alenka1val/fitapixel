@@ -14,6 +14,10 @@
         <div class="authContainer">
             <div class="filterCard">
                 <div class="card-body">
+                    @if(count($photos)==0)
+                        <h4 class="photo-not-found left">Nenašli sa žiadne fotky !</h4>
+                    @endif
+                
                     <form method="GET">
                         <div class="form-group">
                             <div class="left filter">
@@ -55,6 +59,7 @@
                             </button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
