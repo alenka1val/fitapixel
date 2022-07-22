@@ -89,7 +89,7 @@ class EventController extends Controller
             ->with('indexURL', 'admin.eventIndex')
             ->with('editURL', 'admin.eventShow')
             ->with('deleteURL', 'admin.eventDestroy')
-            ->with('confirm', 'Určite si prajete odstrániť súťaž')
+            ->with('confirm', 'Určite si prajete odstrániť súťaž?')
             ->with('confirmAttr', 'name')
             ->with('entries', $events)
             ->with('page', $page ?: 1)
@@ -125,7 +125,7 @@ class EventController extends Controller
             ->with('active', 'adminEventActive')
             ->with('storeURL', 'admin.eventStore')
             ->with('deleteURL', 'admin.eventDestroy')
-            ->with('confirm', 'Určite si prajete odstrániť súťaž')
+            ->with('confirm', 'Určite si prajete odstrániť súťaž?')
             ->with('confirmAttr', 'name')
             ->with('cols', $this->get_cols())
             ->with('entry', $event);
@@ -225,8 +225,8 @@ class EventController extends Controller
     {
         DB::beginTransaction();
         try {
-            $flight = Event::find($id);
-            $flight->delete();
+            $event = Event::find($id);
+            $event->delete();
 
             DB::commit();
         } catch (\Exception $e) {
@@ -412,7 +412,7 @@ class EventController extends Controller
                 'type' => 'text',
                 'required' => 'required',
                 'pattern' => "^\d+x\d+$",
-                'example' => "príklad: 3x2"
+                'example' => "napríklad: 3x2"
             ),
             array(
                 'name' => 'description',

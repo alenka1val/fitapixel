@@ -23,6 +23,21 @@
                                               @else {{ $col['text'] }} @endif">{{ old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "" )  }}</textarea>
                                 </div>
                             </div>
+                        @elseif($col['type'] == "select")
+                            <div class="form-group">
+                                <label for="{{ $col['name'] }}"
+                                       style="font-weight: bold">@if($col['required'] == "required" )
+                                        *@endif{{ $col['text'] }}</label>
+                                <select id="{{ $col['name'] }}" name="{{ $col['name'] }}" class="form-control input select">
+                                    <option value="" @if( (old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "")) == "") selected @endif disabled hidden>
+                                        - vybrať -
+                                    </option>
+                                    @foreach($col['options'] as $option)
+                                        <option value="{{ $option['id'] }}"
+                                                @if( (old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "")) == $option['id']) selected @endif>{{ $option['text'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         @else
                             <div class="form-group">
                                 <label for="{{ $col['name'] }}"
