@@ -23,7 +23,7 @@
                 Skupiny
             </a>
             <a class="nav-link @yield('adminContentActive')" href="{{ route('admin.contentIndex') }}">
-                Content
+                Web kontent
             </a>
             <a class="nav-link @yield('adminSponsorActive')" href="{{ route('admin.sponsorIndex') }}">
                 Sponzori
@@ -42,7 +42,7 @@
             <p class="p-nav"><a class="collapse_item @yield('adminUserActive')" href="{{ route('admin.userIndex') }}">Používatelia</a></p>
             <p class="p-nav"><a class="collapse_item @yield('adminPhotoActive')" href="{{ route('admin.photoIndex') }}">Fotky</a></p>
             <p class="p-nav"><a class="collapse_item @yield('adminGroupActive')" href="{{ route('admin.groupIndex') }}">Skupiny</a></p>
-            <p class="p-nav"><a class="collapse_item @yield('adminContentActive')" href="{{ route('admin.contentIndex') }}">Content</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('adminContentActive')" href="{{ route('admin.contentIndex') }}">Web kontent</a></p>
             <p class="p-nav"><a class="collapse_item @yield('adminSponsorActive')" href="{{ route('admin.sponsorIndex') }}">Sponzori</a></p>
         </div>
 

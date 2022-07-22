@@ -1,16 +1,17 @@
 @extends('layouts.app')
-@section('title', 'WebAdmin - ' . $title)
+@section('title', 'WebAdmin - ' . $header)
 @section($active) nav-link-bold @endsection
 @section('content')
     <div class="content">
         <div class="adminGrid margin_div">
             <h2>{{ $header }}</h2>
+            @if(count($entries) > 0)
             <table class="adminTable">
                 <tr>
                     <th>
                         {{ $tableColumns[0] }}
                     </th>
-                    <th>
+                    <th style="text-align: center">
                         {{ $tableColumns[1] }}
                     </th>
                     <th></th>
@@ -44,28 +45,7 @@
                 @endforeach
             </table>
         </div>
-        <form action="{{ route($editURL, ['id' => 'new']) }}" method="GET">
-            @csrf
-            <button class="newButton">
-                +
-            </button>
-        </form>
         <div class="paginationOut">
-{{--            <div class="pagination" @if($page <= 1 or $page >= $maxPage) style="grid-template-columns: 100%;" @endif>--}}
-{{--                @if($page > 1)--}}
-{{--                    <a href="{{ route($indexURL, ['page'=> $page - 1]) }}">--}}
-{{--                        <button class="pageButton">--}}
-{{--                            < Späť--}}
-{{--                        </button>--}}
-{{--                    </a>--}}
-{{--                @endif--}}
-{{--                @if($page < $maxPage)--}}
-{{--                    <a href="{{ route($indexURL, ['page'=> $page + 1]) }}">--}}
-{{--                        <button class="pageButton">--}}
-{{--                            Ďalej >--}}
-{{--                        </button>--}}
-{{--                    </a>--}}
-{{--                @endif--}}
             <div class="pagination">
                 @if($page > 1) <a href="{{ route($indexURL, ['page'=> $page - 1]) }}" class="arrowPage"> < </a> @endif
                 @if($page - 2 > 1 ) <a href="{{ route($indexURL, ['page'=> 1]) }}">{{ 1 }}</a> @endif
@@ -78,6 +58,15 @@
                 @if($page < $maxPage) <a href="{{ route($indexURL, ['page'=> $page + 1]) }}" class="arrowPage">
                     > </a> @endif
             </div>
+            @else
+                <h4 class="photo-not-found left">Nenašli sa žiadne záznamy!</h4>
+                @endif
+            <form action="{{ route($editURL, ['id' => 'new']) }}" method="GET">
+                @csrf
+                <button class="newButton">
+                    +
+                </button>
+            </form>
         </div>
     </div>
 @endsection

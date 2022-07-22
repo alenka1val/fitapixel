@@ -63,7 +63,6 @@ class GroupController extends Controller
 
         return view('admin.entriesTable')
             ->with('header', "Skupiny")
-            ->with('title', 'groups')
             ->with('active', 'adminGroupActive')
             ->with('entryColumns', array('name', 'need_ldap'))
             ->with('tableColumns', array("Názov skupiny", "LDAP skupina"))
@@ -108,7 +107,6 @@ class GroupController extends Controller
 
         return view('admin.entryDetail')
             ->with('header', "Skupiny")
-            ->with('title', 'groups')
             ->with('active', 'adminGroupActive')
             ->with('storeURL', 'admin.groupStore')
             ->with('deleteURL', 'admin.groupDestroy')
@@ -156,14 +154,14 @@ class GroupController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($group = DB::table('groups')->where('id', $id)->first()))
+            if (!is_null($group = DB::table('groups')->where('id', $id)->first())) {
                 Group::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],
                     'need_ldap' => $request['need_ldap'],
                     'permission' => ($this->get_options($request['permission']))['text'],
                 ]);
-            else {
+            } else {
                 Group::create([
                     'id' => $id,
                     'name' => $request['name'],

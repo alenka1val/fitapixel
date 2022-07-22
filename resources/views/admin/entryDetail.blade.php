@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'WebAdmin - ' . $title)
+@section('title', 'WebAdmin - ' . $header)
 @section($active) nav-link-bold @endsection
 @section('content')
     <div class="authContainer" style="min-width: 300px">

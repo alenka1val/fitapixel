@@ -64,7 +64,6 @@ class SponsorController extends Controller
 
         return view('admin.entriesTable')
             ->with('header', "Sponzori")
-            ->with('title', 'sponsors')
             ->with('active', 'adminSponsorActive')
             ->with('entryColumns', array('name', 'url_path'))
             ->with('tableColumns', array("Názov sponzora", "Web sponzora"))
@@ -109,7 +108,6 @@ class SponsorController extends Controller
 
         return view('admin.entryDetail')
             ->with('header', "Sponzori")
-            ->with('title', 'sponsors')
             ->with('active', 'adminSponsorActive')
             ->with('storeURL', 'admin.sponsorStore')
             ->with('deleteURL', 'admin.sponsorDestroy')
@@ -141,7 +139,7 @@ class SponsorController extends Controller
     {
         $tmp = $request->validate([
             'name' => ['required', 'string'],
-            'photo_path' => ['image',],
+            'photo_path' => ['image'],
             'url_path' => ['required', 'string'],
         ]);
 
@@ -154,10 +152,11 @@ class SponsorController extends Controller
             }
         }
 
+        $storage_dir = asset('storage') . "/sponsors/";
+
         DB::beginTransaction();
         try {
             if (!is_null($sponsor = DB::table('sponsors')->where('id', $id)->first())) {
-
                 $file_name = $sponsor->photo_path;
                 if (!is_null($request->photo_path)) {
                     Storage::disk('public')->delete('sponsors/' . $sponsor->photo_path);
@@ -169,7 +168,7 @@ class SponsorController extends Controller
                 Sponsor::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],
-                    'photo_path' => $file_name,
+                    'photo_path' => $storage_dir . $file_name,
                     'url_path' => $request['url_path'],
                 ]);
             } else {
@@ -180,7 +179,7 @@ class SponsorController extends Controller
 
                 Sponsor::create([
                     'name' => $request['name'],
-                    'photo_path' => $file_name,
+                    'photo_path' => $storage_dir . $file_name,
                     'url_path' => $request['url_path'],
                 ]);
             }
@@ -191,7 +190,6 @@ class SponsorController extends Controller
         (\Exception $e) {
             DB::rollback();
             Log::error($e);
-            dd($e);
             return redirect()->back()
                 ->withInput();
         }

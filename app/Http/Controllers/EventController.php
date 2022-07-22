@@ -82,7 +82,6 @@ class EventController extends Controller
 
         return view('admin.entriesTable')
             ->with('header', "Súťaže")
-            ->with('title', 'events')
             ->with('active', 'adminEventActive')
             ->with('entryColumns', array('name', 'started_at'))
             ->with('tableColumns', array("Názov súťaže", "Začiatok súťaže"))
@@ -121,7 +120,6 @@ class EventController extends Controller
 
         return view('admin.entryDetail')
             ->with('header', "Súťaže")
-            ->with('title', 'events')
             ->with('active', 'adminEventActive')
             ->with('storeURL', 'admin.eventStore')
             ->with('deleteURL', 'admin.eventDestroy')
@@ -170,7 +168,7 @@ class EventController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($event = DB::table('events')->where('id', $id)->first()))
+            if (!is_null($event = DB::table('events')->where('id', $id)->first())) {
                 Event::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],
@@ -187,7 +185,7 @@ class EventController extends Controller
                     'allowed_ratios' => $request['allowed_ratios'],
                     'description' => $request['description']
                 ]);
-            else {
+            } else {
                 Event::create([
                     'name' => $request['name'],
                     'url_path' => $url_path,
@@ -344,6 +342,16 @@ class EventController extends Controller
             'Ź' => 'Z',
             ' ' => '_',
             '-' => '_',
+            '.' => '_',
+            '?' => '_',
+            '!' => '_',
+            ')' => '_',
+            '(' => '_',
+            ':' => '_',
+            '*' => '_',
+            '+' => '_',
+            '/' => '_',
+            '\\' => '_',
         );
 
         return strtolower(strtr($name, $translate_table));
