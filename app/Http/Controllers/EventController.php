@@ -58,7 +58,7 @@ class EventController extends Controller
     {
         $pageCount = 10;
         $eventsCount = Event::withoutTrashed()->count();
-        $maxPage = ceil($eventsCount / $pageCount);
+        $maxPage = ceil($eventsCount / $pageCount) ?: 1;
         $page = $request->page;
 
         if ($page > $maxPage) {

@@ -28,8 +28,11 @@
                                 <label for="{{ $col['name'] }}"
                                        style="font-weight: bold">@if($col['required'] == "required" )
                                         *@endif{{ $col['text'] }}</label>
-                                <select id="{{ $col['name'] }}" name="{{ $col['name'] }}" class="form-control input select">
-                                    <option value="" @if( (old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "")) == "") selected @endif disabled hidden>
+                                <select id="{{ $col['name'] }}" name="{{ $col['name'] }}"
+                                        class="form-control input select">
+                                    <option value=""
+                                            @if( (old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "")) == "") selected
+                                            @endif disabled hidden>
                                         - vybrať -
                                     </option>
                                     @foreach($col['options'] as $option)
@@ -37,6 +40,20 @@
                                                 @if( (old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "")) == $option['id']) selected @endif>{{ $option['text'] }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        @elseif($col['type'] == "file")
+                            <div class="form-group">
+                                <p>
+                                    <label for="{{ $col['name'] }}"
+                                           style="font-weight: bold">@if($col['required'] == "required" )
+                                            *@endif{{ $col['text'] }}</label>
+                                </p>
+                                <label class="file">
+                                    <input type="{{ $col['type'] }}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" aria-label="File browser example" @if(isset($col['accept'])) accept="{{ $col['accept'] }} @endif">
+                                    <span class="file-custom"></span>
+                                </label>
+                                <br>
+                                <br>
                             </div>
                         @else
                             <div class="form-group">

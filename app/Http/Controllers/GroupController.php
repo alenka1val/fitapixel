@@ -39,7 +39,7 @@ class GroupController extends Controller
     {
         $pageCount = 10;
         $groupsCount = Group::withoutTrashed()->count();
-        $maxPage = ceil($groupsCount / $pageCount);
+        $maxPage = ceil($groupsCount / $pageCount) ?: 1;
         $page = $request->page;
 
         if ($page > $maxPage) {
