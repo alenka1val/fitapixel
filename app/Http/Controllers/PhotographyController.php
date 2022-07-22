@@ -197,23 +197,82 @@ class PhotographyController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return void
      */
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        //
+        $pageCount = 10;
+        $photosCount = Photography::withoutTrashed()->count();
+        $maxPage = ceil($photosCount / $pageCount) ?: 1;
+        $page = $request->page;
+
+        if ($page > $maxPage) {
+            return redirect(route('admin.photoIndex', ['page' => $maxPage]));
+        }
+
+        if ($page < 1) {
+            return redirect(route('admin.photoIndex', ['page' => 1]));
+        }
+
+        $photos = null;
+
+        if ($photosCount <= $pageCount) {
+            $photos = Photography::withoutTrashed()
+                ->select(DB::raw("*, CONCAT('user:', user_id, ', event:', event_id) AS column_2"))
+                ->orderBy('user_id', 'ASC')->orderBy('event_id', 'ASC')
+                ->get();
+            $page = 1;
+            $maxPage = 1;
+        } else {
+            $photos = Photography::withoutTrashed()
+                ->select(DB::raw("*, CONCAT('user:', user_id, ', event:', event_id) AS column_2"))
+                ->orderBy('user_id', 'ASC')
+                ->orderBy('event_id', 'ASC')
+                ->paginate($pageCount);
+        }
+
+        return view('admin.entriesTable')
+            ->with('header', "Fotografie")
+            ->with('active', 'adminPhotoActive')
+            ->with('entryColumns', array('filename', 'column_2'))
+            ->with('tableColumns', array("Názov súboru", "Id"))
+            ->with('indexURL', 'admin.photoIndex')
+            ->with('editURL', 'admin.photoShow')
+            ->with('deleteURL', 'admin.photoDestroy')
+            ->with('confirm', 'Určite si prajete odstrániť fotografiu?')
+            ->with('confirmAttr', 'name')
+            ->with('entries', $photos)
+            ->with('page', $page ?: 1)
+            ->with('maxPage', $maxPage);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function show($id)
+    public function show($id)
     {
-        //
+        $photo = null;
+        if ($id != "new") {
+            $photo = Photography::where('id', $id)->first();
+        } else {
+            $photo = array(
+                'id' => $id,
+            );
+        }
+
+        return view('admin.entryDetail')
+            ->with('header', "Fotografie")
+            ->with('active', 'adminPhotoActive')
+            ->with('storeURL', 'admin.photoStore')
+            ->with('deleteURL', 'admin.photoDestroy')
+            ->with('confirm', 'Určite si prajete odstrániť fotografiu?')
+            ->with('confirmAttr', 'name')
+            ->with('cols', $this->get_cols($this->get_options(0)))
+            ->with('entry', $photo);
     }
 
     /**
@@ -280,6 +339,28 @@ class PhotographyController extends Controller
         return view('photography.results')
             ->with('resultCategoryList', $resultCategoryList)
             ->with('resultList', $result);
+    }
+
+    public function get_cols($options)
+    {
+        return array(
+//            TODO: doplnit
+        );
+    }
+
+    public function get_options($id)
+    {
+        $options = Event::select(DB::raw('CONCAT(name, - , started_at) AS text, id'))->get();
+
+        if ($id == 0) {
+            return $options;
+        } else {
+            foreach ($options as $o) {
+                if ($o['id'] == $id) return $o;
+            }
+        }
+
+        return null;
     }
 }
 

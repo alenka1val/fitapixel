@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,22 +163,77 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return void
      */
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        //
+        $pageCount = 10;
+        $usersCount = User::withoutTrashed()->count();
+        $maxPage = ceil($usersCount / $pageCount) ?: 1;
+        $page = $request->page;
+
+        if ($page > $maxPage) {
+            return redirect(route('admin.userIndex', ['page' => $maxPage]));
+        }
+
+        if ($page < 1) {
+            return redirect(route('admin.userIndex', ['page' => 1]));
+        }
+
+        $users = null;
+
+        if ($usersCount <= $pageCount) {
+            $users = User::withoutTrashed()->orderBy('name', 'ASC')->get();
+            $page = 1;
+            $maxPage = 1;
+        } else {
+            $users = User::withoutTrashed()->orderBy('name', 'ASC')
+                ->paginate($pageCount);
+        }
+
+        return view('admin.entriesTable')
+            ->with('header', "Používatelia")
+            ->with('active', 'adminUserActive')
+            ->with('entryColumns', array('name', 'email'))
+            ->with('tableColumns', array("Nadpis web kontentu", "Email"))
+            ->with('indexURL', 'admin.userIndex')
+            ->with('editURL', 'admin.userShow')
+            ->with('deleteURL', 'admin.userDestroy')
+            ->with('confirm', 'Určite si prajete odstrániť používateľa?')
+            ->with('confirmAttr', 'name')
+            ->with('entries', $users)
+            ->with('page', $page ?: 1)
+            ->with('maxPage', $maxPage);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+
+        $user = null;
+        if ($id != "new") {
+            $user = User::where('id', $id)->first();
+        } else {
+            $user = array(
+                'id' => $id,
+            );
+        }
+
+        return view('admin.entryDetail')
+            ->with('header', "Používatelia")
+            ->with('active', 'adminUserActive')
+            ->with('storeURL', 'admin.userStore')
+            ->with('deleteURL', 'admin.userDestroy')
+            ->with('confirm', 'Určite si prajete odstrániť používateľa?')
+            ->with('confirmAttr', 'name')
+            ->with('cols', $this->get_cols($this->get_options(0)))
+            ->with('entry', $user);
     }
 
     /**
@@ -308,5 +364,27 @@ class UserController extends Controller
         }
 
         return redirect(route('users.profile'));
+    }
+
+    public function get_cols($options)
+    {
+        return array(
+//            TODO: doplnit
+        );
+    }
+
+    public function get_options($id)
+    {
+        $options = Group::select(DB::raw('name AS text, id'))->get();
+
+        if ($id == 0) {
+            return $options;
+        } else {
+            foreach ($options as $o) {
+                if ($o['id'] == $id) return $o;
+            }
+        }
+
+        return null;
     }
 }
