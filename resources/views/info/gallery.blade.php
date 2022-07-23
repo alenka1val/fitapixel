@@ -14,24 +14,24 @@
         <div class="authContainer">
             <div class="filterCard">
                 <div class="card-body">
+                    @if(count($photos)==0)
+                        <h4 class="photo-not-found left">Nenašli sa žiadne fotky !</h4>
+                    @endif
                     <form method="GET">
                         <div class="form-group">
                             <div class="left filter">
                                 <span>Ročník</span>
-                                <div class="dropdown">
+                                <div class="dropdown selected_year">
                                     <div class="select">
-                                        <span>Vyberte rok</span>
+                                        <span>{{ $selected_year }}</span>
                                         <i class="fa fa-chevron-left"></i>
                                     </div>
-                                    <input type="hidden" name="gender">
-                                    <ul class="dropdown-menu">
-                                        <li id="2022">2022</li>
-                                        <li id="2021">2021</li>
-                                        {{--@foreach(array_keys($events) as $year)--}}
-                                        {{--    <li id="{{$year}}">{{$year}}</li>--}}
-                                        {{--@endforeach--}}
+                                    <input id="selected_year" type="text" name="selected_year" class="hidden" value="{{ $selected_year }}">
+                                    <ul id="year-list" class="dropdown-menu">
+                                        @foreach(array_keys($events) as $year)
+                                            <li id="{{$year}}">{{$year}}</li>
+                                        @endforeach
                                     </ul>
-                                    <input id="year" type="text" name="year" class="hidden">
                                 </div>
                             </div>
                         </div>
@@ -40,22 +40,15 @@
                                 <span>Súťaž</span>
                                 <div class="dropdown">
                                     <div class="select">
-                                        <span>Vyberte súťaž</span>
+                                        <span id="selected-item-name">{{ $selected_event['name'] }}</span>
                                         <i class="fa fa-chevron-left"></i>
                                     </div>
-                                    <input type="hidden" name="gender">
-                                    <ul class="dropdown-menu">
-                                        <li id="A">A</li>
-                                        <li id="B">B</li>
+                                    <input id="selected_event" type="text" name="selected_event" class="hidden" value="{{ $selected_event['id'] }}">
+                                    <ul id="event_list" class="dropdown-menu">
+                                        @foreach($events[$selected_year] as $event)
+                                            <li id="{{$event['id']}}">{{ $event['name'] }}</li>
+                                        @endforeach
                                     </ul>
-                                    {{--@foreach(array_keys($events) as $year)--}}
-                                    {{--   @foreach($events[$year] as $event)--}}
-                                    {{--       <ul id="dropdown_{{$year}}" class="dropdown-menu">--}}
-                                    {{--           <li id="{{$event->id}}">{{$event->name}}</li>--}}
-                                    {{--        </ul>--}}
-                                    {{--   @endforeach--}}
-                                    {{--@endforeach--}}
-                                    <input id="year" type="text" name="year" class="hidden">
                                 </div>
                             </div>
                         </div>
@@ -65,49 +58,55 @@
                             </button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
-        {{--@if($finished)--}}
+        @if($finished && count($photos)>=3)
             <div class="darkPanel">
             <h2>Víťazi</h2>
             <div class="winners">
-                <img class="galery-image first" src="../images/environment.jpeg"></img>
-                <h3 class="first-winner first">1. Janko Mrkvička</h3>
+ 
+                <img id="photoImg-0" class="galery-image first" onclick="zoomIn('photoImg-0', 0 , '{{ $photos[0]->user_name }}' , '{{ $photos[0]->description }}', '{{ $photos[0]->event_id }}')" src="{{$photos[0]->filename}}" alt="{{$photos[0]->description}}"/>
+                <h3 class="first-winner first">{{$photos[0]->user_name}}</h3>
+                <!-- <h4 class="first-winner first">{{$photos[0]->description}}</h4> -->
 
-                <img class="galery-image second" src="../images/environment.jpeg"></img>
-                <h3 class="second-winner second">2. Jožko Moško</h3>
+                <img id="photoImg-1" class="galery-image second" onclick="zoomIn('photoImg-1', 1 , '{{ $photos[1]->user_name }}' , '{{ $photos[1]->description }}', '{{ $photos[1]->event_id }}')" src="{{$photos[1]->filename}}" alt="{{$photos[1]->description}}"/>
+                <h3 class="second-winner second">{{$photos[1]->user_name}}</h3>
+                <!-- <h4 class="second-winner second">{{$photos[1]->description}}</h4> -->
 
-                <img class="galery-image third" src="../images/environment.jpeg"></img>
-                <h3 class="third-winner third">3. Pušiak Lušiak Sokol Omar</h3>
-
-                {{--<img class="galery-image first" src="{{$photos[0]->filename}}" alt="{{$photos[0]->description}}"/>--}}
-                {{--<h3 class="first-winner first">{{$photos[0]->user_name}}</h3>--}}
-                {{--<h4 class="first-winner first">{{$photos[0]->description}}</h4>--}}
-
-                {{--<img class="galery-image second" src="{{$photos[1]->filename}}" alt="{{$photos[1]->description}}"/>--}}
-                {{--<h3 class="second-winner second">{{$photos[1]->user_name}}</h3>--}}
-                {{--<h4 class="second-winner second">{{$photos[1]->description}}</h4>--}}
-
-                {{--<img class="galery-image third" src="{{$photos[2]->filename}}" alt="{{$photos[2]->description}}"/>--}}
-                {{--<h3 class="third-winner third">{{$photos[2]->user_name}}</h3>--}}
-                {{--<h4 class="third-winner third">{{$photos[2]->description}}</h4>--}}
+                <img id="photoImg-2" class="galery-image third" onclick="zoomIn('photoImg-2', 2 , '{{ $photos[2]->user_name }}' , '{{ $photos[2]->description }}', '{{ $photos[2]->event_id }}')" src="{{$photos[2]->filename}}" alt="{{$photos[2]->description}}"/>
+                <h3 class="third-winner third">{{$photos[2]->user_name}}</h3>
+                <!-- <h4 class="third-winner third">{{$photos[2]->description}}</h4> -->
             </div>
         </div>
-        {{--@endif--}}
-
+        @endif
+        @if(count($photos)>3)
         <div>
             <div class="galery">
-                <img class="galery-image" src="../images/environment.jpeg"></img>
-                <img class="galery-image" src="../images/environment.jpeg"></img>
-                <img class="galery-image" src="../images/environment.jpeg"></img>
-                <img class="galery-image" src="../images/environment.jpeg"></img>
-                <img class="galery-image" src="../images/environment.jpeg"></img>
-                <img class="galery-image" src="../images/environment.jpeg"></img>
-                {{--@for ($i = $finished ? 3 : 0; $i < count($photos); $i++)--}}
-                {{--    <img class="galery-image" src="{{$photos[$i]->filename}}" alt="{{$photos[$i]->filename}}"/>--}}
-                {{--@endfor--}}
+                @for ($i = $finished ? 3 : 0; $i < count($photos); $i++)
+                    <img id="photoImg-{{ $i }}" class="galery-image" onclick="zoomIn('photoImg-{{ $i }}', {{ $i }} , '{{ $photos[$i]->user_name }}' , '{{ $photos[$i]->description }}', '{{ $photos[$i]->event_id }}')" src="{{ $photos[$i]->filename }}" alt="{{ $photos[$i]->filename }}"/>
+                @endfor
             </div>
         </div>
+        @endif
+        @if($photos)
+        <div id="myModal" class="modal">
+            <span class="close"><i class="fa fa-times zoomImageI"></i></span>
+            <img class="modal-content" id="img01">
+            <div id="caption">
+                <i class="fa fa-arrow-left zoomImageArrows" onclick="moveLeft({{ $photos }})"></i>
+                <div class="modal-div">
+                    <p id="captionText1"></p>
+                    <p id="captionText2"></p>
+                    <!-- <p id="captionText3"></p> -->
+                </div>
+                <i class="fa fa-arrow-right zoomImageArrows" onclick="moveRight({{ $photos }})"></i>
+            </div>
+        </div>
+        @endif
     </div>
+    <script>
+        const events = <?php echo(json_encode($events)); ?>;
+    </script>
 @endsection

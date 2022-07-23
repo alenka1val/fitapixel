@@ -47,7 +47,7 @@ function collapseResult(index) {
     }
 }
 
-function zoomIn(imgName, index, photograph, description, theme) {
+function zoomIn(imgName, index, photograph, description, competition) {
     const modal = document.getElementById("myModal");
     modal.style.zIndex = "99";
 
@@ -55,14 +55,14 @@ function zoomIn(imgName, index, photograph, description, theme) {
     const modalImg = document.getElementById("img01");
     const captionText1 = document.getElementById("captionText1");
     const captionText2 = document.getElementById("captionText2");
-    const captionText3 = document.getElementById("captionText3");
+    // const captionText3 = document.getElementById("captionText3");
 
     modal.style.display = "block";
     modalImg.src = img.src;
     modalImg.alt = index;
     captionText1.innerHTML = "Fotograf: " + photograph;
     captionText2.innerHTML = "Opis: " + description;
-    captionText3.innerHTML = "Téma: " + theme;
+    // captionText3.innerHTML = "Súťaž: " + competition;
 
     const span = document.getElementsByClassName("close")[0];
 
@@ -75,15 +75,16 @@ function moveLeft(photoList) {
     const modalImg = document.getElementById("img01");
     const captionText1 = document.getElementById("captionText1");
     const captionText2 = document.getElementById("captionText2");
-    const captionText3 = document.getElementById("captionText3");
+    // const captionText3 = document.getElementById("captionText3");
 
     let index = parseInt(modalImg.alt);
     let nextIndex = index <= 0 ? photoList.length - 1 : index - 1;
-
+    
     modalImg.src = photoList[nextIndex]['filename'];
-    captionText1.innerHTML = "Fotograf: " + photoList[nextIndex]['photograph'];
+    captionText1.innerHTML = "Fotograf: " + photoList[nextIndex]['user_name'];
+    console.log(photoList[nextIndex]['user_name']);
     captionText2.innerHTML = "Opis: " + photoList[nextIndex]['description'];
-    captionText3.innerHTML = "Téma: " + photoList[nextIndex]['theme'];
+    // captionText3.innerHTML = "Súťaž: " + photoList[nextIndex]['event_id'];
     modalImg.alt = nextIndex;
 }
 
@@ -91,15 +92,16 @@ function moveRight(photoList) {
     const modalImg = document.getElementById("img01");
     const captionText1 = document.getElementById("captionText1");
     const captionText2 = document.getElementById("captionText2");
-    const captionText3 = document.getElementById("captionText3");
+    // const captionText3 = document.getElementById("captionText3");
 
     let index = parseInt(modalImg.alt);
     let nextIndex = index >= photoList.length - 1 ? 0 : index + 1;
-
+    
     modalImg.src = photoList[nextIndex]['filename'];
-    captionText1.innerHTML = "Fotograf: " + photoList[nextIndex]['photograph'];
+    captionText1.innerHTML = "Fotograf: " + photoList[nextIndex]['user_name'];
+    console.log(photoList[nextIndex]['user_name']);
     captionText2.innerHTML = "Opis: " + photoList[nextIndex]['description'];
-    captionText3.innerHTML = "Téma: " + photoList[nextIndex]['theme'];
+    // captionText3.innerHTML = "Súťaž: " + photoList[nextIndex]['event_id'];
     modalImg.alt = nextIndex;
 }
 

@@ -22,6 +22,7 @@ class PhotographyController extends Controller
      */
     public function index(Request $request)
     {
+        // GET years and events
         $event_list = DB::table('events')
             ->select(DB::raw('date_part(\'year\', finished_at) as year, name, id'))
             ->orderBy(DB::raw('1'), 'DESC')
@@ -37,19 +38,22 @@ class PhotographyController extends Controller
             array_push($events[$e->year], array('name' => $e->name, 'id' => $e->id));
         }
 
+        $selected_year = is_null($request['selected_year'])? key($events):$request['selected_year'];
+        $selected_event = is_null($request['selected_event'])? $events[$selected_year][0]: array("id" => $request['selected_event'], 'name' => getEventNameFromId($event_list, $request['selected_event']));
+
         if (empty($events)) {
             return view('info.gallery')
                 ->with('events', $events)
                 ->with('photos', array())
-                ->with('event_id', $request->event_id)
-                ->with('year', $request->year);
+                ->with('selected_year', $selected_year)
+                ->with('selected_event', $selected_event);
+
         }
 
-        $request['event_id'] = is_null($request->event_id) ? $events[array_keys($events)[0]][0]['id'] : $request->event_id;
 
         $finished = DB::table('events')
             ->select(DB::raw('(case when DATE(now()) > voted_at then 1 else 0 end) as finished'))
-            ->where('id', $request->event_id)
+            ->where('id', $request->selected_event)
             ->first();
         $finished = is_null($finished) ? 0 : $finished->finished;
 
@@ -57,7 +61,7 @@ class PhotographyController extends Controller
             ->select(DB::raw('photographies.*, coalesce(sum(votes.value), 0) as vote_sum, max(users.name) as user_name'))
             ->join('users', 'users.id', '=', 'photographies.user_id')
             ->leftJoin('votes', 'photographies.id', '=', 'votes.photo_id')
-            ->where('photographies.event_id', $request->event_id)
+            ->where('photographies.event_id', $selected_event['id'])
             ->groupBy(DB::raw('photographies.id'))
             ->orderBy('vote_sum', 'DESC')
             ->get();
@@ -83,10 +87,10 @@ class PhotographyController extends Controller
         return view('info.gallery')
             ->with('events', $events)
             ->with('photos', $photos)
-            ->with('event_id', $request->event_id)
-            ->with('year', $request->year)
+            ->with('sponsors', $sponsors)
             ->with('finished', $finished)
-            ->with('sponsors', $sponsors);
+            ->with('selected_year', $selected_year)
+            ->with('selected_event', $selected_event);
     }
 
     /**
@@ -266,5 +270,13 @@ class PhotographyController extends Controller
         return view('photography.results')
             ->with('resultCategoryList', $resultCategoryList)
             ->with('resultList', $result);
+    }
+}
+
+function getEventNameFromId($event_list, $id){
+    foreach ($event_list as $event) {
+        if ($event->id == intval($id)){
+            return $event->name;
+        }
     }
 }
