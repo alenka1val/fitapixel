@@ -26,7 +26,7 @@
                                         <span>{{ $selected_year }}</span>
                                         <i class="fa fa-chevron-left"></i>
                                     </div>
-                                    <input id="selected_year" type="text" name="selected_year" class="" value="{{ $selected_year }}">
+                                    <input id="selected_year" type="text" name="selected_year" class="hidden" value="{{ $selected_year }}">
                                     <ul id="year-list" class="dropdown-menu">
                                         @foreach(array_keys($events) as $year)
                                             <li id="{{$year}}">{{$year}}</li>
@@ -43,7 +43,7 @@
                                         <span id="selected-item-name">{{ $selected_event['name'] }}</span>
                                         <i class="fa fa-chevron-left"></i>
                                     </div>
-                                    <input id="selected_event" type="text" name="selected_event" class="" value="{{ $selected_event['id'] }}">
+                                    <input id="selected_event" type="text" name="selected_event" class="hidden" value="{{ $selected_event['id'] }}">
                                     <ul id="event_list" class="dropdown-menu">
                                         @foreach($events[$selected_year] as $event)
                                             <li id="{{$event['id']}}">{{ $event['name'] }}</li>
