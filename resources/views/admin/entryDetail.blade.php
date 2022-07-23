@@ -20,7 +20,17 @@
                                               class="form-control input" {{ $col['required'] }}
                                               placeholder="{{ $col['placeholder'] }}" cols="40" rows="10"
                                               title="@if(isset($col['pattern'])){{ $col['example'] }}
-                                              @else {{ $col['text'] }} @endif">{{ old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "" )  }}</textarea>
+                                              @else {{ $col['text'] }} @endif"
+                                              @if(isset($col['maxlength']))
+                                              maxlength="{{ $col['maxlength'] }}"
+                                              oninput="countCharacters({{ $col['maxlength'] }})"
+                                              @endif
+                                    >{{ old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "" )  }}</textarea>
+                                    @if(isset($col['maxlength']))
+                                        <div class="hint">
+                                            <p id="count_characters">0/{{ $col['maxlength'] }}</p>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @elseif($col['type'] == "select")
@@ -49,7 +59,9 @@
                                             *@endif{{ $col['text'] }}</label>
                                 </p>
                                 <label class="file">
-                                    <input type="{{ $col['type'] }}" id="{{ $col['name'] }}" name="{{ $col['name'] }}" aria-label="File browser example" @if(isset($col['accept'])) accept="{{ $col['accept'] }} @endif">
+                                    <input type="{{ $col['type'] }}" id="{{ $col['name'] }}" name="{{ $col['name'] }}"
+                                           aria-label="File browser example"
+                                           @if(isset($col['accept'])) accept="{{ $col['accept'] }} @endif">
                                     <span class="file-custom"></span>
                                 </label>
                                 <br>

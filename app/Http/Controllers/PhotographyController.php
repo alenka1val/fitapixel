@@ -7,9 +7,11 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Photography;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class PhotographyController extends Controller
@@ -18,7 +20,7 @@ class PhotographyController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -97,7 +99,7 @@ class PhotographyController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public
     function create(Request $request)
@@ -122,8 +124,8 @@ class PhotographyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public
     function store(Request $request)
@@ -241,7 +243,7 @@ class PhotographyController extends Controller
             ->with('editURL', 'admin.photoShow')
             ->with('deleteURL', 'admin.photoDestroy')
             ->with('confirm', 'Určite si prajete odstrániť fotografiu?')
-            ->with('confirmAttr', 'name')
+            ->with('confirmAttr', 'filename')
             ->with('entries', $photos)
             ->with('page', $page ?: 1)
             ->with('maxPage', $maxPage);
@@ -251,7 +253,7 @@ class PhotographyController extends Controller
      * Display the specified resource.
      *
      * @param $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -270,8 +272,8 @@ class PhotographyController extends Controller
             ->with('storeURL', 'admin.photoStore')
             ->with('deleteURL', 'admin.photoDestroy')
             ->with('confirm', 'Určite si prajete odstrániť fotografiu?')
-            ->with('confirmAttr', 'name')
-            ->with('cols', $this->get_cols($this->get_options(0)))
+            ->with('confirmAttr', 'filename')
+            ->with('cols', $this->get_cols($this->get_options('user'), $this->get_options('event')))
             ->with('entry', $photo);
     }
 
@@ -279,7 +281,7 @@ class PhotographyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public
     function edit($id)
@@ -290,26 +292,145 @@ class PhotographyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public
     function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'user_id' => ['required', 'integer'],
+            'event_id' => ['required', 'integer'],
+        ]);
+
+        $user = DB::table('users')
+            ->where('id', $request->user_id)->first();
+        $event = DB::table('events')
+            ->where('id', $request->event_id)->first();
+
+        if (is_null($user)) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['user_id' => "Fotograf neexistuje"]);
+        }
+
+        if (is_null($event)) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['event_id' => "Súťaž neexistuje"]);
+        }
+
+        $request->validate([
+            'description' => ['required', 'max:255'],
+            'file' => ['image',
+                'mimes:jpeg,png,jpg',
+                "dimensions:min_width=$event->min_width",
+                "dimensions:min_height=$event->min_height",
+                "dimensions:max_width=$event->max_width",
+                "dimensions:max_height=$event->max_height",
+            ]
+        ]);
+
+        if ($id == "new") {
+            $id = null;
+            if (is_null($request->filename)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['filename' => "File is required"]);
+            }
+
+            $ratios = explode("x", $event->allowed_ratios);
+            $data = getimagesize($request->filename);
+            $width = $data[0];
+            $height = $data[1];
+            $ratio = round($width / $height, 1);
+
+            if ($ratio != round($ratios[0] / $ratios[1], 1) && $ratio != round($ratios[1] / $ratios[0], 1)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['filename' => "The file has invalid image ratio dimensions."]);
+            }
+        }
+
+        $competition_dir = $event->image_folder;
+
+        DB::beginTransaction();
+        try {
+            if (!is_null($photo = DB::table('photographies')->where('id', $id)->first())) {
+                $file_name = substr($photo->filename, strrpos($photo->filename, "/"), strlen($photo->filename));
+                if (!is_null($request->filename)) {
+                    Storage::disk('public')->delete($competition_dir . $file_name);
+                    $file_name = "photo_"
+                        . rand(10000, 99999)
+                        . "_"
+                        . date("Ymdhis")
+                        . "."
+                        . $request->filename->getClientOriginalExtension();
+                }
+
+                Photography::where('id', $id)->update([
+                    'user_id' => $request->user_id,
+                    'event_id' => $request->event_id,
+                    'filename' => "/storage/$competition_dir/$file_name",
+                    'description' => $request->description,
+                ]);
+            } else {
+                $file_name = "photo_"
+                    . rand(10000, 99999)
+                    . "_"
+                    . date("Ymdhis")
+                    . "."
+                    . $request->filename->getClientOriginalExtension();
+
+                Photography::create([
+                    'user_id' => $request->user_id,
+                    'event_id' => $request->event_id,
+                    'filename' => "/storage/$competition_dir/$file_name",
+                    'description' => $request->description,
+                ]);
+            }
+
+            if (!is_null($request->filename)) $request->filename->storeAs($competition_dir, $file_name, 'public');
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
+        }
+
+        return redirect(route('admin.photoIndex'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public
     function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $photo = Photography::find($id);
+            $photo->delete();
+
+            $file_name = substr($photo->filename,
+                strpos($photo->filename, "/storage/") + strlen("/storage/"),
+                strlen($photo->filename));
+
+            Storage::disk('public')->move($file_name, $file_name . ".bak");
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
+        }
+        return redirect(route('admin.photoIndex'));
     }
 
     /**
@@ -341,23 +462,58 @@ class PhotographyController extends Controller
             ->with('resultList', $result);
     }
 
-    public function get_cols($options)
+    public
+    function get_cols($optionsUsers, $optionsEvents)
     {
         return array(
-//            TODO: doplnit
+            array(
+                'name' => 'filename',
+                'text' => 'Fotografia',
+                'type' => 'file',
+                'required' => 'required',
+            ),
+            array(
+                'name' => 'description',
+                'text' => 'Opis',
+                'type' => 'textarea',
+                'required' => 'required',
+                'placeholder' => 'Napíšte zopár slov o danej fotografii',
+                'maxlength' => 255
+            ),
+            array(
+                'name' => 'user_id',
+                'text' => 'Fotograf',
+                'type' => 'select',
+                'required' => 'required',
+                'options' => $optionsUsers
+            ),
+            array(
+                'name' => 'event_id',
+                'text' => 'Súťaž',
+                'type' => 'select',
+                'required' => 'required',
+                'options' => $optionsEvents
+            ),
         );
     }
 
-    public function get_options($id)
+    public
+    function get_options($type)
     {
-        $options = Event::select(DB::raw('CONCAT(name, - , started_at) AS text, id'))->get();
+        if ($type == "user") {
+            $options = User::withTrashed()
+                ->select(DB::raw("CONCAT(name, '-' , email) AS text, id"))
+                ->orderBy('name', 'ASC')
+                ->get();
 
-        if ($id == 0) {
             return $options;
-        } else {
-            foreach ($options as $o) {
-                if ($o['id'] == $id) return $o;
-            }
+        } elseif ($type == "event") {
+            $options = Event::withTrashed()
+                ->select(DB::raw("CONCAT(name, '-' , started_at) AS text, id"))
+                ->orderBy('name', 'ASC')
+                ->get();
+
+            return $options;
         }
 
         return null;
