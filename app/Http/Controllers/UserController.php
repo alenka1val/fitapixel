@@ -382,7 +382,91 @@ class UserController extends Controller
     public function get_cols($options)
     {
         return array(
-//            TODO: doplnit
+            array(
+                'name' => 'name',
+                'text' => 'Celé meno',
+                'type' => 'text',
+                'required' => 'required',
+            ),
+            array(
+                'name' => 'email',
+                'text' => 'Email',
+                'type' => 'email',
+                'required' => 'required',
+            ),
+            array(
+                'name' => 'group_id',
+                'text' => 'Skupina',
+                'type' => 'select',
+                'required' => 'required',
+                'options' => $options
+            ),
+            array(
+                'name' => 'phone',
+                'text' => 'Telefónne číslo',
+                'type' => 'phone',
+                'required' => '',
+            ),
+            array(
+                'name' => 'web',
+                'text' => 'Webová stránka',
+                'type' => 'text',
+                'required' => '',
+            ),
+            array(
+                'name' => 'address_street',
+                'text' => 'Ulica',
+                'type' => 'text',
+                'required' => '',
+            ),
+            array(
+                'name' => 'address_city',
+                'text' => 'Mesto',
+                'type' => 'text',
+                'required' => '',
+            ),
+            array(
+                'name' => 'address_zip_code',
+                'text' => 'PSČ',
+                'type' => 'text',
+                'required' => '',
+            ),
+            array(
+                'name' => 'ais_uid',
+                'text' => 'AIS ID',
+                'type' => 'text',
+                'required' => '',
+                'example' => '* Povinné iba ak zadáte skupinu s prihlásením cez LDAP',
+            ),
+            array(
+                'name' => 'password',
+                'text' => 'Heslo',
+                'type' => 'password',
+                'required' => '',
+                'example' => '* Povinné iba ak zadáte skupinu bez prihlásením cez LDAP',
+            ),
+            array(
+                'name' => 'confirm_password',
+                'text' => 'Zopakujte heslo',
+                'type' => 'password',
+                'required' => '',
+                'example' => '* Povinné iba ak zadáte skupinu bez prihlásením cez LDAP',
+            ),
+            array(
+                'name' => 'photo',
+                'text' => 'Fotografia',
+                'type' => 'file',
+                'required' => '',
+                'example' => '* Povinné iba ak pracujete s používateľom skupiny "porodca", pomer musí byť 3X2',
+            ),
+            array(
+                'name' => 'description',
+                'text' => 'Opis',
+                'type' => 'textarea',
+                'required' => '',
+                'placeholder' => 'Napíšte zopár slov o danej súťaži',
+                'example' => '* Povinné iba ak pracujete s používateľom skupiny "porodca"',
+            ),
         );
     }
 

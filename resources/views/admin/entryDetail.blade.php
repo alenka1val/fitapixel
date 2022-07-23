@@ -10,12 +10,17 @@
                       enctype="multipart/form-data">
                     @csrf
                     @foreach($cols as $col)
+                        <label for="{{ $col['name'] }}"
+                               style="font-weight: bold">@if($col['required'] == "required" )
+                                *@endif{{ $col['text'] }}</label>
+                        @if(isset($col['example']))
+                            <div class="hint">
+                                <p style="margin: -2px; text-align: left"><i>{{ $col['example'] }}</i></p>
+                            </div>
+                        @endif
                         @if($col['type'] == "textarea")
                             <div class="form-group">
                                 <div>
-                                    <label for="{{ $col['name'] }}"
-                                           style="font-weight: bold">@if($col['required'] == "required" )
-                                            *@endif{{ $col['text'] }}</label>
                                     <textarea id="{{ $col['name'] }}" name="{{ $col['name'] }}"
                                               class="form-control input" {{ $col['required'] }}
                                               placeholder="{{ $col['placeholder'] }}" cols="40" rows="10"
@@ -35,9 +40,6 @@
                             </div>
                         @elseif($col['type'] == "select")
                             <div class="form-group">
-                                <label for="{{ $col['name'] }}"
-                                       style="font-weight: bold">@if($col['required'] == "required" )
-                                        *@endif{{ $col['text'] }}</label>
                                 <select id="{{ $col['name'] }}" name="{{ $col['name'] }}"
                                         class="form-control input select">
                                     <option value=""
@@ -53,11 +55,6 @@
                             </div>
                         @elseif($col['type'] == "file")
                             <div class="form-group">
-                                <p>
-                                    <label for="{{ $col['name'] }}"
-                                           style="font-weight: bold">@if($col['required'] == "required" )
-                                            *@endif{{ $col['text'] }}</label>
-                                </p>
                                 <label class="file">
                                     <input type="{{ $col['type'] }}" id="{{ $col['name'] }}" name="{{ $col['name'] }}"
                                            aria-label="File browser example"
@@ -69,14 +66,13 @@
                             </div>
                         @else
                             <div class="form-group">
-                                <label for="{{ $col['name'] }}"
-                                       style="font-weight: bold">
-                                    @if($col['required'] == "required" )*@endif{{ $col['text'] }}</label>
                                 <div>
                                     <input id="{{ $col['name'] }}" type="{{ $col['type'] }}"
                                            class="form-control @error($col['name']) is-invalid @enderror input"
                                            name="{{ $col['name'] }}"
+                                           @if($col['type'] != "password")
                                            value="{{ old( $col['name'], isset($entry[$col['name']]) ? $entry[$col['name']] : "" ) }}"
+                                           @endif
                                            {{ $col['required'] }}
                                            placeholder="{{ $col['text'] }}"
                                            @if(isset($col['pattern']))pattern="{{ $col['pattern'] }}" @endif

@@ -152,8 +152,6 @@ class SponsorController extends Controller
             }
         }
 
-        $storage_dir = asset('storage') . "/sponsors/";
-
         DB::beginTransaction();
         try {
             if (!is_null($sponsor = DB::table('sponsors')->where('id', $id)->first())) {
@@ -168,7 +166,7 @@ class SponsorController extends Controller
                 Sponsor::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],
-                    'photo_path' => $storage_dir . $file_name,
+                    'photo_path' => "/storage/sponsors/" . $file_name,
                     'url_path' => $request['url_path'],
                 ]);
             } else {
@@ -179,7 +177,7 @@ class SponsorController extends Controller
 
                 Sponsor::create([
                     'name' => $request['name'],
-                    'photo_path' => $storage_dir . $file_name,
+                    'photo_path' => "/storage/sponsors/" . $file_name,
                     'url_path' => $request['url_path'],
                 ]);
             }
@@ -208,8 +206,12 @@ class SponsorController extends Controller
         try {
             $sponsor = Sponsor::find($id);
             $sponsor->delete();
-//            TODO: mame SoftDeletes
-//            Storage::disk('public')->delete('sponsors/' . $sponsor->photo_path);
+
+            $file_name = substr($sponsor->photo_path,
+                strpos($sponsor->photo_path, "/storage/") + strlen("/storage/"),
+                strlen($sponsor->photo_path));
+
+            Storage::disk('public')->move($file_name, $file_name . ".bak");
 
             DB::commit();
         } catch (\Exception $e) {
