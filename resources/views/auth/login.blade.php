@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'FIITAPIXEL - Prihlásenie')
 @section('content')
     <div class="authContainer">
         <div class="authCard">

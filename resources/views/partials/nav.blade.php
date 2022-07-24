@@ -22,13 +22,14 @@
             <a class="nav-link @yield('galleryActive')" href="{{ route('info.gallery') }}">
                 Galéria
             </a>
+            @if(!is_null(Auth::user()) && Session::get('role')[0] != 'jury')
+                <a class="nav-link @yield('addActive')" href="{{ route('photographies.create') }}">
+                    Pridať foto
+                </a>
+            @endif
             @if(!is_null(Auth::user()) && (Session::get('role')[0] == 'jury' || Session::get('role')[0] == 'admin'))
                 <a class="nav-link @yield('voteActive')" href="{{ route('info.voteList') }}">
                     Vyhodnotiť
-                </a>
-            @else
-                <a class="nav-link @yield('addActive')" href="{{ route('photographies.create') }}">
-                    Pridať foto
                 </a>
             @endif
             @guest
@@ -59,7 +60,7 @@
 
                 <a class="nav-link @yield('profileActive')" href="{{ route('users.profile') }}">
                     <!-- <i class="fa-solid fa-user"></i> -->
-                    Váš profil
+                    Môj profil
                 </a>
             @endauth
         </div>
@@ -72,10 +73,20 @@
     </nav>
     <section id="collapse">
         <div id="collapse-items">
-            <p class="p-nav"><a class="collapse_item" href="{{ route('info.competition') }}">Súťaž</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('info.judges') }}">Porotcovia</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('info.gallery') }}">Galéria</a></p>
-            <p class="p-nav"><a class="collapse_item" href="{{ route('photographies.create') }}">Pridať foto</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('competitionActive')"
+                                href="{{ route('info.competition') }}">Súťaž</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('juryActive')"
+                                href="{{ route('info.judges') }}">Porotcovia</a></p>
+            <p class="p-nav"><a class="collapse_item @yield('galleryActive')"
+                                href="{{ route('info.gallery') }}">Galéria</a></p>
+            @if(!is_null(Auth::user()) && Session::get('role')[0] != 'jury')
+                <p class="p-nav"><a class="collapse_item @yield('addActive')"
+                                    href="{{ route('photographies.create') }}">Vyhodnotiť</a></p>
+            @endif
+            @if(!is_null(Auth::user()) && (Session::get('role')[0] == 'jury' || Session::get('role')[0] == 'admin'))
+                <p class="p-nav"><a class="collapse_item @yield('voteActive')" href="{{ route('info.voteList') }}">Vyhodnotiť</a>
+                </p>
+            @endif
             @guest
                 <p class="p-nav">
                     <a class="collapse_item" href="{{ route('login') }}">
@@ -105,12 +116,8 @@
                 {{--                    </a>--}}
                 {{--                </form>--}}
                 {{--                </p>--}}
-
-                <p class="p-nav">
-                    <a class="nav-link @yield('profileActive')" href="{{ route('users.profile') }}">
-                        <!-- <i class="fa-solid fa-user"></i> -->
-                        Váš profil
-                    </a>
+                <p class="p-nav"><a class="nav-link @yield('profileActive')" href="{{ route('users.profile') }}">Môj
+                        profil</a>
                 </p>
             @endauth
         </div>

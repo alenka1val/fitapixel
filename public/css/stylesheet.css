@@ -326,7 +326,7 @@ body {
     color: rgb(32, 41, 47);
     margin: 0 auto 0 auto;
     display: grid;
-    grid-template-columns: 30% 40%;
+    grid-template-columns: 20% 50%;
     align-items: center;
     justify-items: center;
 }
@@ -371,7 +371,7 @@ a.nav-home {
 
 .right_grid {
     display: grid;
-    grid-template-columns: 0 repeat(5, 20%);
+    grid-template-columns: 0 repeat(6, calc(100% / 6));
     align-items: center;
     justify-items: center;
 }
@@ -398,8 +398,6 @@ a.nav-home {
     margin: 0;
     transition: var(--transition);
     z-index: 98;
-    font-size: 14px;
-    font-weight: 500px;
 }
 
 .p-nav {
@@ -419,7 +417,6 @@ a.nav-home {
 #collapse p a {
     color: rgb(32, 41, 47);
     text-decoration: none;
-    font-weight: 500;
     padding: 10px 5%;
 }
 
@@ -934,6 +931,7 @@ table tr.active-row {
     font-size: 16px;
     font-weight: 500;
     line-height: 32px;
+    padding: 20px;
 }
 
 .card-body-left {
@@ -1296,6 +1294,156 @@ h3.third {
 
 /* sortable */
 
+.paginationOut {
+    margin: 0 auto 30px auto;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+}
+
+.pagination {
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination a.active {
+    background-color: var(--border_color);
+    color: black;
+}
+
+.pagination a:hover {
+    background-color: #151f33;
+    color: white;
+}
+
+.pagination .arrowPage {
+    border: 1px solid black;
+}
+
+.pagination .nonPage:hover {
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+.pageButton {
+    background-color: var(--border_color);
+    border: 0;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    height: 50px;
+    width: 200px;
+    font-weight: bold;
+    color: black;
+    transition: var(--transition);
+}
+
+.pageButton:hover {
+    background-color: #151f33;
+    color: var(--border_color);
+}
+
+.adminTable tr > *:nth-child(1) {
+    text-align: left;
+    width: 75%;
+}
+
+.adminTable tr > *:nth-child(2) {
+    width: 20%;
+}
+
+.adminTable tr > *:nth-child(3) {
+    width: 5%;
+}
+
+.adminTable {
+    width: 80%;
+}
+
+.adminTable td {
+    color: black;
+}
+
+.admin_a {
+    color: var(--second_color);
+    font-weight: bold;
+}
+
+.adminGrid {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    padding-bottom: 125px;
+}
+
+.adminTable {
+    width: 80%;
+    max-width: 1024px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+.adminTable th {
+    background-color: #151f33;
+    color: var(--border_color);
+}
+
+.adminTable td, th {
+    border: none;
+    text-align: center;
+    padding: 8px;
+}
+
+.adminTable tr:nth-child(odd) {
+    background-color: rgba(105, 105, 105, 0.15);
+}
+
+
+.adminTable tr:last-of-type {
+    border-bottom: 2px solid var(--border_color);
+}
+
+.newButton {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 100;
+    background-color: var(--border_color);
+    height: 70px;
+    width: 70px;
+    border: none;
+    border-radius: 50%;
+    color: black;
+    font-size: 30px;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.newButton:hover {
+    background-color: #151f33;
+    color: var(--border_color);
+}
+
+.adminButton {
+    background: none;
+    border: none;
+    font-size: 14px;
+    margin: 0 2px;
+    color: black;
+}
+
+.invalid-feedback {
+    color: red;
+}
 
 @media screen and (min-width: 1600px) {
     .photoContainer {
@@ -1523,6 +1671,7 @@ h3.third {
         grid-template-columns: auto auto;
     }
 }
+
 @media screen and (max-width: 650px) {
     #imageListId {
         grid-template-columns: auto;

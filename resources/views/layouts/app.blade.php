@@ -34,7 +34,11 @@
 </head>
 <body>
 <header class="app-header">
-    @include('partials.nav')
+    @if(!empty(Session::get('webAdmin')) && Session::get('webAdmin')[0] == 1)
+        @include('partials.webAdminNav')
+    @else
+        @include('partials.nav')
+    @endif
 </header>
 <div class="nav-background"></div>
 <div class="app-body">
@@ -44,9 +48,9 @@
 </div>
 @include('partials.footer')
 <script src="{{ asset( 'js/app.js' ) }}"></script>
-<script src="{{ asset( '/js/scripts.js' )}}"></script>
 <script src="{{ asset( 'js/jquery-1.10.2.js' ) }}"></script>
 <script src="{{ asset( 'js/jquery-ui.js' ) }}"></script>
+<script src="{{ asset( 'js/scripts.js' )}}"></script>
 @yield('scripts')
 </body>
 </html>

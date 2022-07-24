@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'FIIT a PIXEL')
+@section('title', 'FIIT a PIXEL - Súťaže')
 @section('competitionActive') nav-link-bold @endsection
 @section('content')
     <div class="container">

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'FIITAPIXEL - Upraviť profil')
 @section('profileActive') nav-link-bold @endsection
 @section('content')
     <div class="authContainer">
@@ -188,6 +189,6 @@
 @endsection
 @section('scripts')
     <script>
-        showAISLogin({{ $groups }})
+        document.getElementById("group_id").onchange();
     </script>
 @endsection

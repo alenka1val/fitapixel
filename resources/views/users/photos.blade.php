@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'FIITAPIXEL - Moje Foto')
 @section('profileActive') nav-link-bold @endsection
 @section('content')
     <div class="authContainer">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'FIITAPIXEL - Reset hesla')
 @section('content')
 <div class="authContainer">
     <div class="authCard">
