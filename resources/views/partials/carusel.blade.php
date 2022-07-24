@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="main-button">
-        <button class="main-button yellow-background last" onclick="redirect_self('#competitions')">
+        <button class="main-button yellow-background last" onClick="window.location='{{ route('info.competition', "#competitions") }}'">
             Zapojiť sa do súťaže
         </button>
     </div>

@@ -201,7 +201,7 @@ class UserController extends Controller
             ->with('header', "Používatelia")
             ->with('active', 'adminUserActive')
             ->with('entryColumns', array('name', 'email'))
-            ->with('tableColumns', array("Nadpis web kontentu", "Email"))
+            ->with('tableColumns', array("Meno používateľa", "Email"))
             ->with('indexURL', 'admin.userIndex')
             ->with('editURL', 'admin.userShow')
             ->with('deleteURL', 'admin.userDestroy')
