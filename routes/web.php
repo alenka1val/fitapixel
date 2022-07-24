@@ -28,9 +28,9 @@ Route::group(['middleware' => ['auth', 'adminOrPhotographer']], function () {
 Route::get('/gallery', 'App\Http\Controllers\PhotographyController@index')->name('info.gallery');
 
 Route::group(['middleware' => ['auth', 'adminOrJury']], function () {
-    Route::get('/voteList', 'App\Http\Controllers\VotesController@voteList')->name('info.voteList');
-    Route::get('/vote', 'App\Http\Controllers\VotesController@voteIndex')->name('info.vote');
-    Route::post('/vote', 'App\Http\Controllers\VotesController@voteStore')->name('info.voteStore');
+    Route::get('/voteList', 'App\Http\Controllers\VotesController@index')->name('info.voteList');
+    Route::get('/vote', 'App\Http\Controllers\VotesController@show')->name('info.vote');
+    Route::post('/vote', 'App\Http\Controllers\VotesController@store')->name('info.voteStore');
 });
 
 Route::get('/competition', 'App\Http\Controllers\EventController@index')->name('info.competition');

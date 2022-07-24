@@ -75,14 +75,16 @@
                                            @endif
                                            {{ $col['required'] }}
                                            placeholder="{{ $col['text'] }}"
-                                           @if(isset($col['pattern']))pattern="{{ $col['pattern'] }}" @endif
+                                           @if(isset($col['pattern'])) pattern="{{ $col['pattern'] }}" @endif
                                            title="@if(isset($col['pattern'])){{ $col['example'] }}@else {{ $col['text'] }} @endif">
                                 </div>
                             </div>
                         @endif
                         @error($col['name'])
                         <span class="invalid-feedback" role="alert">
+                            <p>
                                 <strong>{{ $message }}</strong>
+                            </p>
                             </span>
                         @enderror
                     @endforeach

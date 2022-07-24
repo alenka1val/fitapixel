@@ -270,7 +270,7 @@ class ContentController extends Controller
     {
         $jury = DB::table('users')
             ->select(DB::raw('users.*'))
-            ->join('contents', 'users.content_id', '=', 'contents.id')
+            ->join('groups', 'users.group_id', '=', 'groups.id')
             ->where('permission', 'jury')
             ->get();
 

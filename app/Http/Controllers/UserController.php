@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Models\Group;
+use App\Models\Photography;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,7 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -257,7 +261,170 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tmp = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'group_id' => ['required', 'integer'],
+        ]);
+
+        if (!is_null(DB::table('users')->where('email', $request['email'])->where('id', '!=', $id)->first())) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['email' => "Email is already in use"]);
+        }
+
+        $hash_password = is_null($request->password) ? 0 : 1;
+
+        $group = DB::table('groups')
+            ->where('id', $request->group_id)
+            ->first();
+
+        if (is_null($group)) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['group_id' => "Group not found"]);
+        }
+
+        if ($group->permission == 'jury') {
+            if ($id == "new" || !is_null($request->photo)) {
+                $tmp = $request->validate([
+                    'photo' => ['required', 'image'],
+                    'description' => ['required', 'string'],
+                ]);
+
+                $data = getimagesize($request->photo);
+                $width = $data[0];
+                $height = $data[1];
+                $ratio = round($width / $height, 1);
+
+                if ($ratio != round(3 / 2, 1)) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['photo' => "The file has invalid image ratio dimensions"]);
+                }
+            }
+        }
+
+        if ($id == "new") {
+            $id = null;
+            $user = null;
+            $old_group = null;
+        } else {
+            $user = DB::table('users')->where('id', $id)->first();
+
+            if (is_null($user)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['name' => "User not found"]);
+            }
+
+            $old_group = DB::table('groups')
+                ->where('id', $user->group_id)
+                ->first();
+
+            if (is_null($group)){
+                $group = DB::table('groups')
+                    ->where('id', '!=', $request->group_id)
+                    ->first();
+            }
+        }
+
+        if (is_null($id) || $group->id != $old_group->id || !is_null($request->password)) {
+            $tmp = $request->validate([
+                'password' => ['required', 'string', 'min:8'],
+                'confirm_password' => ['required', 'string', 'min:8'],
+            ]);
+
+            if ($request->password != $request->confirm_password) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['password' => 'Passwords do not match!']);
+            }
+
+            if (!empty($group->need_ldap)) {
+                $tmp = $request->validate([
+                    'ais_uid' => ['required', 'string', 'min:8'],
+                ]);
+
+                if ($request->password != $request->confirm_password) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['password' => 'Passwords do not match!']);
+                }
+
+                $ldap_values = (new LoginController())->LDAPLogin($request->ais_uid, $request->password, $group->need_ldap);
+
+                if (!$ldap_values['authenticated']) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['password' => "AIS login error: " . $ldap_values['status']]);
+                }
+                $request['password'] = env('LDAP_USER_PASSWORD');
+                $request['password_confirmation'] = env('LDAP_USER_PASSWORD');
+            }
+        }
+
+        DB::beginTransaction();
+        try {
+            if (!is_null($user)) {
+
+                if ($group->permission == 'jury') {
+                    $file_name = substr($user->photo, strrpos($user->photo, "/"), strlen($user->photo));
+                    if (!is_null($request->photo)) {
+                        Storage::disk('public')->delete("persons/" . $file_name);
+                        $file_name = "photo_" . rand(1000, 9999) . "_" . date("Ymdhis") . "." . $request->photo->getClientOriginalExtension();
+                    }
+                }
+
+                User::where('id', $id)->update([
+                    'name' => $request['name'],
+                    'email' => $request['email'],
+                    'password' => $hash_password ? Hash::make($request['password']) : $user->password,
+                    'phone' => $request['phone'],
+                    'web' => $request['web'],
+                    'address_street' => $request['address_street'],
+                    'address_city' => $request['address_city'],
+                    'address_zip_code' => $request['address_zip_code'],
+                    'ais_uid' => $request['ais_uid'],
+                    'description' => $request['description'],
+                    'group_id' => $request['group_id'],
+                    'photo' => "/storage/persons/$file_name",
+                    ]);
+            } else {
+                $file_name = null;
+                if ($group->permission == 'jury') {
+                    if (!is_null($request->photo)) {
+                        $file_name = "photo_" . rand(1000, 9999) . "_" . date("Ymdhis") . "." . $request->photo->getClientOriginalExtension();
+                    }
+                }
+
+                User::create([
+                    'name' => $request['name'],
+                    'email' => $request['email'],
+                    'password' => Hash::make($request['password']),
+                    'phone' => $request['phone'],
+                    'web' => $request['web'],
+                    'address_street' => $request['address_street'],
+                    'address_city' => $request['address_city'],
+                    'address_zip_code' => $request['address_zip_code'],
+                    'ais_uid' => $request['ais_uid'],
+                    'description' => $request['description'],
+                    'group_id' => $request['group_id'],
+                    'photo' => "/storage/persons/$file_name",
+                ]);
+            }
+
+
+            if ($group->permission == 'jury' && !is_null($request->photo)) $request->photo->storeAs("persons", $file_name, 'public');
+            DB::commit();
+        } catch
+        (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+            return redirect()->back()
+                ->withInput();
+        }
+        return redirect(route('admin.userIndex'));
     }
 
     /**
@@ -266,13 +433,21 @@ class UserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         DB::beginTransaction();
         try {
-            $group = User::find($id);
-            $group->delete();
+            $user = User::find($id);
+            $user->delete();
 
+            if (!empty($user->photo)) {
+                $file_name = substr($user->photo,
+                    strpos($user->photo, "/storage/") + strlen("/storage/"),
+                    strlen($user->photo));
+
+                Storage::disk('public')->move($file_name, $file_name . ".bak");
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -288,7 +463,8 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function photos()
+    public
+    function photos()
     {
         $photo_list = DB::table('photographies')
             ->where('user_id', Auth::user()->id)
@@ -379,7 +555,8 @@ class UserController extends Controller
         return redirect(route('users.profile'));
     }
 
-    public function get_cols($options)
+    public
+    function get_cols($options)
     {
         return array(
             array(
@@ -443,14 +620,14 @@ class UserController extends Controller
                 'text' => 'Heslo',
                 'type' => 'password',
                 'required' => '',
-                'example' => '* Povinné iba ak zadáte skupinu bez prihlásením cez LDAP',
+                'example' => '* Povinné iba ak vytvárate nového usera alebo meníte skupinu',
             ),
             array(
                 'name' => 'confirm_password',
                 'text' => 'Zopakujte heslo',
                 'type' => 'password',
                 'required' => '',
-                'example' => '* Povinné iba ak zadáte skupinu bez prihlásením cez LDAP',
+                'example' => '* Povinné iba ak vytvárate nového usera alebo meníte skupinu',
             ),
             array(
                 'name' => 'photo',
@@ -470,7 +647,8 @@ class UserController extends Controller
         );
     }
 
-    public function get_options($id)
+    public
+    function get_options($id)
     {
         $options = Group::select(DB::raw('name AS text, id'))->get();
 
