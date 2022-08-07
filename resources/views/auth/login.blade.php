@@ -17,27 +17,26 @@
                     @csrf
                     <div class="form-group">
                     <!-- <label for="email" >{{ __('E-Mail Address') }}</label> -->
-                        <div>
+                        <div class="has-input">
                             <input id="email" type="text"
                                    class="form-control @error('email') is-invalid @enderror input" name="email"
                                    value="{{ old('email') }}" autocomplete="email"
                                    placeholder="{{ __('E-Mail Address or AIS login') }}" autofocus>
                             @error('email')
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                                <small>{{ $message }}</small>
                             </span>
                             @enderror
                         </div>
                     </div>
                     <div class="form-group">
-                    <!-- <label for="password" >{{ __('Password') }}</label> -->
-                        <div>
+                        <div class="has-input">
                             <input id="password" type="password"
                                    class="form-control @error('password') is-invalid @enderror input" name="password"
                                  autocomplete="current-password" placeholder="{{ __('Password') }}">
                             @error('password')
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                                <small>{{ $message }}</small>
                             </span>
                             @enderror
                         </div>
@@ -60,21 +59,21 @@
                             </button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-secondary authButton"
-                                onClick="window.location='{{ route("register") }}'">
-                            Registrácia
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        @if (Route::has('password.request'))
-                            <button class="btn btn-secondary authButton"
-                                    onClick="window.location='{{ route("password.request") }}'">
-                                {{ __('Forgot Your Password?') }}
-                            </button>
-                        @endif
-                    </div>
                 </form>
+                <div class="form-group">
+                    <button class="btn btn-secondary authButton"
+                            onClick="window.location='{{ route("register") }}'">
+                        Registrácia
+                    </button>
+                </div>
+                <div class="form-group">
+                    @if (Route::has('password.request'))
+                        <button class="btn btn-secondary authButton"
+                                onClick="window.location='{{ route("password.request") }}'">
+                            {{ __('Forgot Your Password?') }}
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

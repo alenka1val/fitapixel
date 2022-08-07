@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 
 class PhotographyController extends Controller
@@ -24,6 +26,12 @@ class PhotographyController extends Controller
      */
     public function index(Request $request)
     {
+       
+        $request->validate([
+            'selected_year' => ['required', 'string', 'max:255'],
+            'selected_event' => ['required', 'string', 'max:255'],
+        ]);
+
         // GET years and events
         $event_list = DB::table('events')
             ->select(DB::raw('date_part(\'year\', finished_at) as year, name, id'))
