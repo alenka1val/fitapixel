@@ -20,7 +20,7 @@
                         <div>
                             <input id="email" type="text"
                                    class="form-control @error('email') is-invalid @enderror input" name="email"
-                                   value="{{ old('email') }}" required autocomplete="email"
+                                   value="{{ old('email') }}" autocomplete="email"
                                    placeholder="{{ __('E-Mail Address or AIS login') }}" autofocus>
                             @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -34,7 +34,7 @@
                         <div>
                             <input id="password" type="password"
                                    class="form-control @error('password') is-invalid @enderror input" name="password"
-                                   required autocomplete="current-password" placeholder="{{ __('Password') }}">
+                                 autocomplete="current-password" placeholder="{{ __('Password') }}">
                             @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

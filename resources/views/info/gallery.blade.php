@@ -95,6 +95,7 @@
                         <img id="photoImg-{{ $i }}" class="galery-image"
                              onclick="zoomIn('photoImg-{{ $i }}', {{ $i }} , '{{ $photos[$i]->user_name }}' , '{{ $photos[$i]->description }}', '{{ $photos[$i]->event_id }}', '{{ $photos[$i]->place }}')"
                              src="{{ $photos[$i]->filename }}" alt="{{ $photos[$i]->filename }}"/>
+                        <h4><i>{{$photos[2]->place}}. miesto</i></h4>
                     @endfor
                 </div>
             </div>

@@ -1101,21 +1101,19 @@ table tr.active-row {
 
 .winners img.second {
     box-shadow: rgba(255, 255, 255, 0.3) 0px 32px 200px 16px;
-    width: 80%;
 }
 
 .winners img.third {
     box-shadow: rgba(173, 138, 86, 0.3) 0px 32px 200px 16px;
-    width: 70%;
 }
 
 .winners img.first {
-    grid-column: b;
+    grid-column: a;
     grid-row: sub-a;
 }
 
 .winners img.second {
-    grid-column: a;
+    grid-column: b;
     grid-row: sub-a;
 }
 
