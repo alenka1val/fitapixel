@@ -53,7 +53,7 @@ class PhotographyController extends Controller
         }
 
         $finished = DB::table('events')
-            ->select(DB::raw('(case when DATE(now()) > voted_at then 1 else 0 end) as finished'))
+            ->select(DB::raw('(case when DATE(now()) > voted_to then 1 else 0 end) as finished'))
             ->where('id', $request->selected_event)
             ->first();
         $finished = is_null($finished) ? 0 : $finished->finished;
