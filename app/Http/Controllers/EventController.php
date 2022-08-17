@@ -106,7 +106,7 @@ class EventController extends Controller
 
         $event = null;
         if ($id != "new") {
-            $event = Event::where('id', $id)->first();
+            $event = Event::withoutTrashed()->where('id', $id)->first();
         } else {
             $event = array(
                 'id' => $id,
@@ -223,7 +223,7 @@ class EventController extends Controller
     {
         DB::beginTransaction();
         try {
-            $event = Event::find($id);
+            $event = Event::withoutTrashed()->find($id);
             $event->delete();
 
             DB::commit();

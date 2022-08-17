@@ -99,7 +99,7 @@ class SponsorController extends Controller
 
         $sponsor = null;
         if ($id != "new") {
-            $sponsor = Sponsor::where('id', $id)->first();
+            $sponsor = Sponsor::withoutTrashed()->where('id', $id)->first();
         } else {
             $sponsor = array(
                 'id' => $id,
@@ -204,7 +204,7 @@ class SponsorController extends Controller
     {
         DB::beginTransaction();
         try {
-            $sponsor = Sponsor::find($id);
+            $sponsor = Sponsor::withoutTrashed()->find($id);
             $sponsor->delete();
 
             $file_name = substr($sponsor->photo_path,

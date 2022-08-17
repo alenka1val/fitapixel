@@ -261,7 +261,7 @@ class PhotographyController extends Controller
     {
         $photo = null;
         if ($id != "new") {
-            $photo = Photography::where('id', $id)->first();
+            $photo = Photography::withoutTrashed()->where('id', $id)->first();
         } else {
             $photo = array(
                 'id' => $id,
@@ -422,7 +422,7 @@ class PhotographyController extends Controller
     {
         DB::beginTransaction();
         try {
-            $photo = Photography::find($id);
+            $photo = Photography::withoutTrashed()->find($id);
             $photo->delete();
 
             $file_name = substr($photo->filename,

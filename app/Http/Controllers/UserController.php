@@ -223,7 +223,7 @@ class UserController extends Controller
 
         $user = null;
         if ($id != "new") {
-            $user = User::where('id', $id)->first();
+            $user = User::withoutTrashed()->where('id', $id)->first();
         } else {
             $user = array(
                 'id' => $id,
@@ -438,7 +438,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            $user = User::find($id);
+            $user = User::withoutTrashed()->find($id);
             $user->delete();
 
             if (!empty($user->photo)) {
@@ -650,7 +650,7 @@ class UserController extends Controller
     public
     function get_options($id)
     {
-        $options = Group::select(DB::raw('name AS text, id'))->get();
+        $options = Group::withoutTrashed()->select(DB::raw('name AS text, id'))->get();
 
         if ($id == 0) {
             return $options;

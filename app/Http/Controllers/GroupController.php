@@ -98,7 +98,7 @@ class GroupController extends Controller
 
         $group = null;
         if ($id != "new") {
-            $group = Group::where('id', $id)->first();
+            $group = Group::withoutTrashed()->where('id', $id)->first();
         } else {
             $group = array(
                 'id' => $id,
@@ -190,7 +190,7 @@ class GroupController extends Controller
     {
         DB::beginTransaction();
         try {
-            $group = Group::find($id);
+            $group = Group::withoutTrashed()->find($id);
             $group->delete();
 
             DB::commit();
