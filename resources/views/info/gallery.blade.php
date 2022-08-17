@@ -113,7 +113,7 @@
                     <div class="modal-div">
                         <p id="captionText1"></p>
                         <p id="captionText2"></p>
-                        <p id="captionText3"></p>
+                            <p id="captionText3" @if(!$finished) style="display: none" @endif></p>
                     </div>
                     <i class="fa fa-arrow-right zoomImageArrows right_arrow_move"
                        onclick="moveRight({{ $photos }})"></i>
