@@ -68,7 +68,7 @@ class PhotographyController extends Controller
             ->orderBy('vote_sum', 'DESC')
             ->get();
 
-        $place = 0;
+        $place = 1;
         $counter = 1;
         $prev_value = 0;
         foreach ($photos as $photo) {
