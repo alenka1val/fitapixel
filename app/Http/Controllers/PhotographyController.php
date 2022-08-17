@@ -40,8 +40,8 @@ class PhotographyController extends Controller
             array_push($events[$e->year], array('name' => $e->name, 'id' => $e->id));
         }
 
-        $selected_year = is_null($request['selected_year'])? key($events):$request['selected_year'];
-        $selected_event = is_null($request['selected_event'])? $events[$selected_year][0]: array("id" => $request['selected_event'], 'name' => getEventNameFromId($event_list, $request['selected_event']));
+        $selected_year = is_null($request['selected_year']) ? key($events) : $request['selected_year'];
+        $selected_event = is_null($request['selected_event']) ? $events[$selected_year][0] : array("id" => $request['selected_event'], 'name' => getEventNameFromId($event_list, $request['selected_event']));
 
         if (empty($events)) {
             return view('info.gallery')
@@ -51,7 +51,6 @@ class PhotographyController extends Controller
                 ->with('selected_event', $selected_event);
 
         }
-
 
         $finished = DB::table('events')
             ->select(DB::raw('(case when DATE(now()) > voted_at then 1 else 0 end) as finished'))
@@ -231,6 +230,7 @@ class PhotographyController extends Controller
                 ->select(DB::raw("*, CONCAT('user:', user_id, ', event:', event_id) AS column_2"))
                 ->orderBy('user_id', 'ASC')
                 ->orderBy('event_id', 'ASC')
+                ->orderBy('filename', 'ASC')
                 ->paginate($pageCount);
         }
 
@@ -367,6 +367,11 @@ class PhotographyController extends Controller
                         . date("Ymdhis")
                         . "."
                         . $request->filename->getClientOriginalExtension();
+                } else {
+                    $old_filename = strtr($photo->filename, ["storage/" => ""]);
+                    if ($old_filename[0] == "/") $old_filename = substr($old_filename, 1);
+                    if ($old_filename != $competition_dir . $file_name)
+                        Storage::disk('public')->move($old_filename, $competition_dir . $file_name);
                 }
 
                 Photography::where('id', $id)->update([
@@ -386,7 +391,7 @@ class PhotographyController extends Controller
                 Photography::create([
                     'user_id' => $request->user_id,
                     'event_id' => $request->event_id,
-                    'filename' => "/storage/$competition_dir/$file_name",
+                    'filename' => "/storage/$competition_dir$file_name",
                     'description' => $request->description,
                 ]);
             }
@@ -520,9 +525,10 @@ class PhotographyController extends Controller
     }
 }
 
-function getEventNameFromId($event_list, $id){
+function getEventNameFromId($event_list, $id)
+{
     foreach ($event_list as $event) {
-        if ($event->id == intval($id)){
+        if ($event->id == intval($id)) {
             return $event->name;
         }
     }
