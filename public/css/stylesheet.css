@@ -711,6 +711,12 @@ li.social-media i:focus-visible {
     grid-template-rows: auto auto auto;
     align-items: center;
     justify-items: center;
+    word-wrap: break-word;
+}
+
+.modal-div p {
+    width: 100%;
+    min-width: 250px;
 }
 
 @-webkit-keyframes zoom {
@@ -1085,7 +1091,7 @@ table tr.active-row {
 
 .winners {
     display: grid;
-    grid-template-columns: [a] calc(100%/3) [b] calc(100%/3) [c] calc(100%/3);
+    grid-template-columns: [a] calc(100% / 3) [b] calc(100% / 3) [c] calc(100% / 3);
     grid-template-rows: [sub-a] auto [sub-b] auto [sub-c] auto;
     justify-items: center;
     align-items: center;
@@ -1102,6 +1108,7 @@ table tr.active-row {
     width: auto;
     height: auto;
 }
+
 .winners img.first {
     box-shadow: rgba(255, 215, 0, 0.3) 0 0 50px 10px;
 }
