@@ -92,7 +92,7 @@
             <div>
                 <div class="galery">
                     @for ($i = $finished ? 3 : 0; $i < count($photos); $i++)
-                        <img id="photoImg-{{ $i }}" class="galery-image"
+                        <img id="photoImg-{{ $i }}" class="galery-image no-winner"
                              onclick="zoomIn('photoImg-{{ $i }}', {{ $i }} , '{{ $photos[$i]->user_name }}' , '{{ $photos[$i]->description }}', '{{ $photos[$i]->event_id }}', '{{ $photos[$i]->place }}')"
                              src="{{ $photos[$i]->filename }}" alt="{{ $photos[$i]->filename }}"/>
                     @endfor
@@ -104,18 +104,52 @@
                 <span class="close"><i class="fa fa-times zoomImageI"></i></span>
                 <img class="modal-content" id="img01">
                 <div id="caption">
-                    <i class="fa fa-arrow-left zoomImageArrows left_arrow_move" onclick="moveLeft({{ $photos }})"></i>
+                    <i class="fa fa-arrow-left zoomImageArrows left_arrow_move"
+                       onclick="moveLeft({{ $photos }})"></i>
                     <div class="modal-div">
                         <p id="captionText1"></p>
                         <p id="captionText2"></p>
                         <p id="captionText3"></p>
                     </div>
-                    <i class="fa fa-arrow-right zoomImageArrows right_arrow_move" onclick="moveRight({{ $photos }})"></i>
+                    <i class="fa fa-arrow-right zoomImageArrows right_arrow_move"
+                       onclick="moveRight({{ $photos }})"></i>
                 </div>
             </div>
         @endif
     </div>
     <script>
         const events = <?php echo(json_encode($events)); ?>;
+    </script>
+@endsection
+@section('scripts')
+    <script>
+        setImgSize();
+        window.onresize = setImgSize;
+
+        function setImgSize() {
+            let width = document.documentElement.clientWidth;
+
+            if (width > 750) {
+                width = document.documentElement.clientWidth / 3;
+                document.getElementById("photoImg-0").style.maxWidth = width * 0.9 + "px";
+                document.getElementById("photoImg-0").style.maxHeight = width * 0.9 + "px";
+                document.getElementById("photoImg-1").style.maxWidth = width * 0.8 + "px";
+                document.getElementById("photoImg-1").style.maxHeight = width * 0.8 + "px";
+                document.getElementById("photoImg-2").style.maxWidth = width * 0.7 + "px";
+                document.getElementById("photoImg-2").style.maxHeight = width * 0.7 + "px";
+            } else {
+                document.getElementById("photoImg-0").style.maxWidth = width * 0.9 + "px";
+                document.getElementById("photoImg-0").style.maxHeight = width * 0.9 + "px";
+                document.getElementById("photoImg-1").style.maxWidth = width * 0.9 + "px";
+                document.getElementById("photoImg-1").style.maxHeight = width * 0.9 + "px";
+                document.getElementById("photoImg-2").style.maxWidth = width * 0.9 + "px";
+                document.getElementById("photoImg-2").style.maxHeight = width * 0.9 + "px";
+            }
+
+            for (const item of document.getElementsByClassName('no-winner')) {
+                item.style.maxWidth = width * 0.9 + "px";
+                item.style.maxHeight = width * 0.9 + "px";
+            }
+        }
     </script>
 @endsection

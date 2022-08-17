@@ -372,7 +372,7 @@ class PhotographyController extends Controller
                 Photography::where('id', $id)->update([
                     'user_id' => $request->user_id,
                     'event_id' => $request->event_id,
-                    'filename' => "/storage/$competition_dir/$file_name",
+                    'filename' => "/storage/$competition_dir$file_name",
                     'description' => $request->description,
                 ]);
             } else {
