@@ -154,7 +154,8 @@ class SponsorController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($sponsor = DB::table('sponsors')->where('id', $id)->first())) {
+            if (!is_null($sponsor = DB::table('sponsors')->where('id', $id)
+                ->whereNull('deleted_at')->first())) {
                 $file_name = $sponsor->photo_path;
                 if (!is_null($request->photo_path)) {
                     Storage::disk('public')->delete('sponsors/' . $sponsor->photo_path);

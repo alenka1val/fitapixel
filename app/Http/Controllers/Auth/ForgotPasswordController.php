@@ -37,7 +37,9 @@ class ForgotPasswordController extends Controller
 
         $user = DB::table('users')->select(DB::raw('users.name as name, groups.need_ldap as need_ldap'))
             ->where('email', $request->email)
-            ->leftJoin('groups', 'users.group_id', '=', 'groups.id')->first();
+            ->leftJoin('groups', 'users.group_id', '=', 'groups.id')
+            ->whereNull('users.deleted_at')
+            ->whereNull('groups.deleted_at')->first();
         if (is_null($user) || !empty($user->need_ldap)) {
             return redirect()->back()
                 ->withInput()

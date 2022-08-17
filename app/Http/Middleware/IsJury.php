@@ -21,6 +21,7 @@ class IsJury
         if (Auth::user()) {
             $permission = DB::table('groups')->select('permission')
                 ->where('id', auth()->user()->group_id)
+                ->whereNull('deleted_at')
                 ->first();
             $permission = !is_null($permission) ? $permission->permission : null;
             if ($permission == 'jury') {

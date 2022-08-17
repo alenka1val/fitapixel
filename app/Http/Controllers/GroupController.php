@@ -154,7 +154,8 @@ class GroupController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($group = DB::table('groups')->where('id', $id)->first())) {
+            if (!is_null($group = DB::table('groups')->where('id', $id)
+                ->whereNull('deleted_at')->first())) {
                 Group::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],

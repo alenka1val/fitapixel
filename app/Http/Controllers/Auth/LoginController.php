@@ -56,6 +56,7 @@ class LoginController extends Controller
 
         $user = DB::table('users')
             ->whereRaw("email = '$request->email' or ais_uid = '$request->email'")
+            ->whereNull('deleted_at')
             ->first();
         if ($user == null) {
             return redirect()->back()
@@ -65,6 +66,7 @@ class LoginController extends Controller
 
         $user_group = DB::table('groups')
             ->where('id', $user->group_id)
+            ->whereNull('deleted_at')
             ->first();
         if (is_null($user_group)) {
             return redirect()->back()

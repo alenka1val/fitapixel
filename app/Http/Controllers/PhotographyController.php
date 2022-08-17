@@ -27,6 +27,7 @@ class PhotographyController extends Controller
         // GET years and events
         $event_list = DB::table('events')
             ->select(DB::raw('date_part(\'year\', finished_at) as year, name, id'))
+            ->whereNull('deleted_at')
             ->orderBy(DB::raw('1'), 'DESC')
             ->orderBy('finished_at', 'DESC')
             ->orderBy('started_at', 'DESC')
@@ -55,6 +56,7 @@ class PhotographyController extends Controller
         $finished = DB::table('events')
             ->select(DB::raw('(case when DATE(now()) > voted_to then 1 else 0 end) as finished'))
             ->where('id', $request->selected_event)
+            ->whereNull('deleted_at')
             ->first();
         $finished = is_null($finished) ? 0 : $finished->finished;
 
@@ -64,6 +66,7 @@ class PhotographyController extends Controller
             ->leftJoin('votes', 'photographies.id', '=', 'votes.photo_id')
             ->where('photographies.event_id', $selected_event['id'])
             ->whereNull('photographies.deleted_at')
+            ->whereNull('users.deleted_at')
             ->groupBy(DB::raw('photographies.id'))
             ->orderBy('vote_sum', 'DESC')
             ->get();
@@ -83,6 +86,7 @@ class PhotographyController extends Controller
         $sponsors = DB::table('sponsors')
             ->join('sponsor_events', "sponsors.id", '=', "sponsor_events.sponsor_id")
             ->where('sponsor_events.event_id', $request->event_id)
+            ->whereNull('sponsors.deleted_at')
             ->get();
         $sponsors = is_null($sponsors) ? array() : $sponsors;
 
@@ -132,7 +136,8 @@ class PhotographyController extends Controller
     {
         $user = Auth::user();
         $event = DB::table('events')
-            ->where('id', $request->competition_id)->first();
+            ->where('id', $request->competition_id)
+            ->whereNull('deleted_at')->first();
 
         if (is_null($event)) {
             return redirect()->back()
@@ -307,9 +312,11 @@ class PhotographyController extends Controller
         ]);
 
         $user = DB::table('users')
-            ->where('id', $request->user_id)->first();
+            ->where('id', $request->user_id)
+            ->whereNull('deleted_at')->first();
         $event = DB::table('events')
-            ->where('id', $request->event_id)->first();
+            ->where('id', $request->event_id)
+            ->whereNull('deleted_at')->first();
 
         if (is_null($user)) {
             return redirect()->back()
@@ -359,7 +366,8 @@ class PhotographyController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($photo = DB::table('photographies')->where('id', $id)->first())) {
+            if (!is_null($photo = DB::table('photographies')->where('id', $id)
+                ->whereNull('deleted_at')->first())) {
                 $file_name = substr($photo->filename, strrpos($photo->filename, "/"), strlen($photo->filename));
                 if (!is_null($request->filename)) {
                     Storage::disk('public')->delete($competition_dir . $file_name);
