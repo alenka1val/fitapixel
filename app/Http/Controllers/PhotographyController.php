@@ -193,7 +193,8 @@ class PhotographyController extends Controller
                 ->withInput();
         }
 
-        return view('info.gallery');
+        return redirect(route('info.gallery',
+            ['selected_year' => date('Y', strtotime($event->finished_at)), 'selected_event' => $event->id]));
     }
 
     /**
