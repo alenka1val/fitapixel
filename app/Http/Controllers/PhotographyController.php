@@ -63,6 +63,7 @@ class PhotographyController extends Controller
             ->join('users', 'users.id', '=', 'photographies.user_id')
             ->leftJoin('votes', 'photographies.id', '=', 'votes.photo_id')
             ->where('photographies.event_id', $selected_event['id'])
+            ->whereNull('photographies.deleted_at')
             ->groupBy(DB::raw('photographies.id'))
             ->orderBy('vote_sum', 'DESC')
             ->get();

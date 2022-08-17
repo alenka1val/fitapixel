@@ -64,31 +64,35 @@
                 </div>
             </div>
         </div>
-        @if($finished && count($photos)>=3)
+        @if($finished)
             <div class="darkPanel">
                 <h2>Víťazi</h2>
                 <div class="winners">
-                    <img id="photoImg-0" class="galery-image first"
-                         onclick="zoomIn('photoImg-0', 0 , '{{ $photos[0]->user_name }}' , '{{ $photos[0]->description }}', '{{ $photos[0]->event_id }}', '{{ $photos[0]->place }}')"
-                         src="{{$photos[0]->filename}}" alt="{{$photos[0]->description}}"/>
-                    <h3 class="first-winner first">{{$photos[0]->user_name}}</h3>
-                    <h4 class="first-winner first"><i>{{$photos[0]->place}}. miesto</i></h4>
-
-                    <img id="photoImg-1" class="galery-image second"
-                         onclick="zoomIn('photoImg-1', 1 , '{{ $photos[1]->user_name }}' , '{{ $photos[1]->description }}', '{{ $photos[1]->event_id }}', '{{ $photos[1]->place }}')"
-                         src="{{$photos[1]->filename}}" alt="{{$photos[1]->description}}"/>
-                    <h3 class="second-winner second">{{$photos[1]->user_name}}</h3>
-                    <h4 class="second-winner second"><i>{{$photos[1]->place}}. miesto</i></h4>
-
-                    <img id="photoImg-2" class="galery-image third"
-                         onclick="zoomIn('photoImg-2', 2 , '{{ $photos[2]->user_name }}' , '{{ $photos[2]->description }}', '{{ $photos[2]->event_id }}', '{{ $photos[2]->place }}')"
-                         src="{{$photos[2]->filename}}" alt="{{$photos[2]->description}}"/>
-                    <h3 class="third-winner third">{{$photos[2]->user_name}}</h3>
-                    <h4 class="third-winner third"><i>{{$photos[2]->place}}. miesto</i></h4>
+                    @if(count($photos)>=1)
+                        <img id="photoImg-0" class="galery-image first"
+                             onclick="zoomIn('photoImg-0', 0 , '{{ $photos[0]->user_name }}' , '{{ $photos[0]->description }}', '{{ $photos[0]->event_id }}', '{{ $photos[0]->place }}')"
+                             src="{{$photos[0]->filename}}" alt="{{$photos[0]->description}}"/>
+                        <h3 class="first-winner first">{{$photos[0]->user_name}}</h3>
+                        <h4 class="first-winner first"><i>{{$photos[0]->place}}. miesto</i></h4>
+                    @endif
+                    @if(count($photos)>=2)
+                        <img id="photoImg-1" class="galery-image second"
+                             onclick="zoomIn('photoImg-1', 1 , '{{ $photos[1]->user_name }}' , '{{ $photos[1]->description }}', '{{ $photos[1]->event_id }}', '{{ $photos[1]->place }}')"
+                             src="{{$photos[1]->filename}}" alt="{{$photos[1]->description}}"/>
+                        <h3 class="second-winner second">{{$photos[1]->user_name}}</h3>
+                        <h4 class="second-winner second"><i>{{$photos[1]->place}}. miesto</i></h4>
+                    @endif
+                    @if(count($photos)>=3)
+                        <img id="photoImg-2" class="galery-image third"
+                             onclick="zoomIn('photoImg-2', 2 , '{{ $photos[2]->user_name }}' , '{{ $photos[2]->description }}', '{{ $photos[2]->event_id }}', '{{ $photos[2]->place }}')"
+                             src="{{$photos[2]->filename}}" alt="{{$photos[2]->description}}"/>
+                        <h3 class="third-winner third">{{$photos[2]->user_name}}</h3>
+                        <h4 class="third-winner third"><i>{{$photos[2]->place}}. miesto</i></h4>
+                    @endif
                 </div>
             </div>
         @endif
-        @if(count($photos)>3)
+        @if(count($photos))
             <div>
                 <div class="galery">
                     @for ($i = $finished ? 3 : 0; $i < count($photos); $i++)
