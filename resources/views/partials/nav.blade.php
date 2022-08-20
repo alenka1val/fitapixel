@@ -14,7 +14,7 @@
             <div>
             </div>
             <a class="nav-link @yield('competitionActive')" href="{{ route('info.competition') }}">
-                Súťaž
+                Súťaže
             </a>
             <a class="nav-link @yield('juryActive')" href="{{ route('info.judges') }}">
                 Porotcovia
@@ -74,7 +74,7 @@
     <section id="collapse">
         <div id="collapse-items">
             <p class="p-nav"><a class="collapse_item @yield('competitionActive')"
-                                href="{{ route('info.competition') }}">Súťaž</a></p>
+                                href="{{ route('info.competition') }}">Súťaže</a></p>
             <p class="p-nav"><a class="collapse_item @yield('juryActive')"
                                 href="{{ route('info.judges') }}">Porotcovia</a></p>
             <p class="p-nav"><a class="collapse_item @yield('galleryActive')"
