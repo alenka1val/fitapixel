@@ -52,9 +52,21 @@
                                 <p>
                                     {{$event->description}}
                                 </p>
+                                <br>
                                 <p>
                                     Súťaž končí: {{ (new DateTime($event->finished_at))->format('d.m.Y')}}
                                 </p>
+                                <br>
+                                <p>
+                                    Minimálna šírka: {{ $event->min_width }}px a výška: {{ $event->min_height }}px fotografie
+                                </p>
+                                <p>
+                                    Maximálna šírka: {{ $event->max_width }}px a výška: {{ $event->max_height }}px fotografie
+                                </p>
+                                <p>
+                                    Povolený pomer fotografie: {{ $event->allowed_ratios }}
+                                </p>
+                                <br>
                                 <a class="theme-card-link" href="{{ route('photographies.create', ['competition' => $event->url_path]) }}">Zapojiť sa do súťaže</a>
                             </div>
                         </div>
