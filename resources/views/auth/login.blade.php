@@ -17,13 +17,13 @@
                     @csrf
                     <div class="form-group">
                         <label for="email" class="attribute_label">
-                            *E-Mail Address or AIS login
+                            *E-Mail alebo AIS login
                         </label>
                         <div>
                             <input id="email" type="text"
                                    class="form-control @error('email') is-invalid @enderror input" name="email"
                                    value="{{ old('email') }}" required autocomplete="email"
-                                   placeholder="E-Mail Address or AIS login" autofocus>
+                                   placeholder="E-Mail alebo AIS login" autofocus>
                             @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
