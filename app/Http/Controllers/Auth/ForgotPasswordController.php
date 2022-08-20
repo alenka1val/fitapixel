@@ -57,6 +57,6 @@ class ForgotPasswordController extends Controller
                 ['name' => $user->name, 'resetLink' => route('password.reset', ['token' => $token])]
             ));
 
-        return view('auth/passwords/email')->with('message', 'We have e-mailed your password reset link!');
+        return view('auth/passwords/email')->with('message', 'Na vašu emialovú adresu sme odoslali link na reset hesla!');
     }
 }
