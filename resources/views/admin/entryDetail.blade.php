@@ -10,8 +10,8 @@
                       enctype="multipart/form-data">
                     @csrf
                     @foreach($cols as $col)
-                        <label for="{{ $col['name'] }}"
-                               style="font-weight: bold">@if($col['required'] == "required" )
+                        <label for="{{ $col['name'] }}" class="attribute_label">
+                            @if($col['required'] == "required" )
                                 *@endif{{ $col['text'] }}</label>
                         @if(isset($col['example']))
                             <div class="hint">

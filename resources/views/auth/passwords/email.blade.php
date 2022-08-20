@@ -4,7 +4,7 @@
     <div class="authContainer">
         <div class="authCard">
             <div class="card-body">
-                <h2>{{ __('Reset Password') }}</h2>
+                <h2>Reset hesla</h2>
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -14,12 +14,14 @@
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="form-group">
-                    <!-- <label for="email">{{ __('E-Mail Address') }}</label> -->
+                        <label for="email" class="attribute_label">
+                            *E-mail
+                        </label>
                         <div>
                             <input id="email" type="email"
                                    class="form-control @error('email') is-invalid @enderror input" name="email"
                                    value="{{ old('email') }}" required autocomplete="email"
-                                   placeholder="{{ __('E-Mail Address') }}" autofocus>
+                                   placeholder="E-mail" autofocus>
                             @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -30,7 +32,7 @@
                     <div class="form-group">
                         <div>
                             <button type="submit" class="btn btn-primary authButton">
-                                {{ __('Send Password Reset Link') }}
+                                Poslať link na reset hesla
                             </button>
                         </div>
                     </div>

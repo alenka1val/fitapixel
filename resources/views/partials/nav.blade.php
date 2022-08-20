@@ -35,7 +35,7 @@
             @guest
                 <a class="nav-link" href="{{ route('login') }}">
                     <!-- <i class="fa-solid fa-user"></i> -->
-                    Log in
+                    Prihlásenie
                 </a>
                 {{--                <a class="nav-link" href="{{ route('register') }}">--}}
                 {{--                    <!-- <i id="icon" class="fas fa-sign-in-alt "></i> -->--}}
@@ -90,7 +90,7 @@
             @guest
                 <p class="p-nav">
                     <a class="collapse_item" href="{{ route('login') }}">
-                        Log in
+                        Prihlásenie
                     </a>
                 </p>
                 {{--            <p><a class="collapse_item" href="{{ route('register') }}">--}}
