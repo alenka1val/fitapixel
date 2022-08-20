@@ -10,8 +10,9 @@
                     @csrf
 
                     <div class="form-group">
-                        <label class="file">
-                            <span>Pridať fotku</span>
+
+                        <label>
+                            <p class="file attribute_label">*Pridať fotku</p>
                             <input type="file" id="file" name="file" aria-label="File browser example">
                             <span class="file-custom"></span>
                         </label>
@@ -21,14 +22,13 @@
                             </span>
                         @enderror
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="myfile">Select a file:</label>
-                        <input type="file" id="myfile" name="myfile">
-                    </div> -->
 
                     <br>
-                    
+
                     <div class="form-group">
+                        <label for="competition_id" class="attribute_label">
+                            *Vybrať súťaž
+                        </label>
                         <div class="dropdown">
                             <div class="select">
                                 <span>Vyberte súťaž</span>
@@ -40,22 +40,16 @@
                                     <li id="{{ $competition->id }}">{{ $competition->name }}</li>
                                 @endforeach
                             </ul>
-                            
-                            {{--@foreach(array_keys($events) as $year)--}}
-                            {{--   @foreach($events[$year] as $event)--}}
-                            {{--       <ul id="dropdown_{{$year}}" class="dropdown-menu">--}}
-                            {{--           <li id="{{$event->id}}">{{$event->name}}</li>--}}
-                            {{--        </ul>--}}
-                            {{--   @endforeach--}}
-                            {{--@endforeach--}}
                         </div>
                     </div>
 
                     <br>
 
                     <div class="form-group">
+                        <label for="description" class="attribute_label">
+                            *Pridať krátky popis
+                        </label>
                         <div>
-                            <p>Pridajte krátky popis</p>
                             <textarea id="description" name="description" class="form-control input"
                                       placeholder="Napíšte nám niečo o fotografii" cols="50" rows="8"
                                       maxlength="255" oninput="countCharacters(255)"></textarea>

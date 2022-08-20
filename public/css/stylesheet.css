@@ -713,6 +713,9 @@ li.social-media i:focus-visible {
     justify-items: center;
     word-wrap: break-word;
 }
+.attribute_label {
+    font-weight: bold
+}
 
 .modal-div p {
     width: 100%;
