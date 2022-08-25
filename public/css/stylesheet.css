@@ -1065,6 +1065,10 @@ table tr.active-row {
     background-color: #e2e2e2
 }
 
+.drop-card{
+    width: 85%;
+}
+
 .hidden {
     display: none;
 }
