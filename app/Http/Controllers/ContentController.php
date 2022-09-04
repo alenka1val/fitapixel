@@ -272,6 +272,8 @@ class ContentController extends Controller
             ->select(DB::raw('users.*'))
             ->join('groups', 'users.group_id', '=', 'groups.id')
             ->where('permission', 'jury')
+            ->whereNull('users.deleted_at')
+            ->whereNull('groups.deleted_at')
             ->get();
 
         $jury = is_null($jury) ? array() : $jury;

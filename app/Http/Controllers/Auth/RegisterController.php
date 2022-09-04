@@ -54,6 +54,7 @@ class RegisterController extends Controller
         if (auth()->user()) {
             $user_group = DB::table('groups')
                 ->where('id', auth()->user()->group_id)
+                ->whereNull('deleted_at')
                 ->first();
 
             if (is_null($user_group)) {
@@ -64,6 +65,7 @@ class RegisterController extends Controller
 
             if ($user_group->permission == "admin") {
                 $groups = DB::table('groups')
+                    ->whereNull('deleted_at')
                     ->get();
             }
         }
@@ -71,6 +73,7 @@ class RegisterController extends Controller
         if (is_null($groups)) {
             $groups = DB::table('groups')
                 ->where('permission', 'photographer')
+                ->whereNull('deleted_at')
                 ->get();
         }
 
@@ -125,7 +128,8 @@ class RegisterController extends Controller
             Log::error("register ERROR: $e");
         }
 
-        if (!is_null(DB::table('users')->where('email', $request['email'])->first())) {
+        if (!is_null(DB::table('users')->where('email', $request['email'])
+            ->whereNull('deleted_at')->first())) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['email' => "Email is already in use"]);
@@ -139,6 +143,7 @@ class RegisterController extends Controller
 
         $need_ldap = DB::table('groups')->select('need_ldap')
             ->where('id', $request->group_id)
+            ->whereNull('deleted_at')
             ->first();
         if (is_null($need_ldap)) {
             return redirect()->back()

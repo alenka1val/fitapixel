@@ -27,7 +27,8 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $group = DB::table('groups')->select('name', 'need_ldap', 'permission')->where('id', $user->group_id)->first();
+        $group = DB::table('groups')->select('name', 'need_ldap', 'permission')->where('id', $user->group_id)
+            ->whereNull('deleted_at')->first();
         $user['group'] = is_null($group) ? "Neznáma" : $group->name;
         $user['need_ldap'] = is_null($group) ? "" : $group->need_ldap;
         $user['permission'] = is_null($group) ? "" : $group->permission;
@@ -44,6 +45,7 @@ class UserController extends Controller
     {
         $groups = DB::table('groups')
             ->where('permission', 'photographer')
+            ->whereNull('deleted_at')
             ->orWhere('id', Auth::user()->group_id)
             ->get();
 
@@ -64,7 +66,8 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
-            $user = DB::table('users')->where('email', $request['email'])->first();
+            $user = DB::table('users')->where('email', $request['email'])
+                ->whereNull('deleted_at')->first();
             if (!is_null($user) && $user->email != auth()->user()->email) {
                 return redirect()->back()
                     ->withInput()
@@ -82,11 +85,13 @@ class UserController extends Controller
             $old_need_ldap = DB::table('groups')
                 ->select('need_ldap')
                 ->where('id', auth()->user()->group_id)
+                ->whereNull('deleted_at')
                 ->first();
 
             $need_ldap = DB::table('groups')
                 ->select('need_ldap')
                 ->where('id', $request['group_id'])
+                ->whereNull('deleted_at')
                 ->first();
 
             if (is_null($need_ldap)) {
@@ -223,7 +228,7 @@ class UserController extends Controller
 
         $user = null;
         if ($id != "new") {
-            $user = User::where('id', $id)->first();
+            $user = User::withoutTrashed()->where('id', $id)->first();
         } else {
             $user = array(
                 'id' => $id,
@@ -267,7 +272,8 @@ class UserController extends Controller
             'group_id' => ['required', 'integer'],
         ]);
 
-        if (!is_null(DB::table('users')->where('email', $request['email'])->where('id', '!=', $id)->first())) {
+        if (!is_null(DB::table('users')->where('email', $request['email'])->where('id', '!=', $id)
+            ->whereNull('deleted_at')->first())) {
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['email' => "Email is already in use"]);
@@ -277,6 +283,7 @@ class UserController extends Controller
 
         $group = DB::table('groups')
             ->where('id', $request->group_id)
+            ->whereNull('deleted_at')
             ->first();
 
         if (is_null($group)) {
@@ -310,7 +317,8 @@ class UserController extends Controller
             $user = null;
             $old_group = null;
         } else {
-            $user = DB::table('users')->where('id', $id)->first();
+            $user = DB::table('users')->where('id', $id)
+                ->whereNull('deleted_at')->first();
 
             if (is_null($user)) {
                 return redirect()->back()
@@ -320,11 +328,13 @@ class UserController extends Controller
 
             $old_group = DB::table('groups')
                 ->where('id', $user->group_id)
+                ->whereNull('deleted_at')
                 ->first();
 
             if (is_null($group)){
                 $group = DB::table('groups')
                     ->where('id', '!=', $request->group_id)
+                    ->whereNull('deleted_at')
                     ->first();
             }
         }
@@ -438,7 +448,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            $user = User::find($id);
+            $user = User::withoutTrashed()->find($id);
             $user->delete();
 
             if (!empty($user->photo)) {
@@ -468,6 +478,7 @@ class UserController extends Controller
     {
         $photo_list = DB::table('photographies')
             ->where('user_id', Auth::user()->id)
+            ->whereNull('deleted_at')
             ->orderBy('event_id', 'DESC')
             ->get();
 
@@ -477,6 +488,7 @@ class UserController extends Controller
                 $event_name = DB::table('events')
                     ->select('name')
                     ->where('id', $photo->event_id)
+                    ->whereNull('deleted_at')
                     ->first();
                 $event_name = is_null($event_name) ? "Neznáme" : $event_name->name;
 
@@ -496,6 +508,7 @@ class UserController extends Controller
         $need_ldap = DB::table('groups')
             ->select('need_ldap')
             ->where('id', auth()->user()->group_id)
+            ->whereNull('deleted_at')
             ->first();
 
         if (is_null($need_ldap)) {
@@ -528,6 +541,7 @@ class UserController extends Controller
         $need_ldap = DB::table('groups')
             ->select('need_ldap')
             ->where('id', auth()->user()->group_id)
+            ->whereNull('deleted_at')
             ->first();
         $need_ldap = !is_null($need_ldap) ? $need_ldap->need_ldap : null;
 
@@ -650,7 +664,7 @@ class UserController extends Controller
     public
     function get_options($id)
     {
-        $options = Group::select(DB::raw('name AS text, id'))->get();
+        $options = Group::withoutTrashed()->select(DB::raw('name AS text, id'))->get();
 
         if ($id == 0) {
             return $options;

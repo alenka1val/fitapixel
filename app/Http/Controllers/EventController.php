@@ -106,7 +106,7 @@ class EventController extends Controller
 
         $event = null;
         if ($id != "new") {
-            $event = Event::where('id', $id)->first();
+            $event = Event::withoutTrashed()->where('id', $id)->first();
         } else {
             $event = array(
                 'id' => $id,
@@ -168,7 +168,8 @@ class EventController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($event = DB::table('events')->where('id', $id)->first())) {
+            if (!is_null($event = DB::table('events')->where('id', $id)
+                ->whereNull('deleted_at')->first())) {
                 Event::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],
@@ -223,7 +224,7 @@ class EventController extends Controller
     {
         DB::beginTransaction();
         try {
-            $event = Event::find($id);
+            $event = Event::withoutTrashed()->find($id);
             $event->delete();
 
             DB::commit();
@@ -246,6 +247,7 @@ class EventController extends Controller
         $competitions = DB::table('events')
             ->whereRaw('started_at <= DATE(now())')
             ->whereRaw('finished_at > DATE(now())')
+            ->whereNull('deleted_at')
             ->get();
 
         $competitions = is_null($competitions) ? array() : $competitions;

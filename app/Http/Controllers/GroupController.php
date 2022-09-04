@@ -98,7 +98,7 @@ class GroupController extends Controller
 
         $group = null;
         if ($id != "new") {
-            $group = Group::where('id', $id)->first();
+            $group = Group::withoutTrashed()->where('id', $id)->first();
         } else {
             $group = array(
                 'id' => $id,
@@ -154,7 +154,8 @@ class GroupController extends Controller
 
         DB::beginTransaction();
         try {
-            if (!is_null($group = DB::table('groups')->where('id', $id)->first())) {
+            if (!is_null($group = DB::table('groups')->where('id', $id)
+                ->whereNull('deleted_at')->first())) {
                 Group::where('id', $id)->update([
                     'id' => $id,
                     'name' => $request['name'],
@@ -190,7 +191,7 @@ class GroupController extends Controller
     {
         DB::beginTransaction();
         try {
-            $group = Group::find($id);
+            $group = Group::withoutTrashed()->find($id);
             $group->delete();
 
             DB::commit();

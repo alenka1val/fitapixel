@@ -23,6 +23,7 @@ class VotesController extends Controller
                 ->select('id', 'name', 'description', 'url_path')
                 ->whereRaw('voted_at <= DATE(now())')
                 ->whereRaw('voted_to > DATE(now())')
+                ->whereNull('deleted_at')
                 ->get();
             $competitions = is_null($competitions) ? array() : $competitions;
 
@@ -71,7 +72,8 @@ class VotesController extends Controller
             $deletes = Vote::where('user_id', auth()->user()->id)->where('event_id', $request->eventId)->delete();
 
             foreach ($votesIds as $votePhotoId) {
-                $photo = DB::table('photographies')->where('id', $votePhotoId)->first();
+                $photo = DB::table('photographies')->where('id', $votePhotoId)
+                    ->whereNull('deleted_at')->first();
                 Vote::create([
                     'user_id' => auth()->user()->id,
                     'photo_id' => $photo->id,
@@ -104,7 +106,8 @@ class VotesController extends Controller
     {
         DB::beginTransaction();
         try {
-            $event = DB::table('events')->where('url_path', $request->competition)->first();
+            $event = DB::table('events')->where('url_path', $request->competition)
+                ->whereNull('deleted_at')->first();
             if (is_null($event)) {
                 return redirect(route('info.voteList'));
             }
@@ -117,6 +120,8 @@ class VotesController extends Controller
                 ->join('events', 'photographies.event_id', '=', 'events.id')
                 ->leftjoin('votes', 'votes.photo_id', '=', 'photographies.id')
                 ->where('events.url_path', $request->competition)
+                ->whereNull('events.deleted_at')
+                ->whereNull('photographies.deleted_at')
                 ->orderBy('value', 'DESC')
                 ->groupBy('photographies.id')
                 ->get();
